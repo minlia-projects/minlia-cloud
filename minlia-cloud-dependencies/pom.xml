@@ -76,11 +76,11 @@
                 <scope>import</scope>
             </dependency>
             <!--<dependency>-->
-                <!--<groupId>org.springframework.cloud</groupId>-->
-                <!--<artifactId>spring-cloud-starter-parent</artifactId>-->
-                <!--<version>Camden.RELEASE</version>-->
-                <!--<type>pom</type>-->
-                <!--<scope>import</scope>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-starter-parent</artifactId>-->
+            <!--<version>Camden.RELEASE</version>-->
+            <!--<type>pom</type>-->
+            <!--<scope>import</scope>-->
             <!--</dependency>-->
 
             <dependency>
@@ -111,7 +111,23 @@
     </developers>
 
     <build>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>mappings/modules/**/*.xml</include>
+                </includes>
+                <excludes>
+                    <exclude>config/*</exclude>
+                    <exclude>*.xml</exclude>
+                    <exclude>*.yml</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
         <plugins>
+
 
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
@@ -150,41 +166,40 @@
             </plugin>
 
 
-
             <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-compiler-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--<compilerVersion>${java.version}</compilerVersion>-->
-                    <!--<source>${java.version}</source>-->
-                    <!--<target>${java.version}</target>-->
-                    <!--<encoding>${file.encoding}</encoding>-->
+            <!--<groupId>org.apache.maven.plugins</groupId>-->
+            <!--<artifactId>maven-compiler-plugin</artifactId>-->
+            <!--<configuration>-->
+            <!--<compilerVersion>${java.version}</compilerVersion>-->
+            <!--<source>${java.version}</source>-->
+            <!--<target>${java.version}</target>-->
+            <!--<encoding>${file.encoding}</encoding>-->
 
 
-                    <!--<showWarnings>false</showWarnings>-->
-                    <!--<optimize>false</optimize>-->
-                    <!--<showDeprecation>false</showDeprecation>-->
-                    <!--<useIncrementalCompilation>false</useIncrementalCompilation>-->
+            <!--<showWarnings>false</showWarnings>-->
+            <!--<optimize>false</optimize>-->
+            <!--<showDeprecation>false</showDeprecation>-->
+            <!--<useIncrementalCompilation>false</useIncrementalCompilation>-->
 
-                    <!--<annotationProcessorPaths>-->
-                        <!--<path>-->
-                            <!--<groupId>org.mapstruct</groupId>-->
-                            <!--<artifactId>mapstruct-processor</artifactId>-->
-                            <!--<version>${mapstruct.version}</version>-->
-                        <!--</path>-->
-                    <!--</annotationProcessorPaths>-->
-                    <!--<compilerArgs>-->
-                        <!--<arg>-Amapstruct.suppressGeneratorTimestamp=true</arg>-->
-                        <!--<arg>-Amapstruct.defaultComponentModel=spring</arg>-->
-                        <!--<arg>-Xlint:deprecation</arg>-->
-                        <!--<arg>-Xlint:unchecked</arg>-->
-                    <!--</compilerArgs>-->
-                    <!--<annotationProcessors>-->
-                        <!--<annotationProcessor>lombok.launch.AnnotationProcessorHider$AnnotationProcessor-->
-                        <!--</annotationProcessor>-->
-                        <!--<annotationProcessor>org.mapstruct.ap.MappingProcessor</annotationProcessor>-->
-                    <!--</annotationProcessors>-->
-                <!--</configuration>-->
+            <!--<annotationProcessorPaths>-->
+            <!--<path>-->
+            <!--<groupId>org.mapstruct</groupId>-->
+            <!--<artifactId>mapstruct-processor</artifactId>-->
+            <!--<version>${mapstruct.version}</version>-->
+            <!--</path>-->
+            <!--</annotationProcessorPaths>-->
+            <!--<compilerArgs>-->
+            <!--<arg>-Amapstruct.suppressGeneratorTimestamp=true</arg>-->
+            <!--<arg>-Amapstruct.defaultComponentModel=spring</arg>-->
+            <!--<arg>-Xlint:deprecation</arg>-->
+            <!--<arg>-Xlint:unchecked</arg>-->
+            <!--</compilerArgs>-->
+            <!--<annotationProcessors>-->
+            <!--<annotationProcessor>lombok.launch.AnnotationProcessorHider$AnnotationProcessor-->
+            <!--</annotationProcessor>-->
+            <!--<annotationProcessor>org.mapstruct.ap.MappingProcessor</annotationProcessor>-->
+            <!--</annotationProcessors>-->
+            <!--</configuration>-->
             <!--</plugin>-->
 
             <plugin>
@@ -313,15 +328,6 @@
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
                         </manifestEntries>
                     </archive>
-
-                    <includes>
-                        <include>mappings/modules/**/*.xml</include>
-                    </includes>
-                    <excludes>
-                        <exclude>config/*</exclude>
-                        <exclude>*.xml</exclude>
-                        <exclude>*.yml</exclude>
-                    </excludes>
                 </configuration>
             </plugin>
 
@@ -510,20 +516,20 @@
                     </plugin>
 
                     <!--<plugin>-->
-                        <!--<groupId>org.apache.maven.plugins</groupId>-->
-                        <!--<artifactId>maven-javadoc-plugin</artifactId>-->
-                        <!--<configuration>-->
-                            <!--<charset>${file.encoding}</charset>-->
-                            <!--<encoding>${file.encoding}</encoding>-->
-                        <!--</configuration>-->
-                        <!--<executions>-->
-                            <!--<execution>-->
-                                <!--<id>attach-javadocs</id>-->
-                                <!--<goals>-->
-                                    <!--<goal>jar</goal>-->
-                                <!--</goals>-->
-                            <!--</execution>-->
-                        <!--</executions>-->
+                    <!--<groupId>org.apache.maven.plugins</groupId>-->
+                    <!--<artifactId>maven-javadoc-plugin</artifactId>-->
+                    <!--<configuration>-->
+                    <!--<charset>${file.encoding}</charset>-->
+                    <!--<encoding>${file.encoding}</encoding>-->
+                    <!--</configuration>-->
+                    <!--<executions>-->
+                    <!--<execution>-->
+                    <!--<id>attach-javadocs</id>-->
+                    <!--<goals>-->
+                    <!--<goal>jar</goal>-->
+                    <!--</goals>-->
+                    <!--</execution>-->
+                    <!--</executions>-->
                     <!--</plugin>-->
                 </plugins>
 
