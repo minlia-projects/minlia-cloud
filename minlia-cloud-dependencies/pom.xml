@@ -306,6 +306,15 @@
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
                         </manifestEntries>
                     </archive>
+
+                    <includes>
+                        <include>mappings/modules/**/*.xml</include>
+                    </includes>
+                    <excludes>
+                        <exclude>config/*</exclude>
+                        <exclude>*.xml</exclude>
+                        <exclude>*.yml</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
 
