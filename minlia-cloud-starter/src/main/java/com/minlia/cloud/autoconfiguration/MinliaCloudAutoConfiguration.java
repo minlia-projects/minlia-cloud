@@ -63,4 +63,19 @@ public class MinliaCloudAutoConfiguration {
     }
 
 
+
+
+
+    @Configuration
+    @Import(WebMvcConfiguration.class)
+    @ConditionalOnMissingBean(WebMvcConfiguration.class)
+    public static class StarLionWebMvcConfig {
+//        @Bean
+//        AuditLogInterceptor localInterceptor() {
+//            return new AuditLogInterceptor();
+//        }
+
+    }
+
+
 }

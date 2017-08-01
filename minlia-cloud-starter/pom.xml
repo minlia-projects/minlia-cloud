@@ -20,6 +20,8 @@
 
 
     <dependencies>
+
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -36,16 +38,16 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>tomcat-jdbc</artifactId>
-                    <groupId>org.apache.tomcat</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-data-jpa</artifactId>-->
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<artifactId>tomcat-jdbc</artifactId>-->
+                    <!--<groupId>org.apache.tomcat</groupId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -263,7 +265,7 @@
             <version>2.2.4</version>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>cz.jirutka.rsql</groupId>
             <artifactId>rsql-parser</artifactId>
             <version>${rsql.version}</version>
@@ -273,7 +275,7 @@
             <groupId>com.github.rutledgepaulv</groupId>
             <artifactId>rest-query-engine</artifactId>
             <version>0.7.1</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>org.subethamail</groupId>
@@ -418,6 +420,7 @@
         <dependency>
             <groupId>com.squareup.okio</groupId>
             <artifactId>okio</artifactId>
+            <version>1.11.0</version>
         </dependency>
 
         <dependency>
@@ -498,7 +501,6 @@
             <artifactId>strman</artifactId>
             <version>0.3.0</version>
         </dependency>
-
 
 
         <dependency>

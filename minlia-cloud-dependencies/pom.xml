@@ -37,7 +37,7 @@
         <dozer.version>5.5.1</dozer.version>
         <lombok.plugin.version>1.16.6.1</lombok.plugin.version>
         <file.encoding>UTF-8</file.encoding>
-        <spring.boot.version>1.4.3.RELEASE</spring.boot.version>
+        <!--<spring.boot.version>1.4.3.RELEASE</spring.boot.version>-->
         <!--<spring.version>4.3.2.RELEASE</spring.version>-->
         <hazelcast.version>3.7.2</hazelcast.version>
 
@@ -83,12 +83,7 @@
             <!--<scope>import</scope>-->
             <!--</dependency>-->
 
-            <dependency>
-                <groupId>com.squareup.okio</groupId>
-                <artifactId>okio</artifactId>
-                <version>1.11.0</version>
-            </dependency>
-
+  
         </dependencies>
     </dependencyManagement>
 
@@ -111,21 +106,21 @@
     </developers>
 
     <build>
-
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>mappings/modules/**/*.xml</include>
-                    <include>META-INF/*</include>
-                </includes>
-                <excludes>
-                    <exclude>config/*</exclude>
-                    <exclude>*.xml</exclude>
-                    <exclude>*.yml</exclude>
-                </excludes>
-            </resource>
-        </resources>
+<!--当前项目也被排除了, 所以注掉-->
+        <!--<resources>-->
+            <!--<resource>-->
+                <!--<directory>src/main/resources</directory>-->
+                <!--<includes>-->
+                    <!--<include>mappings/modules/**/*.xml</include>-->
+                    <!--<include>META-INF/*</include>-->
+                <!--</includes>-->
+                <!--<excludes>-->
+                    <!--<exclude>config/*</exclude>-->
+                    <!--<exclude>*.xml</exclude>-->
+                    <!--<exclude>*.yml</exclude>-->
+                <!--</excludes>-->
+            <!--</resource>-->
+        <!--</resources>-->
 
         <plugins>
 
