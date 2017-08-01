@@ -147,7 +147,7 @@ public class FrameworkConfiguration {
             props = new java.util.Properties();
         }
         FrameworkConfiguration sc = new FrameworkConfiguration();
-        InputStream is = sc.getClass().getResourceAsStream(PreconditionsHelper.isEmpty(path) ? "/albedo.properties" : path);// properties
+        InputStream is = sc.getClass().getResourceAsStream(PreconditionsHelper.isEmpty(path) ? "/system.properties" : path);// properties
         // in
         // the
         // classpath
