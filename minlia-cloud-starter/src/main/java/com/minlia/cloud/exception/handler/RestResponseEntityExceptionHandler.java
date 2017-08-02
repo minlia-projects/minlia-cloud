@@ -30,6 +30,7 @@ import org.springframework.context.NoSuchMessageException;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -181,6 +182,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
+
     // 403
 
     // @ExceptionHandler({ AccessDeniedException.class })
@@ -211,7 +213,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     // 409
 
-    @ExceptionHandler({InvalidDataAccessApiUsageException.class, DataAccessException.class})
+    @ExceptionHandler({InvalidDataAccessApiUsageException.class, DataAccessException.class, EmptyResultDataAccessException.class})
     protected ResponseEntity<Object> handleConflict(final RuntimeException ex, final WebRequest request) {
         log.warn("Conflict: {}", ex.getMessage());
 
