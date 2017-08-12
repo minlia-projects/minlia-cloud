@@ -3,7 +3,7 @@
 
     <groupId>com.minlia.cloud</groupId>
     <artifactId>minlia-cloud-project</artifactId>
-    <version>1.0.8-SNAPSHOT</version>
+    <version>1.0.8</version>
     <packaging>pom</packaging>
     <name>Minlia Cloud Projects</name>
 
@@ -22,8 +22,8 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>sonatype-oss-snapshot</id>
-            <name>sonatype-oss-snapshot</name>
+            <id>sonatype-oss-release</id>
+            <name>sonatype-oss-release</name>
             <layout>p2</layout>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
