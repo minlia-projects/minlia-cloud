@@ -12,12 +12,26 @@
 
     <groupId>com.minlia.cloud</groupId>
     <artifactId>minlia-cloud-build</artifactId>
-    <version>1.0.10.RELEASE-SNAPSHOT</version>
+    <version>1.0.10.RELEASE</version>
     <packaging>jar</packaging>
 
     <name>Minlia Cloud Build</name>
     <url>https://minlia.com/mit/</url>
     <description>Minlia Cloud Build</description>
     <inceptionYear>2016</inceptionYear>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>sonatype-oss-snapshot</id>
+            <name>sonatype-oss-snapshot</name>
+            <layout>p2</layout>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>sonatype-oss-staging</id>
+            <name>sonatype-oss-staging</name>
+            <layout>p2</layout>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
 </project>
