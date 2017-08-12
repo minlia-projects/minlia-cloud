@@ -3,6 +3,7 @@
 ######################
 /src/main/webapp/dist
 .settings/
+.releaseBackup
 
 ######################
 # Node
