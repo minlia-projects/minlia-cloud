@@ -11,7 +11,7 @@
 
     <groupId>com.minlia.cloud</groupId>
     <artifactId>minlia-cloud-project</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.1.BUILD-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Minlia Cloud Projects</name>
 
