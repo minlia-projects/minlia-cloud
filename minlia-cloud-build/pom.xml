@@ -12,7 +12,7 @@
 
     <groupId>com.minlia.cloud</groupId>
     <artifactId>minlia-cloud-build</artifactId>
-    <version>1.0.9.RELEASE</version>
+    <version>1.0.10.RELEASE-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Minlia Cloud Build</name>
