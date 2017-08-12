@@ -3,7 +3,7 @@
 
     <groupId>com.minlia.cloud</groupId>
     <artifactId>minlia-cloud-project</artifactId>
-    <version>1.0.13-RELEASE</version>
+    <version>1.0.13-RELEASE-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Minlia Cloud Projects</name>
 
@@ -115,11 +115,12 @@
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
-                                <configuration>
-                                    <gpgArguments>
-                                        <gpgArgument>--no-tty</gpgArgument>
-                                    </gpgArguments>
-                                </configuration>
+<configuration>
+                <gpgArguments>
+                    <gpgArgument>--no-tty</gpgArgument>
+                </gpgArguments>
+            </configuration>
+
                             </execution>
                         </executions>
                     </plugin>
