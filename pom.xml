@@ -3,7 +3,7 @@
 
     <groupId>com.minlia.cloud</groupId>
     <artifactId>minlia-cloud-project</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Minlia Cloud Projects</name>
 
