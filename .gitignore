@@ -4,6 +4,7 @@
 /src/main/webapp/dist
 .settings/
 .releaseBackup
+.versionsBackup
 
 ######################
 # Node
