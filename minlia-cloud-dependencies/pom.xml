@@ -20,7 +20,7 @@
 
     <groupId>com.minlia.cloud</groupId>
     <artifactId>minlia-cloud-dependencies</artifactId>
-    <version>1.0.12.RELEASE-SNAPSHOT</version>
+    <version>1.0.12.RELEASE</version>
     <packaging>pom</packaging>
 
     <name>Minlia Cloud Dependencies</name>
@@ -1044,15 +1044,11 @@
     </profiles>
     <distributionManagement>
         <snapshotRepository>
-            <id>sonatype-oss-snapshot</id>
-            <name>sonatype-oss-snapshot</name>
-            <layout>p2</layout>
+            <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
         <repository>
-            <id>sonatype-oss-staging</id>
-            <name>sonatype-oss-staging</name>
-            <layout>p2</layout>
+            <id>ossrh</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
