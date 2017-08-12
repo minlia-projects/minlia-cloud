@@ -5,14 +5,14 @@
 
     <groupId>com.minlia.cloud</groupId>
     <artifactId>minlia-cloud-starter</artifactId>
-    <version>1.0.11.RELEASE-SNAPSHOT</version>
+    <version>1.0.11.RELEASE</version>
     <packaging>jar</packaging>
     <name>Minlia Cloud Starter</name>
 
     <parent>
         <groupId>com.minlia.cloud</groupId>
         <artifactId>minlia-cloud-parent</artifactId>
-        <version>1.0.11.RELEASE-SNAPSHOT</version>
+        <version>1.0.11.RELEASE</version>
         <relativePath>../minlia-cloud-parent/pom.xml</relativePath>
     </parent>
 
@@ -500,5 +500,19 @@
             <artifactId>spring-aop</artifactId>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>sonatype-oss-snapshot</id>
+            <name>sonatype-oss-snapshot</name>
+            <layout>p2</layout>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>sonatype-oss-staging</id>
+            <name>sonatype-oss-staging</name>
+            <layout>p2</layout>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
 </project>
