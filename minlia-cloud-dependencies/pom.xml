@@ -20,7 +20,7 @@
 
     <groupId>com.minlia.cloud</groupId>
     <artifactId>minlia-cloud-dependencies</artifactId>
-    <version>1.0.5.RELEASE-SNAPSHOT</version>
+    <version>1.0.5.RELEASE</version>
     <packaging>pom</packaging>
 
     <name>Minlia Cloud Dependencies</name>

@@ -3,7 +3,7 @@
 
     <groupId>com.minlia.cloud</groupId>
     <artifactId>minlia-cloud-project</artifactId>
-    <version>1.0.6-SNAPSHOT</version>
+    <version>1.0.6</version>
     <packaging>pom</packaging>
     <name>Minlia Cloud Projects</name>
 
@@ -23,13 +23,13 @@
     <distributionManagement>
         <snapshotRepository>
             <id>sonatype-oss-snapshot</id>
-            <name>snapshot</name>
+            <name>sonatype-oss-snapshot</name>
             <layout>p2</layout>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
         <repository>
             <id>sonatype-oss-staging</id>
-            <name>staging</name>
+            <name>sonatype-oss-staging</name>
             <layout>p2</layout>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
