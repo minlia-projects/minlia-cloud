@@ -15,7 +15,6 @@
         <artifactId>minlia-cloud-parent</artifactId>
         <version>1.0.0.RELEASE</version>
         <relativePath>../minlia-cloud-parent/pom.xml</relativePath>
-        <!-- lookup parent from dao -->
     </parent>
 
 
@@ -36,17 +35,6 @@
             <artifactId>json-path</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-data-jpa</artifactId>-->
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<artifactId>tomcat-jdbc</artifactId>-->
-                    <!--<groupId>org.apache.tomcat</groupId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -129,15 +117,6 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>com.fasterxml.jackson.dataformat</groupId>-->
-        <!--<artifactId>jackson-dataformat-xml</artifactId>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>com.fasterxml.jackson.core</groupId>-->
-        <!--<artifactId>jackson-annotations</artifactId>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>net.sourceforge.jexcelapi</groupId>
@@ -240,18 +219,6 @@
             <artifactId>javax.el-api</artifactId>
         </dependency>
 
-        <!--<dependency>
-            <groupId>cz.jirutka.rsql</groupId>
-            <artifactId>rsql-parser</artifactId>
-            <version>${rsql.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.rutledgepaulv</groupId>
-            <artifactId>rest-query-engine</artifactId>
-            <version>0.7.1</version>
-        </dependency>-->
-
         <dependency>
             <groupId>org.subethamail</groupId>
             <artifactId>subethasmtp-wiser</artifactId>
@@ -340,32 +307,6 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-bean-validators</artifactId>
         </dependency>
-
-
-        <!--<dependency>-->
-        <!--<groupId>io.springfox</groupId>-->
-        <!--<artifactId>springfox-swagger2</artifactId>-->
-        <!--<version>${io.springfox.swagger2.version}</version>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>io.springfox</groupId>-->
-        <!--<artifactId>springfox-swagger-ui</artifactId>-->
-        <!--<version>${io.springfox.swagger2.version}</version>-->
-        <!--</dependency>-->
-
-
-        <!--<dependency>-->
-        <!--<groupId>io.swagger</groupId>-->
-        <!--<artifactId>swagger-annotations</artifactId>-->
-        <!--<version>1.5.13</version>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>io.swagger</groupId>-->
-        <!--<artifactId>swagger-models</artifactId>-->
-        <!--<version>1.5.13</version>-->
-        <!--</dependency>-->
 
 
         <dependency>

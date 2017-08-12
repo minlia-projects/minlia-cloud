@@ -12,7 +12,7 @@ import java.util.Enumeration;
  */
 @Slf4j
 public class FrameworkConfiguration {
-    public static final String CK_BASH_URL = "uploadFiles";
+    public static final String CK_BASH_URL = "userfiles";
     // 对/错
     public final static String SYSTEM_TRUE = "true";
     public final static String SYSTEM_FALSE = "false";
@@ -152,13 +152,13 @@ public class FrameworkConfiguration {
         // the
         // classpath
         props.load(is);
-        // dumpSystemConfig();
+        // dumpFrameworkConfiguration();
     }
 
     /**
      * 输出配置信息到日志。
      */
-    public static void dumpSystemConfig() {
+    public static void dumpFrameworkConfiguration() {
         String key, value;
         if (props != null) {
             Enumeration<Object> e = props.keys();
