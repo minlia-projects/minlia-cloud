@@ -5,14 +5,14 @@
 
     <groupId>com.minlia.cloud</groupId>
     <artifactId>minlia-cloud-starter</artifactId>
-    <version>1.0.10.RELEASE</version>
+    <version>1.0.11.RELEASE-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Minlia Cloud Starter</name>
 
     <parent>
         <groupId>com.minlia.cloud</groupId>
         <artifactId>minlia-cloud-parent</artifactId>
-        <version>1.0.10.RELEASE</version>
+        <version>1.0.11.RELEASE-SNAPSHOT</version>
         <relativePath>../minlia-cloud-parent/pom.xml</relativePath>
     </parent>
 
