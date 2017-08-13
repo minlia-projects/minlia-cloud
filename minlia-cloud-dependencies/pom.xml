@@ -20,7 +20,7 @@
 
     <groupId>com.minlia.cloud</groupId>
     <artifactId>minlia-cloud-dependencies</artifactId>
-    <version>0.0.9-SNAPSHOT</version>
+    <version>0.0.9</version>
     <packaging>pom</packaging>
 
     <name>Minlia Cloud Dependencies</name>
@@ -1156,6 +1156,6 @@
     </distributionManagement>
 
   <scm>
-    <tag>minlia-cloud-project-0.0.1-SNAPSHOT</tag>
+    <tag>cloud-0.0.9</tag>
   </scm>
 </project>
