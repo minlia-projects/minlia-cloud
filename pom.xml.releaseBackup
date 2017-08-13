@@ -1,0 +1,55 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.minlia.maven</groupId>
+        <artifactId>minlia-pom</artifactId>
+        <version>1.0.0.RELEASE</version>
+    </parent>
+
+    <groupId>com.minlia.cloud</groupId>
+    <artifactId>minlia-cloud</artifactId>
+    <version>0.0.19-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Minlia Cloud Projects</name>
+
+
+    <url>https://minlia.com/mit/</url>
+    <description>Minlia Cloud Projects</description>
+    <inceptionYear>2016</inceptionYear>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+    </properties>
+
+    <modules>
+        <module>minlia-cloud-build</module>
+        <module>minlia-cloud-dependencies</module>
+        <module>minlia-cloud-parent</module>
+        <module>minlia-cloud-starter</module>
+    </modules>
+
+
+    <scm>
+        <connection>
+            scm:git:https://github.com/minlia-projects/minlia-cloud.git
+        </connection>
+        <developerConnection>
+            scm:git:https://github.com/minlia-projects/minlia-cloud.git
+        </developerConnection>
+        <url>https://github.com/minlia-projects/minlia-cloud</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>will</name>
+            <email>will@minlia.com</email>
+            <organization>minlia</organization>
+            <organizationUrl>https://www.minlia.com</organizationUrl>
+        </developer>
+    </developers>
+
+
+</project>
