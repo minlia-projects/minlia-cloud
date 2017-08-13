@@ -5,7 +5,6 @@
 
     <groupId>com.minlia.cloud</groupId>
     <artifactId>minlia-cloud-parent</artifactId>
-    <version>0.0.18-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Minlia Cloud Parent</name>
 
