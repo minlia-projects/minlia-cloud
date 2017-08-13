@@ -11,7 +11,7 @@
 
     <groupId>com.minlia.cloud</groupId>
     <artifactId>cloud</artifactId>
-    <version>0.0.18-SNAPSHOT</version>
+    <version>0.0.18.RELEASE</version>
     <packaging>pom</packaging>
     <name>Minlia Cloud Projects</name>
 
@@ -54,7 +54,7 @@
         </developerConnection>
         <url>https://github.com/minlia-projects/minlia-cloud</url>
 
-        <tag>HEAD</tag>
+        <tag>cloud-0.0.18.RELEASE</tag>
     </scm>
 
     <developers>
