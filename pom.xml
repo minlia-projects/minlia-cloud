@@ -30,18 +30,6 @@
     </modules>
 
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
-
-
     <scm>
         <connection>
             scm:git:https://github.com/minlia-projects/minlia-cloud.git
@@ -64,12 +52,5 @@
     </developers>
 
 
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>http://www.opensource.org/licenses/minlia-cloud-license.php</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
 
 </project>
