@@ -12,7 +12,7 @@
 
     <groupId>com.minlia.cloud</groupId>
     <artifactId>minlia-cloud-build</artifactId>
-    <version>0.0.8-SNAPSHOT</version>
+    <version>0.0.8</version>
     <packaging>jar</packaging>
 
     <name>Minlia Cloud Build</name>
@@ -42,7 +42,7 @@
         </developerConnection>
         <url>https://github.com/minlia-projects/minlia-cloud</url>
 
-        <tag>minlia-cloud-project-0.0.1-SNAPSHOT</tag>
+        <tag>cloud-0.0.8</tag>
     </scm>
 
 
