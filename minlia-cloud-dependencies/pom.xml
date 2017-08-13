@@ -20,8 +20,6 @@
         <dozer.version>5.5.1</dozer.version>
         <lombok.plugin.version>1.16.6.1</lombok.plugin.version>
         <file.encoding>UTF-8</file.encoding>
-        <!--<spring.boot.version>1.4.3.RELEASE</spring.boot.version>-->
-        <!--<spring.version>4.3.2.RELEASE</spring.version>-->
         <hazelcast.version>3.7.2</hazelcast.version>
 
 
@@ -30,13 +28,10 @@
 
         <querydsl.version>4.1.4</querydsl.version>
         <rsql.version>2.1.0</rsql.version>
-        <!--<orika-core.version>1.4.5</orika-core.version>-->
         <mapstruct.version>1.1.0.Final</mapstruct.version>
         <rxjava.version>2.0.0</rxjava.version>
         <selma.version>0.15</selma.version>
 
-
-        <!--<io.springfox.swagger2.version>2.7.0-SNAPSHOT</io.springfox.swagger2.version>-->
 
         <json-path.version>2.1.0</json-path.version>
         <guava.version>19.0</guava.version>
@@ -1039,7 +1034,6 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
-
 
     <scm>
         <connection>
