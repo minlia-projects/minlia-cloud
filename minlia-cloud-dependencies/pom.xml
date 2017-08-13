@@ -1,26 +1,10 @@
-<!--
-
-    Copyright © 2016 Minlia (http://oss.minlia.com/license/framework/2016)
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
--->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.minlia.cloud</groupId>
     <artifactId>minlia-cloud-dependencies</artifactId>
-    <version>0.0.13-SNAPSHOT</version>
+    <version>0.0.16-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Minlia Cloud Dependencies</name>
@@ -108,7 +92,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.5.6.RELEASE</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
 
@@ -761,7 +745,7 @@
 
         <!-- GPG Signature on release -->
         <profile>
-            <id>release-sign-artifacts</id>
+            <id>release</id>
             <activation>
                 <property>
                     <name>performRelease</name>
@@ -787,6 +771,7 @@
                         <artifactId>maven-release-plugin</artifactId>
                         <version>2.5.3</version>
                         <configuration>
+                            <mavenExecutorId>forked-path</mavenExecutorId>
                             <autoVersionSubmodules>true</autoVersionSubmodules>
                             <useReleaseProfile>false</useReleaseProfile>
                             <releaseProfiles>release</releaseProfiles>
@@ -1036,7 +1021,6 @@
         </profile>
 
 
-
     </profiles>
     <distributionManagement>
         <snapshotRepository>
@@ -1049,7 +1033,16 @@
         </repository>
     </distributionManagement>
 
-  <scm>
-    <tag>minlia-cloud-project-0.0.1-SNAPSHOT</tag>
-  </scm>
+
+    <scm>
+        <connection>
+            scm:git:https://github.com/minlia-projects/minlia-cloud.git
+        </connection>
+        <developerConnection>
+            scm:git:https://github.com/minlia-projects/minlia-cloud.git
+        </developerConnection>
+        <url>https://github.com/minlia-projects/minlia-cloud</url>
+
+        <tag>HEAD</tag>
+    </scm>
 </project>

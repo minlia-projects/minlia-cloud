@@ -6,14 +6,14 @@
 
     <groupId>com.minlia.cloud</groupId>
     <artifactId>minlia-cloud-parent</artifactId>
-    <version>0.0.13-SNAPSHOT</version>
+    <version>0.0.16-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Minlia Cloud Parent</name>
 
     <parent>
         <groupId>com.minlia.cloud</groupId>
         <artifactId>minlia-cloud-dependencies</artifactId>
-        <version>0.0.13-SNAPSHOT</version>
+        <version>0.0.16-SNAPSHOT</version>
         <relativePath>../minlia-cloud-dependencies/pom.xml</relativePath>
     </parent>
 
