@@ -31,4 +31,39 @@
         </repository>
     </distributionManagement>
 
+
+
+    <scm>
+        <connection>
+            scm:git:https://github.com/minlia-projects/minlia-cloud.git
+        </connection>
+        <developerConnection>
+            scm:git:https://github.com/minlia-projects/minlia-cloud.git
+        </developerConnection>
+        <url>https://github.com/minlia-projects/minlia-cloud</url>
+
+        <tag>minlia-cloud-project-0.0.1-SNAPSHOT</tag>
+    </scm>
+
+
+    <developers>
+        <developer>
+            <name>will</name>
+            <email>will@minlia.com</email>
+            <organization>minlia</organization>
+            <organizationUrl>https://www.minlia.com</organizationUrl>
+        </developer>
+    </developers>
+
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/minlia-cloud-license.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+
+
 </project>
