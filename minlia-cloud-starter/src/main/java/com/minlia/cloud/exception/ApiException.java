@@ -27,7 +27,7 @@ public class ApiException extends NestedRuntimeException {
         super(msg);
         this.status= StatefulBody.FAILURE;
         this.code=StatefulBody.FAILURE;
-        this.translateRequired=Boolean.TRUE;
+        this.translateRequired=Boolean.FALSE;
     }
 
     public ApiException(Integer code) {
@@ -44,7 +44,7 @@ public class ApiException extends NestedRuntimeException {
         super(msg);
         this.code=code;
         this.status= StatefulBody.FAILURE;
-        this.translateRequired=Boolean.TRUE;
+        this.translateRequired=Boolean.FALSE;
     }
 
     public ApiException(Integer code,String msg,Boolean translateRequired) {

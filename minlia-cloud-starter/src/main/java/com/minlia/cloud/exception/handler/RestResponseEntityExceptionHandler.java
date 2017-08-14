@@ -85,14 +85,14 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         String devMessage ="";
 
         if(!environment.acceptsProfiles(Globals.Profiles.PRODUCTION)) {
-            if(ex.getTranslateRequired()) {
+            if(ex.getTranslateRequired() !=null && ex.getTranslateRequired()) {
                 devMessage = String.format("%s with message: [%s]", ex.getClass().getSimpleName(), message);
             }else{
                 devMessage = String.format("%s with message: [%s]", ex.getClass().getSimpleName(), ex.getMessage());
             }
         }
         try {
-            if(ex.getTranslateRequired()) {
+            if(ex.getTranslateRequired() !=null && ex.getTranslateRequired()) {
                 localizedMessage = Language.get(message);
             }else{
                 localizedMessage=ex.getMessage();
