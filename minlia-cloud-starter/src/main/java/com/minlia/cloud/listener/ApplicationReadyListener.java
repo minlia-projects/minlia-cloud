@@ -74,7 +74,7 @@ public class ApplicationReadyListener implements ApplicationListener<Application
         String message = "";
         message += "Access URLS: ";
         message += String.format("%s%s%s%s%s", "http://", host, portPart, ctx, "");
-        message += String.format("%s%s%s%s%s", "http://", host, portPart, ctx, "swagger-ui.html");
+        message += String.format("    %s%s%s%s%s", "http://", host, portPart, ctx, "swagger-ui.html");
         LOGGER.info(message);
 
         /*log.info("Access URLs:\n----------------------------------------------------------\n\t" +
