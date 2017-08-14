@@ -16,6 +16,7 @@
 package com.minlia.cloud.listener;
 
 import com.minlia.cloud.holder.ServerPortHolder;
+import com.minlia.cloud.utils.EnvironmentUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,8 @@ public class ApplicationReadyListener implements ApplicationListener<Application
     @Autowired
     private ServerProperties properties;
 
+    public static final String LOCALHOST = "127.0.0.1";
+
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
 
@@ -52,7 +55,7 @@ public class ApplicationReadyListener implements ApplicationListener<Application
 
         String portPart = "";
         Integer port = ServerPortHolder.getPort();
-        if (port!=80) {
+        if (port != 80) {
             portPart = ":" + port;
         }
         String host = null;
@@ -62,10 +65,16 @@ public class ApplicationReadyListener implements ApplicationListener<Application
             // e.printStackTrace();
         }
         if (StringUtils.isEmpty(host)) {
-            host = "127.0.0.1";
+            host = LOCALHOST;
         }
-        String message = String.format("Access URLS: External: %s%s%s%s%s", "http://", host, portPart, ctx, "swagger-ui.html");
-         message+= String.format(" , %s%s%s%s%s", "http://", host, portPart, ctx, "");
+
+        if (!EnvironmentUtils.isProduction()) {
+            host = LOCALHOST;
+        }
+        String message = "";
+        message += "Access URLS: ";
+        message += String.format("%s%s%s%s%s", "http://", host, portPart, ctx, "");
+        message += String.format("%s%s%s%s%s", "http://", host, portPart, ctx, "swagger-ui.html");
         LOGGER.info(message);
 
         /*log.info("Access URLs:\n----------------------------------------------------------\n\t" +
