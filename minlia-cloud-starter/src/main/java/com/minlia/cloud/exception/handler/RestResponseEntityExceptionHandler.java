@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.minlia.cloud.exception.ApiException;
 import com.minlia.cloud.exception.ApiExceptionResponseBody;
 import com.minlia.cloud.exception.ValidationErrorDTO;
-import com.minlia.cloud.i18n.Language;
+import com.minlia.cloud.i18n.Lang;
 import com.minlia.cloud.setting.Globals;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -93,7 +93,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         }
         try {
             if(ex.getTranslateRequired() !=null && ex.getTranslateRequired()) {
-                localizedMessage = Language.get(message);
+                localizedMessage = Lang.get(message);
             }else{
                 localizedMessage=ex.getMessage();
             }

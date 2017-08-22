@@ -4,7 +4,7 @@ import com.minlia.cloud.holder.ContextHolder;
 
 import java.util.Locale;
 
-public class Language {
+public class Lang {
 
     public static String get(String key, Object[] arguments, Locale locale) {
         return ContextHolder.getContext().getMessage(key, arguments, locale);

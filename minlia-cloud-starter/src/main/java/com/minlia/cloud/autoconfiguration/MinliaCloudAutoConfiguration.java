@@ -1,22 +1,14 @@
 package com.minlia.cloud.autoconfiguration;
 
-import com.google.gson.Gson;
 import com.minlia.cloud.config.AsyncConfiguration;
 import com.minlia.cloud.config.DozerConfiguration;
 import com.minlia.cloud.holder.ContextHolder;
-import java.util.ArrayList;
-import java.util.Collection;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
-import org.springframework.boot.autoconfigure.web.HttpMessageConverters;
 import org.springframework.context.annotation.*;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -72,6 +64,12 @@ public class MinliaCloudAutoConfiguration {
 
 
 
+    //No Locale Configuration
+    @Configuration
+    @Import(LocaleConfiguration.class)
+    @ConditionalOnMissingBean(LocaleConfiguration.class)
+    public static class StarLionLocaleConfiguration {
+    }
 
 
     @Configuration

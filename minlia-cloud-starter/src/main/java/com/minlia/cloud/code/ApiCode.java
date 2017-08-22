@@ -9,81 +9,81 @@ public abstract class ApiCode {
     /**
      * 基数
      */
-    public static final Integer BASED = 10000;
+    public static final int CARDINAL = 10000;
 
 
     /**
      * 资源找不到
      */
-    public static final Integer NOT_FOUND = BASED + 30004;
+    public static final int NOT_FOUND = CARDINAL + 30004;
 
 
     /**
      * 未登录
      */
-    public static final Integer NOT_LOGIN = BASED + 30001;
+    public static final int NOT_LOGIN = CARDINAL + 30001;
 
     /**
      * 无权限访问
      */
-    public static final Integer NOT_AUTHORIZED = BASED + 30003;
+    public static final int NOT_AUTHORIZED = CARDINAL + 30003;
 
 
     /**
      * 不能为空
      */
-    public static final Integer NOT_NULL = BASED + 40001;
+    public static final int NOT_NULL = CARDINAL + 40001;
 
     /**
      * 无效验证码
      */
-    public static final Integer INVALID_SECURITY_CODE = BASED + 40002;
+    public static final int INVALID_SECURITY_CODE = CARDINAL + 40002;
 
 
     /**
      * 无效用户名或密码
      */
-    public static final Integer INVALID_CREDENTIAL = BASED + 40003;
+    public static final int INVALID_CREDENTIAL = CARDINAL + 40003;
 
 
     /**
      * 账户已禁用
      */
-    public static final Integer ACCOUNT_DISABLED = BASED + 40004;
+    public static final int ACCOUNT_DISABLED = CARDINAL + 40004;
 
     /**
      * 登录失败
      */
-    public static final Integer LOGIN_FAILED = BASED + 40005;
+    public static final int LOGIN_FAILED = CARDINAL + 40005;
     /**
      * 无效用户
      */
-    public static final Integer INVALID_USER = BASED + 40006;
+    public static final int INVALID_USER = CARDINAL + 40006;
 
     /**
      * 无效的原密码
      */
-    public static final Integer INVALID_RAW_PASSWORD = BASED + 40007;
+    public static final int INVALID_RAW_PASSWORD = CARDINAL + 40007;
 
     /**
      * 还有子项无法删除
      */
-    public static final Integer COULD_NOT_DELETE_HAS_CHILDREN = BASED + 40008;
+    public static final int COULD_NOT_DELETE_HAS_CHILDREN = CARDINAL + 40008;
 
     /**
      * 访问令牌已过期
      */
-    public static final Integer ACCESS_TOKEN_HAS_EXPIRED = BASED + 40009;
+    public static final int ACCESS_TOKEN_HAS_EXPIRED = CARDINAL + 40009;
 
     /**
      * 验证失败
      */
-    public static final Integer AUTHENTICATION_FAILED = BASED + 40010;
+    public static final int AUTHENTICATION_FAILED = CARDINAL + 40010;
 
     /**
      * 数据已存在
      */
-    public static final Integer DATA_ALREADY_EXISTS = BASED + 40011;
+    public static final int DATA_ALREADY_EXISTS = CARDINAL + 40011;
 
 
 
