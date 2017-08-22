@@ -1,5 +1,5 @@
 package com.minlia.cloud.body;
 
-public  interface ApiRequestBody<T> extends Body {
+public interface ApiRequestBody<T> extends Body {
 
 }

@@ -495,6 +495,19 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
         </dependency>
+
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+
+
+        <!--<dependency>-->
+            <!--<groupId>com.ruijc</groupId>-->
+            <!--<artifactId>spring-boot-starter-fastjson</artifactId>-->
+        <!--</dependency>-->
+
     </dependencies>
     <distributionManagement>
         <snapshotRepository>
