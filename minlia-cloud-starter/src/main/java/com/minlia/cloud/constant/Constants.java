@@ -1,26 +1,37 @@
-///*
-// * Copyright © 2016 Minlia (http://oss.minlia.com/license/framework/2016)
-// *
-// * Licensed under the Apache License, Version 2.0 (the "License");
-// * you may not use this file except in compliance with the License.
-// * You may obtain a copy of the License at
-// *
-// *     http://www.apache.org/licenses/LICENSE-2.0
-// *
-// * Unless required by applicable law or agreed to in writing, software
-// * distributed under the License is distributed on an "AS IS" BASIS,
-// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// * See the License for the specific language governing permissions and
-// * limitations under the License.
-// */
-//package com.minlia.cloud.constant;
-//
-//public class Constants {
-//
-//    // public static final String TABLE_PREFIX = "minlia_";
-//    // public static final String SEQUENCE_SUFFIX = "_sequence";
-//    // public static final String SEQUENCE_GENERATOR = "sequenceGenerator";
-//
+/*
+ * Copyright © 2016 Minlia (http://oss.minlia.com/license/framework/2016)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.minlia.cloud.constant;
+
+public class Constants {
+
+  public enum LanguageTypeEnum{
+    ExceptionsApiCode,
+    Message,
+    ValidationMessages
+
+  }
+  public static final String EXCEPTION_PREFIX="Exceptions";
+  public static final String EXCEPTIONS_APICODE_PREFIX="ExceptionsApiCode";
+  public static final String X_LANG="X-LANG";
+
+
+    // public static final String TABLE_PREFIX = "minlia_";
+    // public static final String SEQUENCE_SUFFIX = "_sequence";
+    // public static final String SEQUENCE_GENERATOR = "sequenceGenerator";
+
 //    public final class Profiles {
 //
 //        public static final String DEV = "dev";
@@ -41,9 +52,9 @@
 //            throw new AssertionError();
 //        }
 //    }
-//
-//    public Constants() {
-//        throw new AssertionError();
-//    }
-//
-//}
+
+    public Constants() {
+        throw new AssertionError();
+    }
+
+}

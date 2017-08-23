@@ -65,7 +65,6 @@ public class ApiException extends NestedRuntimeException {
 
     public ApiException() {
         super(String.format("%s%s","Exceptions",getClassForStatic().getSimpleName()));
-//        super("ApiException");
     }
 
     public ApiException(String msg, Throwable cause) {

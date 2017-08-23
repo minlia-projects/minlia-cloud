@@ -1,5 +1,7 @@
 package com.minlia.cloud.utils;
 
+import static com.minlia.cloud.constant.Constants.EXCEPTION_PREFIX;
+
 import com.minlia.cloud.exception.ApiException;
 
 /**
@@ -11,7 +13,7 @@ import com.minlia.cloud.exception.ApiException;
  */
 public final class ApiPreconditions {
 
-    public static final String EXCEPTION_PATTERN = "Exceptions%s%s";
+    public static final String EXCEPTION_PATTERN = EXCEPTION_PREFIX+"%s%s";
     public static final String API_CODE = "ApiCode";
 
     private ApiPreconditions() {

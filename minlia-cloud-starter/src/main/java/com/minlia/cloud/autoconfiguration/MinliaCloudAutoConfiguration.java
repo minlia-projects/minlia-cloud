@@ -65,11 +65,11 @@ public class MinliaCloudAutoConfiguration {
 
 
     //No Locale Configuration
-    @Configuration
-    @Import(LocaleConfiguration.class)
-    @ConditionalOnMissingBean(LocaleConfiguration.class)
-    public static class StarLionLocaleConfiguration {
-    }
+//    @Configuration
+//    @Import(LocaleConfiguration.class)
+//    @ConditionalOnMissingBean(LocaleConfiguration.class)
+//    public static class StarLionLocaleConfiguration {
+//    }
 
 
     @Configuration
