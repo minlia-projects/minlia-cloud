@@ -17,41 +17,14 @@ package com.minlia.cloud.constant;
 
 public class Constants {
 
-  public enum LanguageTypeEnum{
+  public enum LanguageTypes {
     ExceptionsApiCode,
     Message,
     ValidationMessages
-
   }
   public static final String EXCEPTION_PREFIX="Exceptions";
   public static final String EXCEPTIONS_APICODE_PREFIX="ExceptionsApiCode";
   public static final String X_LANG="X-LANG";
-
-
-    // public static final String TABLE_PREFIX = "minlia_";
-    // public static final String SEQUENCE_SUFFIX = "_sequence";
-    // public static final String SEQUENCE_GENERATOR = "sequenceGenerator";
-
-//    public final class Profiles {
-//
-//        public static final String DEV = "dev";
-//        public static final String DEFAULT = "default";
-//        public static final String SIT = "sit";
-//        public static final String UAT = "uat";
-//        public static final String PRODUCTION = "production";
-//        public static final String FAST = "fast";
-//        // Spring profile used when deploying with Spring Cloud (used when deploying to CloudFoundry)
-//        public static final String CLOUD = "cloud";
-//        // Spring profile used when deploying to Heroku
-//        public static final String HEROKU = "heroku";
-//        public static final String CLOUDFUNDRY = "cloudfundry";
-//
-//        public static final String SYSTEM_ACCOUNT = "system";
-//
-//        private Profiles() {
-//            throw new AssertionError();
-//        }
-//    }
 
     public Constants() {
         throw new AssertionError();
