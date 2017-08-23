@@ -21,5 +21,11 @@ public @interface Localize {
 
     String message() default "";
 
+    /**
+     * 国际化译文编码
+     * @return
+     */
+    String code() default "";
+
     LanguageTypeEnum type() default LanguageTypeEnum.Message;
 }

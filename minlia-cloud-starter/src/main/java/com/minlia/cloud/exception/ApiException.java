@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.OK)
 public class ApiException extends NestedRuntimeException {
 
-    private Integer code;
-    private Integer status;
+    private int code;
+    private int status;
     private Boolean translateRequired;
 
-    public Integer getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(int code) {
         this.code = code;
     }
 
@@ -30,7 +30,7 @@ public class ApiException extends NestedRuntimeException {
         this.translateRequired=Boolean.FALSE;
     }
 
-    public ApiException(Integer code) {
+    public ApiException(int code) {
         super(String.format("%s%s%s","Exceptions",getClassForStatic().getSimpleName(),code));
         this.code=code;
         this.status= StatefulBody.FAILURE;
@@ -39,7 +39,8 @@ public class ApiException extends NestedRuntimeException {
     }
 
 
-    public ApiException(Integer code,String msg) {
+    public ApiException(int code,String msg) {
+//        super(String.format("%s%s%s","Exceptions",getClassForStatic().getSimpleName(),code));
 //        super(String.format("%s%s","Exceptions",getClassForStatic().getSimpleName()));
         super(msg);
         this.code=code;
@@ -47,7 +48,8 @@ public class ApiException extends NestedRuntimeException {
         this.translateRequired=Boolean.FALSE;
     }
 
-    public ApiException(Integer code,String msg,Boolean translateRequired) {
+    public ApiException(int code,String msg,Boolean translateRequired) {
+//        super(String.format("%s%s%s","Exceptions",getClassForStatic().getSimpleName(),code));
 //        super(String.format("%s%s","Exceptions",getClassForStatic().getSimpleName()));
         super(msg);
         this.code=code;
@@ -72,11 +74,11 @@ public class ApiException extends NestedRuntimeException {
     }
 
 
-    public Integer getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

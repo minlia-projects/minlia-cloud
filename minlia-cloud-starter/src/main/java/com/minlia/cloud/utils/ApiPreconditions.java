@@ -20,7 +20,7 @@ public final class ApiPreconditions {
         throw new AssertionError();
     }
 
-    public static <T> T checkNotNull(final T reference, Integer code) {
+    public static <T> T checkNotNull(final T reference, int code) {
         if (reference == null) {
             String message = String.format(EXCEPTION_PATTERN, new Object[]{API_CODE, String.valueOf(code)});
             throw new ApiException(code, message, Boolean.TRUE);
@@ -28,14 +28,14 @@ public final class ApiPreconditions {
         return reference;
     }
 
-    public static <T> T checkNotNull(final T reference, Integer code, String reason) {
+    public static <T> T checkNotNull(final T reference, int code, String reason) {
         if (reference == null) {
             throw new ApiException(code, reason, Boolean.FALSE);
         }
         return reference;
     }
 
-    public static <T> T checkNull(final T reference, Integer code) {
+    public static <T> T checkNull(final T reference, int code) {
         if (reference != null) {
             String message = String.format(EXCEPTION_PATTERN, new Object[]{API_CODE, String.valueOf(code)});
             throw new ApiException(code, message, Boolean.TRUE);
@@ -43,20 +43,20 @@ public final class ApiPreconditions {
         return reference;
     }
 
-    public static <T> T checkNull(final T reference, Integer code, String reason) {
+    public static <T> T checkNull(final T reference, int code, String reason) {
         if (reference != null) {
             throw new ApiException(code, reason, Boolean.FALSE);
         }
         return reference;
     }
 
-    public static void not(final Boolean expression, Integer code, String reason) {
+    public static void not(final Boolean expression, int code, String reason) {
         if (!expression) {
             throw new ApiException(code, reason, Boolean.FALSE);
         }
     }
 
-    public static void not(final Boolean expression, Integer code) {
+    public static void not(final Boolean expression, int code) {
         if (!expression) {
             String message = String.format(EXCEPTION_PATTERN, new Object[]{API_CODE, String.valueOf(code)});
             throw new ApiException(code, message, Boolean.TRUE);
@@ -64,13 +64,13 @@ public final class ApiPreconditions {
     }
 
 
-    public static void is(final Boolean expression, Integer code, String reason) {
+    public static void is(final Boolean expression, int code, String reason) {
         if (expression) {
             throw new ApiException(code, reason, Boolean.FALSE);
         }
     }
 
-    public static void is(final Boolean expression, Integer code) {
+    public static void is(final Boolean expression, int code) {
         if (expression) {
             String message = String.format(EXCEPTION_PATTERN, new Object[]{API_CODE, String.valueOf(code)});
             throw new ApiException(code, message, Boolean.TRUE);

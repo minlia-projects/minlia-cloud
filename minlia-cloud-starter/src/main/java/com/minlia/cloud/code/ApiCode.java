@@ -14,7 +14,6 @@ public abstract class ApiCode {
     /**
      * 基数
      */
-
     public static final int BASED_ON = 10000;
 
 

@@ -185,14 +185,14 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     // 403
 
-    // @ExceptionHandler({ AccessDeniedException.class })
-    // public ResponseEntity<Object> handleEverything(final AccessDeniedException ex, final WebRequest request) {
-    // logger.error("403 Status Code", ex);
-    //
-    // final ApiError apiError = message(HttpStatus.FORBIDDEN, ex);
-    //
-    // return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
-    // }
+//     @ExceptionHandler({ AccessDeniedException.class })
+//     public ResponseEntity<Object> handleEverything(final AccessDeniedException ex, final WebRequest request) {
+//     logger.error("403 Status Code", ex);
+//
+////     final ApiError apiError = message(HttpStatus.FORBIDDEN, ex);
+//     final ApiExceptionResponseBody apiError = message(HttpStatus.BAD_REQUEST, ex);
+//     return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
+//     }
 
     // 404
 
@@ -203,6 +203,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         final ApiExceptionResponseBody apiError = message(HttpStatus.NOT_FOUND, ex);
         return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
+
     @ExceptionHandler({AccessDeniedException.class})
     protected ResponseEntity<Object> handleAccessDenied(final RuntimeException ex, final WebRequest request) {
         log.warn("Access Denied Exception: {}", ex.getMessage());
