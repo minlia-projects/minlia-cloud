@@ -44,6 +44,7 @@ public class RestErrorEndpoint implements ErrorController {
     // Here we just define response body.
 //        return new ErrorJson(response.getStatus(), getErrorAttributes(request, debug));
 
+    response.setStatus(200);
     if (!EnvironmentUtils.isProduction()) {
       return buildBody(request, false);
     } else {
@@ -81,6 +82,7 @@ public class RestErrorEndpoint implements ErrorController {
         message += String.format(" with trace %s", trace);
       }
     }
+
 
     return FailureResponseBody.builder().code(messageStatus).status(0).message(message).build();
   }
