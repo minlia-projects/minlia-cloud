@@ -14,6 +14,7 @@ public class ApiException extends NestedRuntimeException {
     private int code;
     private int status;
     private Boolean translateRequired;
+    private Object [] arguments;
 
     public int getCode() {
         return code;
@@ -28,6 +29,7 @@ public class ApiException extends NestedRuntimeException {
         this.status= StatefulBody.FAILURE;
         this.code=StatefulBody.FAILURE;
         this.translateRequired=Boolean.FALSE;
+        this.arguments=new Object[]{};
     }
 
     public ApiException(int code) {
@@ -35,6 +37,7 @@ public class ApiException extends NestedRuntimeException {
         this.code=code;
         this.status= StatefulBody.FAILURE;
         this.translateRequired=Boolean.TRUE;
+        this.arguments=new Object[]{};
 
     }
 
@@ -46,6 +49,7 @@ public class ApiException extends NestedRuntimeException {
         this.code=code;
         this.status= StatefulBody.FAILURE;
         this.translateRequired=Boolean.FALSE;
+        this.arguments=new Object[]{};
     }
 
     public ApiException(int code,String msg,Boolean translateRequired) {
@@ -55,6 +59,17 @@ public class ApiException extends NestedRuntimeException {
         this.code=code;
         this.status= StatefulBody.FAILURE;
         this.translateRequired=translateRequired;
+        this.arguments=new Object[]{};
+    }
+
+    public ApiException(int code,String msg,Boolean translateRequired,Object ... arguments) {
+//        super(String.format("%s%s%s","Exceptions",getClassForStatic().getSimpleName(),code));
+//        super(String.format("%s%s","Exceptions",getClassForStatic().getSimpleName()));
+        super(msg);
+        this.code=code;
+        this.status= StatefulBody.FAILURE;
+        this.translateRequired=translateRequired;
+        this.arguments=arguments;
     }
 
     private static final Class<?> getClassForStatic(){

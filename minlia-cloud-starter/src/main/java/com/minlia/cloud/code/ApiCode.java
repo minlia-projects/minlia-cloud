@@ -145,6 +145,14 @@ public abstract class ApiCode {
         @Localize(type= LanguageTypes.ExceptionsApiCode,locale = "zh_CN",message = "数据已存在: 请确认请求的数据是否存在."),
     })
     public static final int DATA_ALREADY_EXISTS = BASED_ON + 40011;
+    /**
+     * 不支持的请求类型
+     */
+    @Localized(values={
+        @Localize(type= LanguageTypes.ExceptionsApiCode,locale = "en_US",message = "Unsupported Request Method: Please confirm your request method."),
+        @Localize(type= LanguageTypes.ExceptionsApiCode,locale = "zh_CN",message = "不支持的请求方法: 请确认请求的方法."),
+    })
+    public static final int UNSUPPORTED_REQUEST_METHOD= BASED_ON + 40012;
 
 
 

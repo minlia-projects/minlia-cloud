@@ -51,6 +51,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 import java.nio.file.AccessDeniedException;
 import java.util.List;
+import org.springframework.web.util.NestedServletException;
 
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
@@ -66,7 +67,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     // 200 api exception
 
-    @ExceptionHandler({ApiException.class})
+    @ExceptionHandler({ApiException.class })
     protected ResponseEntity<Object> handleServiceException(final ApiException ex, final WebRequest request) {
         log.warn("Api Exception: {}", ex.getMessage());
 
