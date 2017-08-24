@@ -149,11 +149,16 @@ public abstract class ApiCode {
      * 不支持的请求类型
      */
     @Localized(values={
-        @Localize(type= LanguageTypes.ExceptionsApiCode,locale = "en_US",message = "Unsupported Request Method: Please confirm your request method."),
+        @Localize(type= LanguageTypes.ExceptionsApiCode,locale = "en_US",message = "Unsupported Request Method: Please confirm the request method."),
         @Localize(type= LanguageTypes.ExceptionsApiCode,locale = "zh_CN",message = "不支持的请求方法: 请确认请求的方法."),
     })
     public static final int UNSUPPORTED_REQUEST_METHOD= BASED_ON + 40012;
 
+    @Localized(values={
+        @Localize(type= LanguageTypes.ExceptionsApiCode,locale = "en_US",message = "Access Token Invalid: Please confirm the token requested."),
+        @Localize(type= LanguageTypes.ExceptionsApiCode,locale = "zh_CN",message = "访问令牌无效: 请确认请求的令牌"),
+    })
+    public static final int ACCESS_TOKEN_INVALID = BASED_ON + 40013;
 
 
     public ApiCode() {
