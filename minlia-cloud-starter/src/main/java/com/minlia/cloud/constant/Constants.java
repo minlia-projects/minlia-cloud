@@ -23,7 +23,7 @@ public class Constants {
     ValidationMessages
   }
   public static final String EXCEPTION_PREFIX="Exceptions";
-  public static final String EXCEPTIONS_APICODE_PREFIX="ExceptionsApiCode";
+//  public static final String EXCEPTIONS_APICODE_PREFIX="ExceptionsApiCode";
   public static final String X_LANG="X-LANG";
 
     public Constants() {

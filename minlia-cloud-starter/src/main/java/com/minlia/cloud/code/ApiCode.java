@@ -59,7 +59,7 @@ public abstract class ApiCode {
      * 无效验证码
      */
     @Localized(values={
-        @Localize(type= LanguageTypes.ExceptionsApiCode,locale = "en_US",message = "Invalid Secure Code: Please confirm that validity."),
+        @Localize(type= LanguageTypes.ExceptionsApiCode,locale = "en_US",message = "Invalid Secure Code: Please confirm that the validity."),
         @Localize(type= LanguageTypes.ExceptionsApiCode,locale = "zh_CN",message = "无效验证码, 请确保验证码的有效性."),
     })
     public static final int INVALID_SECURE_CODE = BASED_ON + 40002;
