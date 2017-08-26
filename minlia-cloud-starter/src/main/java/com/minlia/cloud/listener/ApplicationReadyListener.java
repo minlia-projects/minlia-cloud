@@ -30,7 +30,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
- * 应用程序启动监听器,处理页面404错误，返回JSON数据给前端
+ * 应用程序启动监听器
  */
 @Component
 public class ApplicationReadyListener implements ApplicationListener<ApplicationReadyEvent> {
@@ -55,9 +55,11 @@ public class ApplicationReadyListener implements ApplicationListener<Application
 
         String portPart = "";
         Integer port = ServerPortHolder.getPort();
-        if (port != 80) {
+
+        if (null!=port&& port != 80) {
             portPart = ":" + port;
         }
+
         String host = null;
         try {
             host = InetAddress.getLocalHost().getHostAddress();

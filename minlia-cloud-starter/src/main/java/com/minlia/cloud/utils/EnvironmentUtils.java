@@ -24,4 +24,13 @@ public class EnvironmentUtils {
             return true;
         }
     }
+
+    public static Boolean isDevelopment(){
+        Environment environment = ContextHolder.getContext().getEnvironment();
+        if(!ArrayUtils.contains(environment.getActiveProfiles(), Globals.Profiles.DEV)){
+            return false;
+        }else{
+            return true;
+        }
+    }
 }
