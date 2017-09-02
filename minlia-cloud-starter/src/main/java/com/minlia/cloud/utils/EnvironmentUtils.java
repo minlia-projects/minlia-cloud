@@ -25,6 +25,10 @@ public class EnvironmentUtils {
         }
     }
 
+    /**
+     * 是否为开发环境
+     * @return
+     */
     public static Boolean isDevelopment(){
         Environment environment = ContextHolder.getContext().getEnvironment();
         if(!ArrayUtils.contains(environment.getActiveProfiles(), Globals.Profiles.DEV)){
