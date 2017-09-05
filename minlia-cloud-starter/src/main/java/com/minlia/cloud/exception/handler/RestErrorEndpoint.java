@@ -4,11 +4,10 @@ import com.google.common.base.CaseFormat;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.FailureResponseBody;
 import com.minlia.cloud.code.ApiCode;
-import com.minlia.cloud.constant.Constants;
 import com.minlia.cloud.constant.Constants.LanguageTypes;
 import com.minlia.cloud.i18n.Lang;
 import com.minlia.cloud.utils.ApiPreconditions;
-import com.minlia.cloud.utils.EnvironmentUtils;
+import com.minlia.cloud.utils.Environments;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,7 +44,7 @@ public class RestErrorEndpoint implements ErrorController {
 //        return new ErrorJson(response.getStatus(), getErrorAttributes(request, debug));
 
     response.setStatus(200);
-    if (!EnvironmentUtils.isProduction()) {
+    if (!Environments.isProduction()) {
       return buildBody(request, false);
     } else {
       return buildBody(request, false);

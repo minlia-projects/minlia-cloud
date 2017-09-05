@@ -9,7 +9,7 @@ import org.springframework.core.env.Environment;
  * Created by will on 6/20/17.
  * 当前运行环境工具类
  */
-public class EnvironmentUtils {
+public class Environments {
 
 
     /**
