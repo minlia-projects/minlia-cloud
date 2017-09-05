@@ -86,6 +86,8 @@
     <embedded-redis.version>0.6</embedded-redis.version>
     <redisson.version>3.3.0</redisson.version>
     <nosqlunit.version>0.10.0</nosqlunit.version>
+
+    <jasypt-spring-boot-starter.version>1.15</jasypt-spring-boot-starter.version>
   </properties>
 
 
@@ -595,7 +597,11 @@
         <version>${nosqlunit.version}</version>
       </dependency>
 
-
+      <dependency>
+        <groupId>com.github.ulisesbocchio</groupId>
+        <artifactId>jasypt-spring-boot-starter</artifactId>
+        <version>${jasypt-spring-boot-starter.version}</version>
+      </dependency>
 
     </dependencies>
   </dependencyManagement>
