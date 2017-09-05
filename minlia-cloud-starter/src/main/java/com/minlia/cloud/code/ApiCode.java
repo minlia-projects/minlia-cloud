@@ -11,6 +11,10 @@ import com.minlia.cloud.constant.Constants.LanguageTypes;
 @Localized
 public abstract class ApiCode {
 
+    public ApiCode() {
+        throw new AssertionError();
+    }
+
     /**
      * 基数
      */
@@ -160,9 +164,12 @@ public abstract class ApiCode {
     })
     public static final int ACCESS_TOKEN_INVALID = BASED_ON + 40013;
 
+    @Localized(values={
+        @Localize(type= LanguageTypes.ExceptionsApiCode,locale = "en_US",message = "User is not available: Please confirm that the requested username is already occupied."),
+        @Localize(type= LanguageTypes.ExceptionsApiCode,locale = "zh_CN",message = "用户不可用: 请确认请求的用户名是否已被占用"),
+    })
+    public static final int USER_IS_NOT_AVAILABLE = BASED_ON + 40014;
 
-    public ApiCode() {
-        throw new AssertionError();
-    }
+
 
 }
