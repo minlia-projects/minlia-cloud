@@ -16,7 +16,7 @@ import lombok.Data;
 @Localized
 public class AvailablitityResponseBody {
 
-  private Boolean availabe;
+  private Boolean available;
   private String message;
 
 }
