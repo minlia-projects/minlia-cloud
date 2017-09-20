@@ -94,7 +94,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>1.5.6.RELEASE</version>
+    <version>1.5.7.RELEASE</version>
     <relativePath/>
   </parent>
 
@@ -104,7 +104,7 @@
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
-        <version>1.5.6.RELEASE</version>
+        <version>1.5.7.RELEASE</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -603,6 +603,12 @@
         <version>${jasypt-spring-boot-starter.version}</version>
       </dependency>
 
+
+      <dependency>
+        <groupId>com.minlia.cloud</groupId>
+        <artifactId>minlia-cloud-common</artifactId>
+        <version>1.0.1-SNAPSHOT</version>
+      </dependency>
 
     </dependencies>
   </dependencyManagement>

@@ -26,6 +26,7 @@
         <module>minlia-cloud-build</module>
         <module>minlia-cloud-dependencies</module>
         <module>minlia-cloud-parent</module>
+        <module>minlia-cloud-common</module>
         <module>minlia-cloud-starter</module>
     </modules>
 
