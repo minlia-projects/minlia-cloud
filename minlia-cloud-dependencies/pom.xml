@@ -9,7 +9,7 @@
   <packaging>pom</packaging>
 
   <name>Minlia Cloud Dependencies</name>
-  <url>https://minlia.com/mit/</url>
+  <url>https://minlia.com/cloud/</url>
   <description>Minlia Cloud Dependencies</description>
   <inceptionYear>2016</inceptionYear>
 
@@ -142,6 +142,7 @@
         <artifactId>commons-codec</artifactId>
         <version>${commons-codec.version}</version>
       </dependency>
+
       <dependency>
         <groupId>commons-beanutils</groupId>
         <artifactId>commons-beanutils</artifactId>
