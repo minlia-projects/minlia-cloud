@@ -30,4 +30,26 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
+
+
+
+    <scm>
+        <connection>
+            scm:git:https://github.com/minlia-projects/minlia-cloud.git
+        </connection>
+        <developerConnection>
+            scm:git:https://github.com/minlia-projects/minlia-cloud.git
+        </developerConnection>
+        <url>https://github.com/minlia-projects/minlia-cloud</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>will</name>
+            <email>will@minlia.com</email>
+            <organization>minlia</organization>
+            <organizationUrl>https://www.minlia.com</organizationUrl>
+        </developer>
+    </developers>
 </project>
