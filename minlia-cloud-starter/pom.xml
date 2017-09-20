@@ -6,13 +6,13 @@
   <groupId>com.minlia.cloud</groupId>
   <artifactId>minlia-cloud-starter</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.2.RELEASE</version>
+  <version>1.0.3-SNAPSHOT</version>
   <name>Minlia Cloud Starter</name>
 
   <parent>
     <groupId>com.minlia.cloud</groupId>
     <artifactId>minlia-cloud-parent</artifactId>
-    <version>1.0.2.RELEASE</version>
+    <version>1.0.3-SNAPSHOT</version>
     <relativePath>../minlia-cloud-parent/pom.xml</relativePath>
   </parent>
 
