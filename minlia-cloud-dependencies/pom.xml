@@ -3,7 +3,7 @@
 
   <groupId>com.minlia.cloud</groupId>
   <artifactId>minlia-cloud-dependencies</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.2.RELEASE</version>
   <packaging>pom</packaging>
 
   <name>Minlia Cloud Dependencies</name>
@@ -606,7 +606,7 @@
       <dependency>
         <groupId>com.minlia.cloud</groupId>
         <artifactId>minlia-cloud-common</artifactId>
-        <version>1.0.2-SNAPSHOT</version>
+        <version>1.0.2.RELEASE</version>
       </dependency>
 
     </dependencies>
@@ -1136,6 +1136,6 @@
     </developerConnection>
     <url>https://github.com/minlia-projects/minlia-cloud</url>
 
-    <tag>HEAD</tag>
+    <tag>minlia-cloud-1.0.2.RELEASE</tag>
   </scm>
 </project>
