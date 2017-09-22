@@ -8,7 +8,7 @@
 
     <groupId>com.minlia.cloud</groupId>
     <artifactId>minlia-cloud</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Minlia Cloud Projects</name>
 
@@ -26,6 +26,7 @@
         <module>minlia-cloud-build</module>
         <module>minlia-cloud-dependencies</module>
         <module>minlia-cloud-parent</module>
+        <module>minlia-cloud-common</module>
         <module>minlia-cloud-starter</module>
     </modules>
 

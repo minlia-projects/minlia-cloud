@@ -1,15 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.minlia.cloud</groupId>
   <artifactId>minlia-cloud-dependencies</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.3-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Minlia Cloud Dependencies</name>
-  <url>https://minlia.com/mit/</url>
+  <url>https://minlia.com/cloud/</url>
   <description>Minlia Cloud Dependencies</description>
   <inceptionYear>2016</inceptionYear>
 
@@ -95,7 +93,7 @@
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>1.5.7.RELEASE</version>
-    <relativePath/>
+    <relativePath />
   </parent>
 
 
@@ -142,6 +140,7 @@
         <artifactId>commons-codec</artifactId>
         <version>${commons-codec.version}</version>
       </dependency>
+
       <dependency>
         <groupId>commons-beanutils</groupId>
         <artifactId>commons-beanutils</artifactId>
@@ -603,6 +602,12 @@
         <version>${jasypt-spring-boot-starter.version}</version>
       </dependency>
 
+
+      <dependency>
+        <groupId>com.minlia.cloud</groupId>
+        <artifactId>minlia-cloud-common</artifactId>
+        <version>1.0.3-SNAPSHOT</version>
+      </dependency>
 
     </dependencies>
   </dependencyManagement>
