@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -32,6 +33,7 @@ import java.net.UnknownHostException;
 /**
  * 应用程序启动监听器
  */
+@Order(value = Integer.MAX_VALUE+1)
 @Component
 public class ApplicationReadyListener implements ApplicationListener<ApplicationReadyEvent> {
 

@@ -18,16 +18,15 @@ package com.minlia.cloud.config;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.minlia.cloud.config.async.CompletableExecutors;
 import com.minlia.cloud.config.async.TimedCompletables;
+import java.time.Duration;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
-
-import java.time.Duration;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 
 public class AsyncConfiguration implements AsyncConfigurer {
 
@@ -46,7 +45,7 @@ public class AsyncConfiguration implements AsyncConfigurer {
 
     @Override
     public Executor getAsyncExecutor() {
-        ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat("Minlia-async-%d").build();
+        ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat("Minlia-Async-%d").build();
         return CompletableExecutors.completable(Executors.newFixedThreadPool(10, threadFactory));
     }
 
