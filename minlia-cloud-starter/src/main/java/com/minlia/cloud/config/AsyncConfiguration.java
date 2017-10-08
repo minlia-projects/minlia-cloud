@@ -33,10 +33,20 @@ public class AsyncConfiguration implements AsyncConfigurer {
 
     private final Logger logger = LoggerFactory.getLogger(AsyncConfiguration.class);
 
+//  @Bean
+//  public Executor asyncExecutor() {
+//    ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+//    executor.setCorePoolSize(2);
+//    executor.setMaxPoolSize(2);
+//    executor.setQueueCapacity(500);
+//    executor.setThreadNamePrefix("Minlia-X-");
+//    executor.initialize();
+//    return executor;
+//  }
 
     @Override
     public Executor getAsyncExecutor() {
-        ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat("async-%d").build();
+        ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat("Minlia-async-%d").build();
         return CompletableExecutors.completable(Executors.newFixedThreadPool(10, threadFactory));
     }
 

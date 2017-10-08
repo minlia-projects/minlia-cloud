@@ -6,6 +6,7 @@ package com.minlia.cloud.constant;
 public class ApiPrefix {
 
     public static final String API = "/api/";
+    public static final String OPEN = API+"open/";
 
     public static final String PREFIX = API+"*";
 

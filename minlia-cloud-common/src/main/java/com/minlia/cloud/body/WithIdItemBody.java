@@ -8,6 +8,6 @@ import java.util.List;
  * Created by will on 6/20/17.
  */
 @Data
-public class WithIdItemBody {
+public class WithIdItemBody implements Body {
     private List<WithIdBody> items;
 }
