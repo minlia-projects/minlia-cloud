@@ -17,12 +17,14 @@ package com.minlia.cloud.listener;
 
 import com.minlia.cloud.holder.ServerPortHolder;
 import com.minlia.cloud.utils.Environments;
+import javax.annotation.Priority;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -33,8 +35,8 @@ import java.net.UnknownHostException;
 /**
  * 应用程序启动监听器
  */
-@Order(value = Integer.MAX_VALUE+1)
 @Component
+@Priority(value = Ordered.HIGHEST_PRECEDENCE+4)
 public class ApplicationReadyListener implements ApplicationListener<ApplicationReadyEvent> {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ApplicationReadyListener.class);
