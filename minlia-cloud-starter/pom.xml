@@ -155,17 +155,19 @@
     </dependency>
 
 
-    <dependency>
-      <groupId>com.zaxxer</groupId>
-      <artifactId>HikariCP</artifactId>
-      <exclusions>
-        <exclusion>
-          <artifactId>tools</artifactId>
-          <groupId>com.sun</groupId>
-        </exclusion>
-      </exclusions>
-      <scope>runtime</scope>
-    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>com.zaxxer</groupId>-->
+      <!--<artifactId>HikariCP</artifactId>-->
+      <!--<exclusions>-->
+        <!--<exclusion>-->
+          <!--<artifactId>tools</artifactId>-->
+          <!--<groupId>com.sun</groupId>-->
+        <!--</exclusion>-->
+      <!--</exclusions>-->
+      <!--<scope>runtime</scope>-->
+    <!--</dependency>-->
+
+
 
     <dependency>
       <groupId>net.sf.dozer</groupId>
