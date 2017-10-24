@@ -172,10 +172,10 @@ public abstract class ApiCode {
 
 
     @Localized(values={
-        @Localize(type= LanguageTypes.ExceptionsApiCode,locale = "en_US",message = "Remote api invoked with failure result."),
+        @Localize(type= LanguageTypes.ExceptionsApiCode,locale = "en_US",message = "Remote business invoked with failure result."),
         @Localize(type= LanguageTypes.ExceptionsApiCode,locale = "zh_CN",message = "远程业务调用返回结果不成功"),
     })
-    public static final int REMOTE_BUSINESS_INVOKE_FAILURE = BASED_ON + 40015;
+    public static final int REMOTE_BUSINESS_INVOKED_WITH_FAILURE_RESULT = BASED_ON + 40015;
 
 
 
