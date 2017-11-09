@@ -59,7 +59,8 @@ public class FrameworkConfiguration {
         try {
             reload(null);
         } catch (Exception e) {
-            e.printStackTrace();
+            //nothing happens when no system.properties found
+//            e.printStackTrace();
         }
     }
 
