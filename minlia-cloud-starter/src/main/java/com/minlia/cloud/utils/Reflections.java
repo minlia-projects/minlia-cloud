@@ -9,6 +9,7 @@ import javassist.bytecode.LocalVariableAttribute;
 import javassist.bytecode.MethodInfo;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -160,7 +161,12 @@ public class Reflections {
             throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         if (PreconditionsHelper.isNotEmpty(value)) {
             PropertyDescriptor p = PropertyUtils.getPropertyDescriptor(obj, propertyName);
-            setProperty(obj, p, value);
+            if(null==p){
+                p = PropertyUtils.getPropertyDescriptor(obj.getClass().getSuperclass(), propertyName);
+                setProperty(obj.getClass().getSuperclass(), p, value);
+            }else {
+                setProperty(obj, p, value);
+            }
         }
     }
 
