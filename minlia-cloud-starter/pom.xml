@@ -565,6 +565,18 @@
       <groupId>com.minlia.cloud</groupId>
       <artifactId>minlia-cloud-common</artifactId>
     </dependency>
+
+
+    <dependency>
+      <groupId>com.xiaoleilu</groupId>
+      <artifactId>hutool-all</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>net.coobird</groupId>
+      <artifactId>thumbnailator</artifactId>
+    </dependency>
+
   </dependencies>
   <distributionManagement>
     <snapshotRepository>
