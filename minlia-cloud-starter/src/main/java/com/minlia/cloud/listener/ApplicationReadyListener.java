@@ -49,39 +49,39 @@ public class ApplicationReadyListener implements ApplicationListener<Application
     public void onApplicationEvent(ApplicationReadyEvent event) {
 
         LOGGER.debug("Application Ready");
-        // LOGGER.debug("This application context is... " + event.getApplicationContext().getClass().getName());
-        String ctx = properties.getContextPath();
-        if (StringUtils.isEmpty(ctx)) {
-            ctx = "/";
-        } else {
-            ctx = ctx + "/";
-        }
-
-        String portPart = "";
-        Integer port = ServerPortHolder.getPort();
-
-        if (null!=port&& port != 80) {
-            portPart = ":" + port;
-        }
-
-        String host = null;
-        try {
-            host = InetAddress.getLocalHost().getHostAddress();
-        } catch (UnknownHostException e) {
-            // e.printStackTrace();
-        }
-        if (StringUtils.isEmpty(host)) {
-            host = LOCALHOST;
-        }
-
-        if (!Environments.isProduction()) {
-            host = LOCALHOST;
-        }
-        String message = "";
-        message += "Access URLS: ";
-        message += String.format("%s%s%s%s%s", "http://", host, portPart, ctx, "");
-        message += String.format("    %s%s%s%s%s", "http://", host, portPart, ctx, "swagger-ui.html");
-        LOGGER.info(message);
+//        // LOGGER.debug("This application context is... " + event.getApplicationContext().getClass().getName());
+//        String ctx = properties.getContextPath();
+//        if (StringUtils.isEmpty(ctx)) {
+//            ctx = "/";
+//        } else {
+//            ctx = ctx + "/";
+//        }
+//
+//        String portPart = "";
+//        Integer port = ServerPortHolder.getPort();
+//
+//        if (null!=port&& port != 80) {
+//            portPart = ":" + port;
+//        }
+//
+//        String host = null;
+//        try {
+//            host = InetAddress.getLocalHost().getHostAddress();
+//        } catch (UnknownHostException e) {
+//            // e.printStackTrace();
+//        }
+//        if (StringUtils.isEmpty(host)) {
+//            host = LOCALHOST;
+//        }
+//
+//        if (!Environments.isProduction()) {
+//            host = LOCALHOST;
+//        }
+//        String message = "";
+//        message += "Access URLS: ";
+//        message += String.format("%s%s%s%s%s", "http://", host, portPart, ctx, "");
+//        message += String.format("    %s%s%s%s%s", "http://", host, portPart, ctx, "swagger-ui.html");
+//        LOGGER.info(message);
 
         /*log.info("Access URLs:\n----------------------------------------------------------\n\t" +
                // "Local: \t\thttp://127.0.0.1:{}\n\t" +

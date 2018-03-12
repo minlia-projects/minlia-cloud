@@ -13,14 +13,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.ErrorAttributes;
-import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.context.request.WebRequest;
 
 /**
  * Based on the helpful answer at http://stackoverflow.com/q/25356781/56285,
@@ -112,8 +114,10 @@ public class RestErrorEndpoint implements ErrorController {
 
   private Map<String, Object> getErrorAttributes(HttpServletRequest request,
       boolean includeStackTrace) {
-    RequestAttributes requestAttributes = new ServletRequestAttributes(request);
-    return errorAttributes.getErrorAttributes(requestAttributes, includeStackTrace);
+    //FOR 2.0.0.RELEASE CHANGES
+//    RequestAttributes requestAttributes = new ServletRequestAttributes(request);
+    ServletWebRequest requestAttributes = new ServletWebRequest(request);
+    return errorAttributes.getErrorAttributes((WebRequest) requestAttributes, includeStackTrace);
   }
 
 }
