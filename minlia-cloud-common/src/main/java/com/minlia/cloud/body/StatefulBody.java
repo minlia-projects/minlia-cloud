@@ -40,7 +40,6 @@ public class StatefulBody<T> implements Body {
     public static final Integer FAILURE = 0;
     public static final Integer UNKNOWN = -1;
 
-
     /**
      * 携带的负载返回对象
      */
@@ -52,32 +51,30 @@ public class StatefulBody<T> implements Body {
      * 当前操作时间
      */
     @JsonProperty
-    @ApiModelProperty(value = "当前操作完成并返回的时间戳")
     protected Date timestamp;
 
+    /**
+     * 请求ID
+     */
     @JsonProperty
-    @ApiModelProperty(value = "请求ID")
     protected String requestId= RequestIdGenerator.generateRequestId();
 
     /**
      * 业务操作完成后的返回代码
      */
     @JsonProperty
-    @ApiModelProperty(value = "业务操作完成后的返回代码")
     protected Integer code;
 
     /**
      * 用于兼容http状态码, 一般在业务上不使用
      */
     @JsonProperty
-    @ApiModelProperty(value = "用于兼容http状态码, 一般在业务上不使用")
     protected Integer status;
 
     /**
      * 业务操作完成后的返回信息
      */
     @JsonProperty
-    @ApiModelProperty(value = "业务操作完成后的返回信息")
     protected String message;
 
     public StatefulBody() {
@@ -88,7 +85,6 @@ public class StatefulBody<T> implements Body {
         this.payload=null;
     }
 
-
     public StatefulBody(Integer code,Integer status,String message) {
         this();
         this.timestamp = new Date();
@@ -98,14 +94,6 @@ public class StatefulBody<T> implements Body {
         this.payload=null;
     }
 
-
-    /**
-     * added by qianyi on 2017/4/18.
-     * @param code
-     * @param status
-     * @param message
-     * @param payload
-     */
     public StatefulBody(Integer code,Integer status,String message,T payload) {
         this();
         this.timestamp = new Date();
@@ -115,14 +103,9 @@ public class StatefulBody<T> implements Body {
         this.payload = payload;
     }
 
-
     public Date getTimestamp() {
         return timestamp;
     }
-
-//    public void setTimestamp(Date timestamp) {
-//        this.timestamp = timestamp;
-//    }
 
     public Integer getCode() {
         return code;
@@ -148,7 +131,6 @@ public class StatefulBody<T> implements Body {
         this.message = message;
     }
 
-
     public T getPayload() {
         return payload;
     }
@@ -156,9 +138,6 @@ public class StatefulBody<T> implements Body {
     public void setPayload(T payload) {
         this.payload = payload;
     }
-
-
-
 
     @Override
     public String toString() {
@@ -174,4 +153,5 @@ public class StatefulBody<T> implements Body {
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
     }
+
 }

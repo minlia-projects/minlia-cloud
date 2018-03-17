@@ -24,9 +24,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 /**
  * Created by user on 11/14/15.
  */
-
 public class FailureResponseBody<T> extends ApiResponseBody {
-
 
     public FailureResponseBody() {
         this.setMessage(StatefulBody.FAILURE_MESSAGE);

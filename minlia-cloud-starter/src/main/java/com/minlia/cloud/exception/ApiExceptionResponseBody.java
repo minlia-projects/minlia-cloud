@@ -22,9 +22,21 @@ import lombok.Data;
 public class ApiExceptionResponseBody extends FailureResponseBody {
 
     private String developerMessage;
+    private String detail;
 
+//    protected String trace;
+//    protected String path;
+//    protected String error;
+//    protected String exception;
 
     public ApiExceptionResponseBody(){
+    }
+
+    public ApiExceptionResponseBody(final Integer code,final String message,Exception e) {
+        this.code = code;
+        this.message = message;
+        this.detail = e.getMessage();
+        this.developerMessage = e.getClass().getSimpleName();
     }
 
     public ApiExceptionResponseBody(final Integer code, final String message, final String developerMessage) {
@@ -40,6 +52,5 @@ public class ApiExceptionResponseBody extends FailureResponseBody {
     public void setDeveloperMessage(final String developerMessage) {
         this.developerMessage = developerMessage;
     }
-
 
 }

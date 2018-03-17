@@ -30,7 +30,7 @@ import org.springframework.context.NoSuchMessageException;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -41,6 +41,7 @@ import org.springframework.util.InvalidMimeTypeException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.RequestAttributes;
@@ -52,7 +53,6 @@ import javax.validation.ConstraintViolationException;
 import java.nio.file.AccessDeniedException;
 import java.util.List;
 //import org.springframework.web.util.NestedServletException;
-
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
     private Logger log = LoggerFactory.getLogger(getClass());
@@ -66,12 +66,9 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     // API
 
     // 200 api exception
-
     @ExceptionHandler({ApiException.class})
     protected ResponseEntity<Object> handleServiceException(final ApiException ex, final WebRequest request) {
         log.warn("Api Exception: {}", ex.getMessage());
-
-        ApiExceptionResponseBody apiExceptionResponseBody = null;
 
         String message = ex.getMessage() == null ? ex.getClass().getSimpleName() : ex.getMessage();
         String localizedMessage = null;
@@ -106,8 +103,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
             message = localizedMessage;
         }
 
-        apiExceptionResponseBody = new ApiExceptionResponseBody(ex.getCode(), message, devMessage);
-
+        ApiExceptionResponseBody apiExceptionResponseBody = new ApiExceptionResponseBody(ex.getCode(), message, devMessage);
         return handleExceptionInternal(ex, apiExceptionResponseBody, new HttpHeaders(), HttpStatus.OK, request);
     }
 
@@ -117,152 +113,153 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
 
     // 400
+    @Override
+    protected final ResponseEntity<Object> handleHttpMessageNotReadable(final HttpMessageNotReadableException ex, final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
+        log.info("Bad Request: {}", ex.getMessage());
+//        //log.debug("Bad Request: ", ex);
 
-//    @Override
-//    protected final ResponseEntity<Object> handleHttpMessageNotReadable(final HttpMessageNotReadableException ex, final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-//        log.info("Bad Request: {}", ex.getMessage());
-////        //log.debug("Bad Request: ", ex);
-//
-////        final ApiExceptionResponseBody apiError = message(HttpStatus.OK, ex);
-////        apiError.setPayload(ex.getMessage());
+//        final ApiExceptionResponseBody apiError = message(HttpStatus.OK, ex);
+//        apiError.setPayload(ex.getMessage());
+        ApiExceptionResponseBody responseBody=new ApiExceptionResponseBody();
+//        responseBody.setMessage(ex.);
+
+        if(ex.getCause() instanceof InvalidFormatException){
+            Class targetType= ((InvalidFormatException) ex.getCause()).getTargetType();
+//           Object value= ((InvalidFormatException) ex.getCause()).getValue();
+//            Boolean isValid= EnumUtils.isValidEnum(targetType,value.toString());
+            String message=ex.getMessage().replace(" of type "+targetType.getName()+"","");
+            message=message.replaceAll("Could not read document: ","");
+            message=message.replaceAll("declared Enum instance","declared");
+            message=message.substring(0,message.indexOf("\n at"));
+            responseBody.setMessage(message);
+//            if(!isValid) {
+//                responseBody.setPayload(null);
+//                List<String> types=new ArrayList(Arrays.asList(targetType.getEnumConstants()));//EnumUtils.getEnumList(targetType);
+//                List<String> targetTypes= new ArrayList<>();
+//                for(String type:types){
+////                    String formatted=CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL,type);
+//                    String formatted=type.toLowerCase().replace("_",".");
+////                    formatted=formatted.replace("_",".");
+//                    targetTypes.add(formatted);
+//                }
+//                responseBody.setMessage(value + " is not a valid value, must be one of ["+ targetTypes.stream().map(Object::toString)
+//                        .collect(Collectors.joining(", "))+"]");
+//            }
+        }
+        responseBody.setStatus(HttpStatus.OK.value());
+        return handleExceptionInternal(ex, responseBody, headers, HttpStatus.OK, request);
+    }
+
+    @Override
+    protected final ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
+        log.info("Bad Request: {}", ex.getMessage());
+        //log.debug("Bad Request: ", ex);
+
+        final BindingResult result = ex.getBindingResult();
+        final List<FieldError> fieldErrors = result.getFieldErrors();
+        final ValidationErrorDTO dto = processFieldErrors(fieldErrors);
+
+        ApiExceptionResponseBody responseBody=new ApiExceptionResponseBody();
+        responseBody.setPayload(dto.getErrorDetails());
+        responseBody.setStatus(HttpStatus.BAD_REQUEST.value());
+        return handleExceptionInternal(ex, responseBody, headers, HttpStatus.OK, request);
+    }
+
+    @ExceptionHandler(value = {ConstraintViolationException.class})
+    public final ResponseEntity<Object> handleBadRequest(final RuntimeException ex, final WebRequest request) {
+        log.info("Bad Request: {}", ex.getLocalizedMessage());
+        //log.debug("Bad Request: ", ex);
+
 //        ApiExceptionResponseBody responseBody=new ApiExceptionResponseBody();
-////        responseBody.setMessage(ex.);
+//        responseBody.setPayload(dto);
+
+        final ApiExceptionResponseBody apiError = message(HttpStatus.BAD_REQUEST, ex);
+        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
 //
-//        if(ex.getCause() instanceof InvalidFormatException){
-//           Class targetType= ((InvalidFormatException) ex.getCause()).getTargetType();
-////           Object value= ((InvalidFormatException) ex.getCause()).getValue();
-////            Boolean isValid= EnumUtils.isValidEnum(targetType,value.toString());
-//            String message=ex.getMessage().replace(" of type "+targetType.getName()+"","");
-//            message=message.replaceAll("Could not read document: ","");
-//            message=message.replaceAll("declared Enum instance","declared");
-//            message=message.substring(0,message.indexOf("\n at"));
-//            responseBody.setMessage(message);
-////            if(!isValid) {
-////                responseBody.setPayload(null);
-////                List<String> types=new ArrayList(Arrays.asList(targetType.getEnumConstants()));//EnumUtils.getEnumList(targetType);
-////                List<String> targetTypes= new ArrayList<>();
-////                for(String type:types){
-//////                    String formatted=CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL,type);
-////                    String formatted=type.toLowerCase().replace("_",".");
-//////                    formatted=formatted.replace("_",".");
-////                    targetTypes.add(formatted);
-////                }
-////                responseBody.setMessage(value + " is not a valid value, must be one of ["+ targetTypes.stream().map(Object::toString)
-////                        .collect(Collectors.joining(", "))+"]");
-////            }
-//        }
-//        responseBody.setStatus(HttpStatus.OK.value());
-//        return handleExceptionInternal(ex, responseBody, headers, HttpStatus.OK, request);
-//    }
-//
-//
-//    @Override
-//    protected final ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-//        log.info("Bad Request: {}", ex.getMessage());
-//        //log.debug("Bad Request: ", ex);
-//
-//        final BindingResult result = ex.getBindingResult();
-//        final List<FieldError> fieldErrors = result.getFieldErrors();
-//        final ValidationErrorDTO dto = processFieldErrors(fieldErrors);
-//
-//        ApiExceptionResponseBody responseBody=new ApiExceptionResponseBody();
-//        responseBody.setPayload(dto.getErrorDetails());
-//        responseBody.setStatus(HttpStatus.BAD_REQUEST.value());
-//        return handleExceptionInternal(ex, responseBody, headers, HttpStatus.OK, request);
-//    }
-//
-//    @ExceptionHandler(value = {ConstraintViolationException.class, DataIntegrityViolationException.class})
-//    public final ResponseEntity<Object> handleBadRequest(final RuntimeException ex, final WebRequest request) {
+//    @ExceptionHandler(value = {MissingServletRequestParameterException.class})
+//    public final ResponseEntity<Object> handleMissingServletRequestParameterRequest(final RuntimeException ex, final WebRequest request) {
 //        log.info("Bad Request: {}", ex.getLocalizedMessage());
-//        //log.debug("Bad Request: ", ex);
-//
-////        ApiExceptionResponseBody responseBody=new ApiExceptionResponseBody();
-////        responseBody.setPayload(dto);
-//
 //        final ApiExceptionResponseBody apiError = message(HttpStatus.BAD_REQUEST, ex);
 //        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 //    }
-//
-//
-//    // 403
-//
-////     @ExceptionHandler({ AccessDeniedException.class })
-////     public ResponseEntity<Object> handleEverything(final AccessDeniedException ex, final WebRequest request) {
-////     logger.error("403 Status Code", ex);
-////
-//////     final ApiError apiError = message(HttpStatus.FORBIDDEN, ex);
-////     final ApiExceptionResponseBody apiError = message(HttpStatus.BAD_REQUEST, ex);
-////     return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
-////     }
-//
-//    // 404
-//
-//    @ExceptionHandler({EntityNotFoundException.class, ResourceNotFoundException.class})
-//    protected ResponseEntity<Object> handleNotFound(final RuntimeException ex, final WebRequest request) {
-//        log.warn("Not Found: {}", ex.getMessage());
-//
-//        final ApiExceptionResponseBody apiError = message(HttpStatus.NOT_FOUND, ex);
-//        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
-//    }
-//
-//    @ExceptionHandler({AccessDeniedException.class})
-//    protected ResponseEntity<Object> handleAccessDenied(final RuntimeException ex, final WebRequest request) {
-//        log.warn("Access Denied Exception: {}", ex.getMessage());
-//
-//        final ApiExceptionResponseBody apiError = message(HttpStatus.FORBIDDEN, ex);
-//        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
-//    }
-//
-//    // 409
-//
-//    @ExceptionHandler({InvalidDataAccessApiUsageException.class, DataAccessException.class, EmptyResultDataAccessException.class})
-//    protected ResponseEntity<Object> handleConflict(final RuntimeException ex, final WebRequest request) {
-//        log.warn("Conflict: {}", ex.getMessage());
-//
-//        final ApiExceptionResponseBody apiError = message(HttpStatus.CONFLICT, ex);
-//        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.CONFLICT, request);
-//    }
-//
-//    // 415
-//
-//    @ExceptionHandler({InvalidMimeTypeException.class, InvalidMediaTypeException.class})
-//    protected ResponseEntity<Object> handleInvalidMimeTypeException(final IllegalArgumentException ex, final WebRequest request) {
-//        log.warn("Unsupported Media Type: {}", ex.getMessage());
-//
-//        final ApiExceptionResponseBody apiError = message(HttpStatus.OK, ex);
-//        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.OK, request);
-//    }
-//
-//    // 500
-//
-//    @ExceptionHandler({NullPointerException.class, IllegalArgumentException.class, IllegalStateException.class})
-//    public ResponseEntity<Object> handle500s(final RuntimeException ex, final WebRequest request) {
-//        logger.error("500 Status Code", ex);
-//
-//        final ApiExceptionResponseBody apiError = message(HttpStatus.OK, ex);
-//
-//        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.OK, request);
-//    }
-//
-//    // UTIL
-//
-//    private ValidationErrorDTO processFieldErrors(final List<FieldError> fieldErrors) {
-//        final ValidationErrorDTO dto = new ValidationErrorDTO();
-//
-//        for (final FieldError fieldError : fieldErrors) {
-//            final String localizedErrorMessage = fieldError.getDefaultMessage();
-//            dto.addFieldError(fieldError.getField(), localizedErrorMessage);
-//        }
-//
-//        return dto;
-//    }
-//
-//    private ApiExceptionResponseBody message(final HttpStatus httpStatus, final Exception ex) {
-//        final String message = ex.getMessage() == null ? ex.getClass().getSimpleName() : ex.getMessage();
-//        final String devMessage = ex.getClass().getSimpleName();
-//        // devMessage = ExceptionUtils.getStackTrace(ex);
-//
-//        return new ApiExceptionResponseBody(httpStatus.value(), message, devMessage);
-//    }
+
+    // 403
+    @ExceptionHandler({AccessDeniedException.class})
+    protected ResponseEntity<Object> handleAccessDenied(final RuntimeException ex, final WebRequest request) {
+        log.warn("Access Denied Exception: {}", ex.getMessage());
+        final ApiExceptionResponseBody apiError = message(HttpStatus.FORBIDDEN, ex);
+        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
+    }
+
+    // 404
+    @ExceptionHandler({EntityNotFoundException.class, ResourceNotFoundException.class})
+    protected ResponseEntity<Object> handleNotFound(final RuntimeException ex, final WebRequest request) {
+        log.warn("Not Found: {}", ex.getMessage());
+        final ApiExceptionResponseBody apiError = message(HttpStatus.NOT_FOUND, ex);
+        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
+
+    // 415
+    @ExceptionHandler({InvalidMimeTypeException.class, InvalidMediaTypeException.class})
+    protected ResponseEntity<Object> handleInvalidMimeTypeException(final IllegalArgumentException ex, final WebRequest request) {
+        log.warn("Unsupported Media Type: {}", ex.getMessage());
+
+        final ApiExceptionResponseBody apiError = message(HttpStatus.OK, ex);
+        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.OK, request);
+    }
+
+    // 500
+    @ExceptionHandler({NullPointerException.class, IllegalArgumentException.class, IllegalStateException.class})
+    public ResponseEntity<Object> handle500s(final RuntimeException ex, final WebRequest request) {
+        logger.error("500 Status Code", ex);
+
+        final ApiExceptionResponseBody apiError = message(HttpStatus.OK, ex);
+
+        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.OK, request);
+    }
+
+    // DAO数据异常 409
+    @ExceptionHandler({InvalidDataAccessApiUsageException.class, DataAccessException.class})
+    protected ResponseEntity<Object> handleConflict(final RuntimeException e, final WebRequest request) {
+        log.warn("Conflict: {}", e.getMessage());
+        final ApiExceptionResponseBody apiError = message(HttpStatus.INTERNAL_SERVER_ERROR,"DAO异常" ,e);
+        return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.CONFLICT, request);
+    }
+
+    @ExceptionHandler(value = DataIntegrityViolationException.class)
+    public final ResponseEntity<Object> dataIntegrityViolation(final DataIntegrityViolationException e, final WebRequest request) {
+        log.warn("DataIntegrityViolation: {}", e.getMessage());
+        final ApiExceptionResponseBody apiError = message(HttpStatus.INTERNAL_SERVER_ERROR,"违反数据约束" ,e);
+        return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.CONFLICT, request);
+    }
+
+    @ExceptionHandler(value = DuplicateKeyException.class)
+    public final ResponseEntity<Object> dataIntegrityViolation(final DuplicateKeyException e, final WebRequest request) {
+        log.warn("DuplicateKey: {}", e.getMessage());
+        final ApiExceptionResponseBody apiError = message(HttpStatus.INTERNAL_SERVER_ERROR,"记录已存在，请勿重复操作" ,e);
+        return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.CONFLICT, request);
+    }
+
+    // UTIL
+    private ValidationErrorDTO processFieldErrors(final List<FieldError> fieldErrors) {
+        final ValidationErrorDTO dto = new ValidationErrorDTO();
+
+        for (final FieldError fieldError : fieldErrors) {
+            final String localizedErrorMessage = fieldError.getDefaultMessage();
+            dto.addFieldError(fieldError.getField(), localizedErrorMessage);
+        }
+
+        return dto;
+    }
+
+    private ApiExceptionResponseBody message(final HttpStatus httpStatus, final RuntimeException ex) {
+        final String message = ex.getMessage() == null ? ex.getClass().getSimpleName() : ex.getMessage();
+        return new ApiExceptionResponseBody(httpStatus.value(), message, ex);
+    }
+
+    private ApiExceptionResponseBody message(final HttpStatus httpStatus, String message, final RuntimeException ex) {
+        return new ApiExceptionResponseBody(httpStatus.value(), message, ex);
+    }
 
 }
