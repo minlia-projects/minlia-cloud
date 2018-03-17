@@ -63,7 +63,6 @@ public final class ApiPreconditions {
         }
     }
 
-
     public static void is(final Boolean expression, int code, String reason) {
         if (expression) {
             throw new ApiException(code, reason, Boolean.FALSE);

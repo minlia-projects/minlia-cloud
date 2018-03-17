@@ -20,6 +20,7 @@ import com.minlia.cloud.body.StatefulBody;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.http.HttpStatus;
 
 /**
  * Created by user on 11/14/15.
@@ -27,55 +28,40 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class FailureResponseBody<T> extends ApiResponseBody {
 
     public FailureResponseBody() {
-        this.setMessage(StatefulBody.FAILURE_MESSAGE);
-        this.setCode(StatefulBody.FAILURE);
-        this.setStatus(StatefulBody.FAILURE);
-        this.setPayload(super.payload);
-    }
-
-    public FailureResponseBody(Integer code, Integer status, String message, T payload) {
-        super(StatefulBody.FAILURE, StatefulBody.FAILURE, StatefulBody.FAILURE_MESSAGE, payload);
-        this.code = code;
-        this.status = status;
-        this.message = message;
-        this.payload = payload;
-    }
-
-    public FailureResponseBody(Integer code, Integer status, T payload) {
-        super(StatefulBody.FAILURE, StatefulBody.FAILURE, StatefulBody.FAILURE_MESSAGE, (Object) null);
-        this.code = code;
-        this.status = status;
-        this.payload = payload;
-    }
-
-    public FailureResponseBody(Integer code, T payload) {
-        super(StatefulBody.FAILURE, StatefulBody.FAILURE, StatefulBody.FAILURE_MESSAGE, (Object) null);
-        this.code = code;
-        this.payload = payload;
+        super(StatefulBody.FAILURE,HttpStatus.INTERNAL_SERVER_ERROR.value(),StatefulBody.FAILURE_MESSAGE,null);
     }
 
     public FailureResponseBody(Integer code) {
-        super(StatefulBody.FAILURE, StatefulBody.FAILURE, StatefulBody.FAILURE_MESSAGE, (Object) null);
-        this.code = code;
+        super(StatefulBody.FAILURE,code,StatefulBody.FAILURE_MESSAGE,null);
     }
 
     public FailureResponseBody(T payload) {
-        super(StatefulBody.FAILURE, StatefulBody.FAILURE, StatefulBody.FAILURE_MESSAGE, (Object) null);
-        this.payload = payload;
+        super(StatefulBody.FAILURE,HttpStatus.INTERNAL_SERVER_ERROR.value(),StatefulBody.FAILURE_MESSAGE,payload);
+    }
+
+    public FailureResponseBody(Integer code, T payload) {
+        super(StatefulBody.FAILURE,code,StatefulBody.FAILURE_MESSAGE,payload);
+    }
+
+    public FailureResponseBody(Integer code, String message, T payload) {
+        super(StatefulBody.FAILURE,code,message,payload);
     }
 
     public static <T> FailureResponseBody.FailureResponseBodyBuilder<T> builder() {
         return new FailureResponseBody.FailureResponseBodyBuilder();
     }
 
+    @Override
     public boolean equals(Object o) {
         return EqualsBuilder.reflectionEquals(this, o);
     }
 
+    @Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this, false);
     }
 
+    @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
@@ -96,22 +82,8 @@ public class FailureResponseBody<T> extends ApiResponseBody {
             return EqualsBuilder.reflectionEquals(this, other);
         }
 
-        public int hashCode() {
-            return HashCodeBuilder.reflectionHashCode(this, false);
-        }
-
-        public String toString() {
-            return ToStringBuilder.reflectionToString(this);
-        }
-
-
         public FailureResponseBody.FailureResponseBodyBuilder<T> code(Integer code) {
             instance.code = code;
-            return this;
-        }
-
-        public FailureResponseBody.FailureResponseBodyBuilder<T> status(Integer status) {
-            instance.status = status;
             return this;
         }
 
@@ -125,4 +97,5 @@ public class FailureResponseBody<T> extends ApiResponseBody {
             return this;
         }
     }
+
 }

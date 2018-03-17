@@ -1,50 +1,52 @@
-/*
- * Copyright © 2016 Minlia (http://oss.minlia.com/license/framework/2016)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.minlia.cloud.body;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minlia.cloud.utils.RequestIdGenerator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.http.HttpStatus;
 
 import java.util.Date;
 
+/**
+ * 状态化的返回体
+ * @param <T>
+ */
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@ApiModel(value = "状态化的返回体")
 public class StatefulBody<T> implements Body {
 
     public static final String SUCCESS_MESSAGE = "OK";
     public static final String FAILURE_MESSAGE = "Failure";
-    public static final String UNKNOWN_MESSAGE = "Unknown";
 
     public static final Integer SUCCESS = 1;
     public static final Integer FAILURE = 0;
-    public static final Integer UNKNOWN = -1;
+
+    /**
+     * 用于兼容http状态码, 一般在业务上不使用
+     */
+    @JsonProperty
+    protected Integer status;
+
+    /**
+     * 业务操作完成后的返回代码
+     */
+    @JsonProperty
+    protected Integer code;
+
+    /**
+     * 业务操作完成后的返回信息
+     */
+    @JsonProperty
+    protected String message;
 
     /**
      * 携带的负载返回对象
      */
     @JsonProperty
-    @ApiModelProperty(value = "携带返回的对象")
     protected T payload;
 
     /**
@@ -59,48 +61,28 @@ public class StatefulBody<T> implements Body {
     @JsonProperty
     protected String requestId= RequestIdGenerator.generateRequestId();
 
-    /**
-     * 业务操作完成后的返回代码
-     */
-    @JsonProperty
-    protected Integer code;
-
-    /**
-     * 用于兼容http状态码, 一般在业务上不使用
-     */
-    @JsonProperty
-    protected Integer status;
-
-    /**
-     * 业务操作完成后的返回信息
-     */
-    @JsonProperty
-    protected String message;
-
     public StatefulBody() {
-        this.timestamp = new Date();
-        this.code = UNKNOWN;
-        this.message = UNKNOWN_MESSAGE;
-        this.status = UNKNOWN;
+        this.status = SUCCESS;
+        this.code = HttpStatus.OK.value();
+        this.message = FAILURE_MESSAGE;
         this.payload=null;
+        this.timestamp = new Date();
     }
 
-    public StatefulBody(Integer code,Integer status,String message) {
-        this();
-        this.timestamp = new Date();
-        this.code = code;
+    public StatefulBody(Integer status,Integer code,String message) {
         this.status = status;
+        this.code = code;
         this.message = message;
         this.payload=null;
+        this.timestamp = new Date();
     }
 
-    public StatefulBody(Integer code,Integer status,String message,T payload) {
-        this();
-        this.timestamp = new Date();
-        this.code = code;
+    public StatefulBody(Integer status,Integer code,String message,T payload) {
         this.status = status;
+        this.code = code;
         this.message = message;
         this.payload = payload;
+        this.timestamp = new Date();
     }
 
     public Date getTimestamp() {
@@ -137,6 +119,10 @@ public class StatefulBody<T> implements Body {
 
     public void setPayload(T payload) {
         this.payload = payload;
+    }
+
+    public boolean isSuccess() {
+        return null != status && status.equals(SUCCESS);
     }
 
     @Override

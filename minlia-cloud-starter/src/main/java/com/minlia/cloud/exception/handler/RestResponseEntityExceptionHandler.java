@@ -20,18 +20,15 @@ import com.minlia.cloud.exception.ApiException;
 import com.minlia.cloud.exception.ApiExceptionResponseBody;
 import com.minlia.cloud.exception.ValidationErrorDTO;
 import com.minlia.cloud.i18n.Lang;
-import com.minlia.cloud.setting.Globals;
+import com.minlia.cloud.utils.StringUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ResourceNotFoundException;
-import org.springframework.context.NoSuchMessageException;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.InvalidMediaTypeException;
@@ -41,110 +38,40 @@ import org.springframework.util.InvalidMimeTypeException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.persistence.EntityNotFoundException;
-import javax.validation.ConstraintViolationException;
 import java.nio.file.AccessDeniedException;
 import java.util.List;
 //import org.springframework.web.util.NestedServletException;
+
+@Slf4j
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
-    private Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     Environment environment;
+
     public RestResponseEntityExceptionHandler() {
         super();
     }
 
-    // API
-
-    // 200 api exception
-    @ExceptionHandler({ApiException.class})
-    protected ResponseEntity<Object> handleServiceException(final ApiException ex, final WebRequest request) {
-        log.warn("Api Exception: {}", ex.getMessage());
-
-        String message = ex.getMessage() == null ? ex.getClass().getSimpleName() : ex.getMessage();
-        String localizedMessage = null;
-
-        //fallback message
-        if (StringUtils.isEmpty(message)) {
-            message = ex.getClass().getSimpleName();
-            message= ex.getClass().getPackage().getName()+"."+StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(message), ".").toLowerCase()+"."+ex.getCode();
-        }else {
-            message = StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(message), ".").toLowerCase();
-        }
-        String devMessage ="";
-
-        if(!environment.acceptsProfiles(Globals.Profiles.PRODUCTION)) {
-            if(ex.getTranslateRequired() !=null && ex.getTranslateRequired()) {
-                devMessage = String.format("%s with message: [%s]", ex.getClass().getSimpleName(), message);
-            }else{
-                devMessage = String.format("%s with message: [%s]", ex.getClass().getSimpleName(), ex.getMessage());
-            }
-        }
-        try {
-            if(ex.getTranslateRequired() !=null && ex.getTranslateRequired()) {
-                localizedMessage = Lang.get(message);
-            }else{
-                localizedMessage=ex.getMessage();
-            }
-        } catch (NoSuchMessageException e) {
-//            localizedMessage="{{"+message+"}}";
-            //maybe cause NoSuchMessageException just catch it here.
-        }
-        if (!StringUtils.isEmpty(localizedMessage)) {
-            message = localizedMessage;
-        }
-
-        ApiExceptionResponseBody apiExceptionResponseBody = new ApiExceptionResponseBody(ex.getCode(), message, devMessage);
-        return handleExceptionInternal(ex, apiExceptionResponseBody, new HttpHeaders(), HttpStatus.OK, request);
-    }
-
-    private <T> T getAttribute(RequestAttributes requestAttributes, String name) {
-        return (T) requestAttributes.getAttribute(name, RequestAttributes.SCOPE_REQUEST);
-    }
-
-
-    // 400
     @Override
     protected final ResponseEntity<Object> handleHttpMessageNotReadable(final HttpMessageNotReadableException ex, final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
         log.info("Bad Request: {}", ex.getMessage());
-//        //log.debug("Bad Request: ", ex);
 
-//        final ApiExceptionResponseBody apiError = message(HttpStatus.OK, ex);
-//        apiError.setPayload(ex.getMessage());
         ApiExceptionResponseBody responseBody=new ApiExceptionResponseBody();
-//        responseBody.setMessage(ex.);
 
         if(ex.getCause() instanceof InvalidFormatException){
             Class targetType= ((InvalidFormatException) ex.getCause()).getTargetType();
-//           Object value= ((InvalidFormatException) ex.getCause()).getValue();
-//            Boolean isValid= EnumUtils.isValidEnum(targetType,value.toString());
             String message=ex.getMessage().replace(" of type "+targetType.getName()+"","");
             message=message.replaceAll("Could not read document: ","");
             message=message.replaceAll("declared Enum instance","declared");
             message=message.substring(0,message.indexOf("\n at"));
             responseBody.setMessage(message);
-//            if(!isValid) {
-//                responseBody.setPayload(null);
-//                List<String> types=new ArrayList(Arrays.asList(targetType.getEnumConstants()));//EnumUtils.getEnumList(targetType);
-//                List<String> targetTypes= new ArrayList<>();
-//                for(String type:types){
-////                    String formatted=CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL,type);
-//                    String formatted=type.toLowerCase().replace("_",".");
-////                    formatted=formatted.replace("_",".");
-//                    targetTypes.add(formatted);
-//                }
-//                responseBody.setMessage(value + " is not a valid value, must be one of ["+ targetTypes.stream().map(Object::toString)
-//                        .collect(Collectors.joining(", "))+"]");
-//            }
         }
         responseBody.setStatus(HttpStatus.OK.value());
         return handleExceptionInternal(ex, responseBody, headers, HttpStatus.OK, request);
@@ -165,18 +92,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return handleExceptionInternal(ex, responseBody, headers, HttpStatus.OK, request);
     }
 
-    @ExceptionHandler(value = {ConstraintViolationException.class})
-    public final ResponseEntity<Object> handleBadRequest(final RuntimeException ex, final WebRequest request) {
-        log.info("Bad Request: {}", ex.getLocalizedMessage());
-        //log.debug("Bad Request: ", ex);
-
-//        ApiExceptionResponseBody responseBody=new ApiExceptionResponseBody();
-//        responseBody.setPayload(dto);
-
-        final ApiExceptionResponseBody apiError = message(HttpStatus.BAD_REQUEST, ex);
-        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-    }
-//
 //    @ExceptionHandler(value = {MissingServletRequestParameterException.class})
 //    public final ResponseEntity<Object> handleMissingServletRequestParameterRequest(final RuntimeException ex, final WebRequest request) {
 //        log.info("Bad Request: {}", ex.getLocalizedMessage());
@@ -184,11 +99,63 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 //        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 //    }
 
-    // 403
+    /**
+     * 运行时异常 500
+     * @param e
+     * @param request
+     * @return
+     */
+    @ExceptionHandler({RuntimeException.class})
+    protected final ResponseEntity<Object> handleRuntime(final HttpMessageNotReadableException e, final WebRequest request) {
+        log.warn("Internal Server Error: {}", e.getMessage());
+        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.OK.value(), e);
+        return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.OK, request);
+    }
+
+    /**
+     * api exception 200
+     * @param ex
+     * @param request
+     * @return
+     */
+    @ExceptionHandler({ApiException.class})
+    protected ResponseEntity<Object> handleApi(final ApiException ex, final WebRequest request) {
+        log.warn("Api Exception: {}", ex.getMessage());
+
+        String message = ex.getMessage();
+        // 如果message为空
+        // 1、根据code从国际化获取
+        // 2、ex.getMessage()
+        if (StringUtil.isBlank(message)) {
+            String i18nKey = ex.getClass().getPackage().getName()+"."+StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(ex.getClass().getSimpleName()), ".").toLowerCase()+"."+ex.getCode();
+            message = Lang.get(i18nKey);
+            if (StringUtil.isBlank(message)) {
+                message = ex.getMessage();
+            }
+        }
+
+//        String message = ex.getMessage() == null ? ex.getClass().getSimpleName() : ex.getMessage();
+//        //fallback message
+//        if (StringUtils.isEmpty(message)) {
+//            message = ex.getClass().getSimpleName();
+//            message= ex.getClass().getPackage().getName()+"."+StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(message), ".").toLowerCase()+"."+ex.getCode();
+//        }else {
+//            message = StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(message), ".").toLowerCase();
+//        }
+//        String devMessage ="";
+//        if(!environment.acceptsProfiles(Globals.Profiles.PRODUCTION)) {
+//            devMessage = String.format("%s with message: [%s]", ex.getClass().getSimpleName(), message);
+//        }
+
+        ApiExceptionResponseBody apiExceptionResponseBody = new ApiExceptionResponseBody(ex.getCode(), message,ex);
+        return handleExceptionInternal(ex, apiExceptionResponseBody, new HttpHeaders(), HttpStatus.OK, request);
+    }
+
+    // 403 无权限
     @ExceptionHandler({AccessDeniedException.class})
-    protected ResponseEntity<Object> handleAccessDenied(final RuntimeException ex, final WebRequest request) {
+    protected ResponseEntity<Object> handleAccessDenied(final AccessDeniedException ex, final WebRequest request) {
         log.warn("Access Denied Exception: {}", ex.getMessage());
-        final ApiExceptionResponseBody apiError = message(HttpStatus.FORBIDDEN, ex);
+        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.FORBIDDEN.value(), ex);
         return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
     }
 
@@ -196,7 +163,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler({EntityNotFoundException.class, ResourceNotFoundException.class})
     protected ResponseEntity<Object> handleNotFound(final RuntimeException ex, final WebRequest request) {
         log.warn("Not Found: {}", ex.getMessage());
-        final ApiExceptionResponseBody apiError = message(HttpStatus.NOT_FOUND, ex);
+        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.NOT_FOUND.value(), ex);
         return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
@@ -204,40 +171,46 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler({InvalidMimeTypeException.class, InvalidMediaTypeException.class})
     protected ResponseEntity<Object> handleInvalidMimeTypeException(final IllegalArgumentException ex, final WebRequest request) {
         log.warn("Unsupported Media Type: {}", ex.getMessage());
-
-        final ApiExceptionResponseBody apiError = message(HttpStatus.OK, ex);
+        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.OK.value(), ex);
         return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.OK, request);
     }
 
-    // 500
-    @ExceptionHandler({NullPointerException.class, IllegalArgumentException.class, IllegalStateException.class})
-    public ResponseEntity<Object> handle500s(final RuntimeException ex, final WebRequest request) {
-        logger.error("500 Status Code", ex);
-
-        final ApiExceptionResponseBody apiError = message(HttpStatus.OK, ex);
-
-        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.OK, request);
-    }
-
-    // DAO数据异常 409
-    @ExceptionHandler({InvalidDataAccessApiUsageException.class, DataAccessException.class})
-    protected ResponseEntity<Object> handleConflict(final RuntimeException e, final WebRequest request) {
+    /**
+     * spring dao 异常
+     * @param e
+     * @param request
+     * @return
+     */
+    @ExceptionHandler({DataAccessException.class})
+    protected ResponseEntity<Object> handleConflict(final DataAccessException e, final WebRequest request) {
         log.warn("Conflict: {}", e.getMessage());
-        final ApiExceptionResponseBody apiError = message(HttpStatus.INTERNAL_SERVER_ERROR,"DAO异常" ,e);
+        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), "DAO异常", e);
         return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 
+    /**
+     * Insert或Update数据时违反了完整性，例如违反了惟一性限制
+     * @param e
+     * @param request
+     * @return
+     */
     @ExceptionHandler(value = DataIntegrityViolationException.class)
     public final ResponseEntity<Object> dataIntegrityViolation(final DataIntegrityViolationException e, final WebRequest request) {
         log.warn("DataIntegrityViolation: {}", e.getMessage());
-        final ApiExceptionResponseBody apiError = message(HttpStatus.INTERNAL_SERVER_ERROR,"违反数据约束" ,e);
+        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), "违反数据约束", e);
         return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 
+    /**
+     * 违反唯一约束
+     * @param e
+     * @param request
+     * @return
+     */
     @ExceptionHandler(value = DuplicateKeyException.class)
-    public final ResponseEntity<Object> dataIntegrityViolation(final DuplicateKeyException e, final WebRequest request) {
+    public final ResponseEntity<Object> handleDuplicateKey(final DuplicateKeyException e, final WebRequest request) {
         log.warn("DuplicateKey: {}", e.getMessage());
-        final ApiExceptionResponseBody apiError = message(HttpStatus.INTERNAL_SERVER_ERROR,"记录已存在，请勿重复操作" ,e);
+        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), "记录已存在，请勿重复操作", e);
         return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 
@@ -251,15 +224,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         }
 
         return dto;
-    }
-
-    private ApiExceptionResponseBody message(final HttpStatus httpStatus, final RuntimeException ex) {
-        final String message = ex.getMessage() == null ? ex.getClass().getSimpleName() : ex.getMessage();
-        return new ApiExceptionResponseBody(httpStatus.value(), message, ex);
-    }
-
-    private ApiExceptionResponseBody message(final HttpStatus httpStatus, String message, final RuntimeException ex) {
-        return new ApiExceptionResponseBody(httpStatus.value(), message, ex);
     }
 
 }

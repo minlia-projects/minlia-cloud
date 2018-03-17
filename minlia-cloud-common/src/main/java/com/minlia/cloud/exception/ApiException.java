@@ -13,7 +13,6 @@ public class ApiException extends NestedRuntimeException {
 
     private int code;
     private int status;
-    private Boolean translateRequired;
     private Object [] arguments;
 
     public int getCode() {
@@ -28,7 +27,6 @@ public class ApiException extends NestedRuntimeException {
         super(msg);
         this.status= StatefulBody.FAILURE;
         this.code=StatefulBody.FAILURE;
-        this.translateRequired=Boolean.FALSE;
         this.arguments=new Object[]{};
     }
 
@@ -36,39 +34,21 @@ public class ApiException extends NestedRuntimeException {
         super(String.format("%s%s%s","Exceptions",getClassForStatic().getSimpleName(),code));
         this.code=code;
         this.status= StatefulBody.FAILURE;
-        this.translateRequired=Boolean.TRUE;
         this.arguments=new Object[]{};
 
     }
-
 
     public ApiException(int code,String msg) {
-//        super(String.format("%s%s%s","Exceptions",getClassForStatic().getSimpleName(),code));
-//        super(String.format("%s%s","Exceptions",getClassForStatic().getSimpleName()));
         super(msg);
         this.code=code;
         this.status= StatefulBody.FAILURE;
-        this.translateRequired=Boolean.FALSE;
         this.arguments=new Object[]{};
     }
 
-    public ApiException(int code,String msg,Boolean translateRequired) {
-//        super(String.format("%s%s%s","Exceptions",getClassForStatic().getSimpleName(),code));
-//        super(String.format("%s%s","Exceptions",getClassForStatic().getSimpleName()));
+    public ApiException(int code,String msg,Object ... arguments) {
         super(msg);
         this.code=code;
         this.status= StatefulBody.FAILURE;
-        this.translateRequired=translateRequired;
-        this.arguments=new Object[]{};
-    }
-
-    public ApiException(int code,String msg,Boolean translateRequired,Object ... arguments) {
-//        super(String.format("%s%s%s","Exceptions",getClassForStatic().getSimpleName(),code));
-//        super(String.format("%s%s","Exceptions",getClassForStatic().getSimpleName()));
-        super(msg);
-        this.code=code;
-        this.status= StatefulBody.FAILURE;
-        this.translateRequired=translateRequired;
         this.arguments=arguments;
     }
 
@@ -88,7 +68,6 @@ public class ApiException extends NestedRuntimeException {
         super(msg, cause);
     }
 
-
     public int getStatus() {
         return status;
     }
@@ -97,11 +76,4 @@ public class ApiException extends NestedRuntimeException {
         this.status = status;
     }
 
-    public Boolean getTranslateRequired() {
-        return translateRequired;
-    }
-
-    public void setTranslateRequired(Boolean translateRequired) {
-        this.translateRequired = translateRequired;
-    }
 }

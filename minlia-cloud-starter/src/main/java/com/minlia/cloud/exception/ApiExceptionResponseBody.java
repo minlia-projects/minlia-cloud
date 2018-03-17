@@ -21,36 +21,29 @@ import lombok.Data;
 @Data
 public class ApiExceptionResponseBody extends FailureResponseBody {
 
-    private String developerMessage;
     private String detail;
 
-//    protected String trace;
+    protected String exception;
+
+    //    protected String trace;
 //    protected String path;
 //    protected String error;
-//    protected String exception;
 
     public ApiExceptionResponseBody(){
+    }
+
+    public ApiExceptionResponseBody(final Integer code,Exception e) {
+        this.code = code;
+        this.message = e.getMessage();
+        this.detail = String.format("%s with message: [%s]", e.getClass().getSimpleName(), message);
+        this.exception = e.getClass().getSimpleName();
     }
 
     public ApiExceptionResponseBody(final Integer code,final String message,Exception e) {
         this.code = code;
         this.message = message;
-        this.detail = e.getMessage();
-        this.developerMessage = e.getClass().getSimpleName();
-    }
-
-    public ApiExceptionResponseBody(final Integer code, final String message, final String developerMessage) {
-        this.code = code;
-        this.message = message;
-        this.developerMessage = developerMessage;
-    }
-
-    public String getDeveloperMessage() {
-        return developerMessage;
-    }
-
-    public void setDeveloperMessage(final String developerMessage) {
-        this.developerMessage = developerMessage;
+        this.detail = String.format("%s with message: [%s]", e.getClass().getSimpleName(), message);
+        this.exception = e.getClass().getSimpleName();
     }
 
 }
