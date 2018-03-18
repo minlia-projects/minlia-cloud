@@ -99,18 +99,19 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 //        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 //    }
 
-    /**
-     * 运行时异常 500
-     * @param e
-     * @param request
-     * @return
-     */
-    @ExceptionHandler({RuntimeException.class})
-    protected final ResponseEntity<Object> handleRuntime(final HttpMessageNotReadableException e, final WebRequest request) {
-        log.warn("Internal Server Error: {}", e.getMessage());
-        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.OK.value(), e);
-        return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.OK, request);
-    }
+//    /**
+//     * 运行时异常 500
+//     * @param e
+//     * @param request
+//     * @return
+//     */
+//    @ExceptionHandler({RuntimeException.class})
+////    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+//    protected final ResponseEntity<Object> handleRuntime(final RuntimeException e, final WebRequest request) {
+//        log.warn("Internal Server Error: {}", e.getMessage());
+//        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.OK.value(), e);
+//        return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.OK, request);
+//
 
     /**
      * api exception 200
@@ -150,6 +151,13 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         ApiExceptionResponseBody apiExceptionResponseBody = new ApiExceptionResponseBody(ex.getCode(), message,ex);
         return handleExceptionInternal(ex, apiExceptionResponseBody, new HttpHeaders(), HttpStatus.OK, request);
     }
+
+//    @ExceptionHandler(HttpMessageNotReadableException.class)
+//    protected ResponseEntity<Object> handleMethodArgumentNotValid(HttpMessageNotReadableException e, final WebRequest request) {log.warn("Internal Server Error: {}", e.getMessage());
+//        log.warn("Internal Server Error: {}", e.getMessage());
+//        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.OK.value(), e);
+//        return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.OK, request);
+//    }
 
     // 403 无权限
     @ExceptionHandler({AccessDeniedException.class})
