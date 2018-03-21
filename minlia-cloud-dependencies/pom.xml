@@ -630,6 +630,31 @@
         <version>0.4.8</version>
       </dependency>
 
+      <dependency>
+        <groupId>com.github.drtrang</groupId>
+        <artifactId>spring-boot2-autoconfigure</artifactId>
+        <version>1.1.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.pagehelper</groupId>
+        <artifactId>pagehelper-spring-boot-starter</artifactId>
+        <version>1.2.3</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.drtrang</groupId>
+        <artifactId>mybatis-generator-extension</artifactId>
+        <version>0.0.4</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.drtrang</groupId>
+        <artifactId>typehandlers-encrypt</artifactId>
+        <version>1.1.1</version>
+      </dependency>
+
+
     </dependencies>
   </dependencyManagement>
 
