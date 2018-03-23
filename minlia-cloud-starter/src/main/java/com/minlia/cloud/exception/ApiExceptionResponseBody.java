@@ -33,6 +33,11 @@ public class ApiExceptionResponseBody extends FailureResponseBody {
         this.developerMessage = developerMessage;
     }
 
+    public ApiExceptionResponseBody(final Integer code,final Integer status, final String message, final String developerMessage) {
+        this(code,message,developerMessage);
+        this.status=status;
+    }
+
     public String getDeveloperMessage() {
         return developerMessage;
     }

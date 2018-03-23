@@ -15,10 +15,8 @@
  */
 package com.minlia.cloud.exception.handler;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.minlia.cloud.exception.ApiException;
 import com.minlia.cloud.exception.ApiExceptionResponseBody;
-import com.minlia.cloud.exception.ValidationErrorDTO;
 import com.minlia.cloud.i18n.Lang;
 import com.minlia.cloud.setting.Globals;
 import org.apache.commons.lang3.StringUtils;
@@ -27,29 +25,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.core.env.Environment;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.util.InvalidMimeTypeException;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import javax.persistence.EntityNotFoundException;
-import javax.validation.ConstraintViolationException;
-import java.nio.file.AccessDeniedException;
-import java.util.List;
 //import org.springframework.web.util.NestedServletException;
 
 @ControllerAdvice
@@ -105,10 +88,20 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
             message = localizedMessage;
         }
 
-        apiExceptionResponseBody = new ApiExceptionResponseBody(ex.getCode(), message, devMessage);
 
-        return handleExceptionInternal(ex, apiExceptionResponseBody, new HttpHeaders(), HttpStatus.OK, request);
+        Integer httpStatus=ex.getStatus();
+        if(null!=httpStatus ){
+            //需要自定义httpStatus
+            apiExceptionResponseBody = new ApiExceptionResponseBody(ex.getCode(),httpStatus, message, devMessage);
+            return handleExceptionInternal(ex, apiExceptionResponseBody, new HttpHeaders(), HttpStatus.resolve(httpStatus), request);
+        }else {
+            apiExceptionResponseBody = new ApiExceptionResponseBody(ex.getCode(), message,
+                devMessage);
+            return handleExceptionInternal(ex, apiExceptionResponseBody, new HttpHeaders(), HttpStatus.OK, request);
+        }
+
     }
+
 
     private <T> T getAttribute(RequestAttributes requestAttributes, String name) {
         return (T) requestAttributes.getAttribute(name, RequestAttributes.SCOPE_REQUEST);

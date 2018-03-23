@@ -42,6 +42,20 @@ public class ApiException extends NestedRuntimeException {
     }
 
 
+    /**
+     * 将http状态也返回出去
+     * @param code
+     * @param status
+     */
+    public ApiException(int code,int status) {
+        super(String.format("%s%s%s","Exceptions",getClassForStatic().getSimpleName(),code));
+        this.code=code;
+        this.status= status;
+        this.translateRequired=Boolean.TRUE;
+        this.arguments=new Object[]{};
+    }
+
+
     public ApiException(int code,String msg) {
 //        super(String.format("%s%s%s","Exceptions",getClassForStatic().getSimpleName(),code));
 //        super(String.format("%s%s","Exceptions",getClassForStatic().getSimpleName()));
