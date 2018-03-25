@@ -33,7 +33,7 @@ public class ApiException extends NestedRuntimeException {
     }
 
     public ApiException(int code) {
-        super(String.format("%s%s%s","Exceptions",getClassForStatic().getSimpleName(),code));
+        super(String.format("%s%s%s","ExceptionsApiCode",getClassForStatic().getSimpleName(),code));
         this.code=code;
         this.status= StatefulBody.FAILURE;
         this.translateRequired=Boolean.TRUE;
@@ -48,7 +48,7 @@ public class ApiException extends NestedRuntimeException {
      * @param status
      */
     public ApiException(int code,int status) {
-        super(String.format("%s%s%s","Exceptions",getClassForStatic().getSimpleName(),code));
+        super(String.format("%s%s%s","ExceptionsApiCode",getClassForStatic().getSimpleName(),code));
         this.code=code;
         this.status= status;
         this.translateRequired=Boolean.TRUE;
@@ -57,7 +57,7 @@ public class ApiException extends NestedRuntimeException {
 
 
     public ApiException(int code,String msg) {
-//        super(String.format("%s%s%s","Exceptions",getClassForStatic().getSimpleName(),code));
+//        super(String.format("%s%s%s","ExceptionsApiCode",getClassForStatic().getSimpleName(),code));
 //        super(String.format("%s%s","Exceptions",getClassForStatic().getSimpleName()));
         super(msg);
         this.code=code;
@@ -67,8 +67,8 @@ public class ApiException extends NestedRuntimeException {
     }
 
     public ApiException(int code,String msg,Boolean translateRequired) {
-//        super(String.format("%s%s%s","Exceptions",getClassForStatic().getSimpleName(),code));
-//        super(String.format("%s%s","Exceptions",getClassForStatic().getSimpleName()));
+//        super(String.format("%s%s%s","ExceptionsApiCode",getClassForStatic().getSimpleName(),code));
+//        super(String.format("%s%s","ExceptionsApiCode",getClassForStatic().getSimpleName()));
         super(msg);
         this.code=code;
         this.status= StatefulBody.FAILURE;
@@ -77,11 +77,29 @@ public class ApiException extends NestedRuntimeException {
     }
 
     public ApiException(int code,String msg,Boolean translateRequired,Object ... arguments) {
-//        super(String.format("%s%s%s","Exceptions",getClassForStatic().getSimpleName(),code));
-//        super(String.format("%s%s","Exceptions",getClassForStatic().getSimpleName()));
+//        super(String.format("%s%s%s","ExceptionsApiCode",getClassForStatic().getSimpleName(),code));
+//        super(String.format("%s%s","ExceptionsApiCode",getClassForStatic().getSimpleName()));
         super(msg);
         this.code=code;
         this.status= StatefulBody.FAILURE;
+        this.translateRequired=translateRequired;
+        this.arguments=arguments;
+    }
+
+    /**
+     * 添加状态码
+     * @param code
+     * @param status
+     * @param msg
+     * @param translateRequired
+     * @param arguments
+     */
+    public ApiException(int code,int status,String msg,Boolean translateRequired,Object ... arguments) {
+//        super(String.format("%s%s%s","ExceptionsApiCode",getClassForStatic().getSimpleName(),code));
+//        super(String.format("%s%s","ExceptionsApiCode",getClassForStatic().getSimpleName()));
+        super(msg);
+        this.code=code;
+        this.status= status;
         this.translateRequired=translateRequired;
         this.arguments=arguments;
     }
@@ -95,7 +113,7 @@ public class ApiException extends NestedRuntimeException {
     }
 
     public ApiException() {
-        super(String.format("%s%s","Exceptions",getClassForStatic().getSimpleName()));
+        super(String.format("%s%s","ExceptionsApiCode",getClassForStatic().getSimpleName()));
     }
 
     public ApiException(String msg, Throwable cause) {
