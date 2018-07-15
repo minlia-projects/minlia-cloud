@@ -13,7 +13,7 @@ public class ApiException extends NestedRuntimeException {
 
     private int code;
     private int status;
-    private Object [] arguments;
+    private Object[] arguments;
 
     public int getCode() {
         return code;
@@ -25,43 +25,42 @@ public class ApiException extends NestedRuntimeException {
 
     public ApiException(String msg) {
         super(msg);
-        this.status= StatefulBody.FAILURE;
-        this.code=StatefulBody.FAILURE;
-        this.arguments=new Object[]{};
+        this.status = StatefulBody.FAILURE;
+        this.code = StatefulBody.FAILURE;
+        this.arguments = new Object[]{};
     }
 
     public ApiException(int code) {
-        super(String.format("%s%s%s","Exceptions",getClassForStatic().getSimpleName(),code));
-        this.code=code;
-        this.status= StatefulBody.FAILURE;
-        this.arguments=new Object[]{};
-
+        super(String.format("%s%s%s", "Exceptions", getClassForStatic().getSimpleName(), code));
+        this.code = code;
+        this.status = StatefulBody.FAILURE;
+        this.arguments = new Object[]{};
     }
 
-    public ApiException(int code,String msg) {
+    public ApiException(int code, String msg) {
         super(msg);
-        this.code=code;
-        this.status= StatefulBody.FAILURE;
-        this.arguments=new Object[]{};
+        this.code = code;
+        this.status = StatefulBody.FAILURE;
+        this.arguments = new Object[]{};
     }
 
-    public ApiException(int code,String msg,Object ... arguments) {
+    public ApiException(int code, String msg, Object... arguments) {
         super(msg);
-        this.code=code;
-        this.status= StatefulBody.FAILURE;
-        this.arguments=arguments;
+        this.code = code;
+        this.status = StatefulBody.FAILURE;
+        this.arguments = arguments;
     }
 
-    private static final Class<?> getClassForStatic(){
-        return new Object(){
-            public Class<?> getClassForStatic(){
+    private static final Class<?> getClassForStatic() {
+        return new Object() {
+            public Class<?> getClassForStatic() {
                 return this.getClass();
             }
         }.getClassForStatic();
     }
 
     public ApiException() {
-        super(String.format("%s%s","Exceptions",getClassForStatic().getSimpleName()));
+        super(String.format("%s%s", "Exceptions", getClassForStatic().getSimpleName()));
     }
 
     public ApiException(String msg, Throwable cause) {

@@ -1,6 +1,7 @@
 package com.minlia.cloud.utils;
 
 import java.text.SimpleDateFormat;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -8,10 +9,7 @@ import java.util.Date;
 
 public class RequestIdGenerator {
 
-
     public static final String DEFAULT_ORDER_NUMBER_PREFIX = "";
-
-
 
     public static String generateOrderNumberYearMonthDay(String prefix) {
         String current = formatDateTimetoString(new Date(), "yyyyMMddHHmmss");
@@ -33,21 +31,16 @@ public class RequestIdGenerator {
         return reStr == null ? "" : reStr;
     }
 
-
-
     public static String generateTimestamp(String prefix) {
-        String generated= String.valueOf(System.currentTimeMillis());
+        String generated = String.valueOf(System.currentTimeMillis());
         if (StringUtils.isNotEmpty(prefix)) {
-            generated=prefix+generated;
+            generated = prefix + generated;
         }
         return generated;
     }
 
-
     public static String generateRequestId() {
-        return RandomStringUtils.randomAlphanumeric(32)+generateOrderNumberYearMonthDay(DEFAULT_ORDER_NUMBER_PREFIX);
+        return RandomStringUtils.randomAlphanumeric(32) + generateOrderNumberYearMonthDay(DEFAULT_ORDER_NUMBER_PREFIX);
     }
-
-
 
 }

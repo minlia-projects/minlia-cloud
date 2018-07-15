@@ -7,13 +7,12 @@ import com.minlia.cloud.exception.ApiException;
 /**
  * Inspired by Preconditions from google guava
  *
- * @updated updated at 2017-07-15 02:34:00
  * @author will@minlia.com
- *
+ * @updated updated at 2017-07-15 02:34:00
  */
 public final class ApiPreconditions {
 
-    public static final String EXCEPTION_PATTERN = EXCEPTION_PREFIX+"%s%s";
+    public static final String EXCEPTION_PATTERN = EXCEPTION_PREFIX + "%s%s";
     public static final String API_CODE = "ApiCode";
 
     private ApiPreconditions() {

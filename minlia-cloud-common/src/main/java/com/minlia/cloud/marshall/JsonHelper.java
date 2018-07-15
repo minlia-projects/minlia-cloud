@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 
@@ -43,21 +44,22 @@ public class JsonHelper {
      * @return the current object mapper instance
      */
     public ObjectMapper getObjectMapper() {
-      if (objectMapper == null) {
-        initialize();
-      }
+        if (objectMapper == null) {
+            initialize();
+        }
         return objectMapper;
     }
 
     /**
      * Serialize and object to a JSON String representation
+     *
      * @param o The object to serialize
      * @return The JSON String representation
      */
     public static String serialize(Object o) {
-      if (objectMapper == null) {
-        initialize();
-      }
+        if (objectMapper == null) {
+            initialize();
+        }
         OutputStream baOutputStream = new ByteArrayOutputStream();
         try {
             objectMapper.writeValue(baOutputStream, o);
@@ -69,14 +71,15 @@ public class JsonHelper {
 
     /**
      * Serialize and object to a JSON String representation with a Jackson view
-     * @param o The object to serialize
+     *
+     * @param o    The object to serialize
      * @param view The Jackson view to use
      * @return The JSON String representation
      */
     public static String serialize(Object o, Class<?> view) {
-      if (objectMapper == null) {
-        initialize();
-      }
+        if (objectMapper == null) {
+            initialize();
+        }
         OutputStream baOutputStream = new ByteArrayOutputStream();
         try {
             ObjectWriter writter = objectMapper.writerWithView(view);
@@ -89,14 +92,15 @@ public class JsonHelper {
 
     /**
      * Deserialize a JSON string
+     *
      * @param content The JSON String object representation
-     * @param type The type of the deserialized object instance
+     * @param type    The type of the deserialized object instance
      * @return The deserialized object instance
      */
     public static <T> T deserialize(String content, Class<T> type) {
-      if (objectMapper == null) {
-        initialize();
-      }
+        if (objectMapper == null) {
+            initialize();
+        }
         try {
             return objectMapper.readValue(content, type);
         } catch (Exception e) {
@@ -106,14 +110,15 @@ public class JsonHelper {
 
     /**
      * Deserialize a JSON string
-     * @param content The JSON String object representation
+     *
+     * @param content      The JSON String object representation
      * @param valueTypeRef The typeReference containing the type of the deserialized object instance
      * @return The deserialized object instance
      */
     public static <T> T deserialize(String content, TypeReference valueTypeRef) {
-      if (objectMapper == null) {
-        initialize();
-      }
+        if (objectMapper == null) {
+            initialize();
+        }
         try {
             return objectMapper.readValue(content, valueTypeRef);
         } catch (Exception e) {
