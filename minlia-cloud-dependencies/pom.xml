@@ -62,7 +62,7 @@
         <okio.version>1.11.0</okio.version>
         <commons-csv.version>1.0</commons-csv.version>
         <cdi-api.version>1.0-SP1</cdi-api.version>
-        <java-jwt.version>2.0.1</java-jwt.version>
+        <java-jwt.version>3.4.0</java-jwt.version>
         <vt-password.version>3.1.2</vt-password.version>
         <amqp-client.version>3.5.6</amqp-client.version>
         <json.version>20090211</json.version>
