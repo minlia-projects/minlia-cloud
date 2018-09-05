@@ -42,7 +42,7 @@ public class Response<T> implements Body {
      * 请求ID
      */
     @JsonProperty
-    protected String requestId= RequestIdGenerator.generateRequestId();
+    protected String requestId = RequestIdGenerator.generateRequestId();
 
     private Response(Integer status, Integer code, String message, T payload){
         this.status = status;
@@ -52,18 +52,18 @@ public class Response<T> implements Body {
         this.timestamp = System.currentTimeMillis();
     }
 
+    public static <T> Response<T> is(boolean bool) {
+        return new Response(bool?SUCCESS:FAILURE, bool?SUCCESS:FAILURE, bool?SUCCESS_MESSAGE:FAILURE_MESSAGE, null);
+    }
     public static <T> Response<T> is(boolean bool, T payload) {
         return new Response(bool?SUCCESS:FAILURE, bool?SUCCESS:FAILURE, bool?SUCCESS_MESSAGE:FAILURE_MESSAGE, payload);
     }
-
+    public static <T> Response<T> is(boolean bool, String message) {
+        return new Response(bool?SUCCESS:FAILURE, bool?SUCCESS:FAILURE, message, null);
+    }
     public static <T> Response<T> is(boolean bool, String message, T payload) {
         return new Response(bool?SUCCESS:FAILURE, bool?SUCCESS:FAILURE, message, payload);
     }
-
-    public static <T> Response<T> is(boolean bool, Integer code, String message, T payload) {
-        return new Response(bool?SUCCESS:FAILURE, code, message, payload);
-    }
-
 
     public static <T> Response<T> success() {
         return new Response(SUCCESS, SUCCESS, SUCCESS_MESSAGE, null);
@@ -96,6 +96,10 @@ public class Response<T> implements Body {
 
     public static <T> Response<T> failure(Integer code, String message, T payload) {
         return new Response(SUCCESS, code, message, payload);
+    }
+
+    public boolean isSuccess() {
+        return this.status.equals(SUCCESS);
     }
 
 }
