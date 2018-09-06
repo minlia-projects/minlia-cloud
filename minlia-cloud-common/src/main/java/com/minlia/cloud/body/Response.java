@@ -68,34 +68,39 @@ public class Response<T> implements Body {
     public static <T> Response<T> success() {
         return new Response(SUCCESS, SUCCESS, SUCCESS_MESSAGE, null);
     }
-
     public static <T> Response<T> success(T payload) {
         return new Response(SUCCESS, SUCCESS, SUCCESS_MESSAGE, payload);
     }
-
+    public static <T> Response<T> success(String message) {
+        return new Response(SUCCESS, SUCCESS, message, null);
+    }
     public static <T> Response<T> success(String message, T payload) {
         return new Response(SUCCESS, SUCCESS, message, payload);
     }
-
+    public static <T> Response<T> success(Integer code, String message) {
+        return new Response(SUCCESS, code, message, null);
+    }
     public static <T> Response<T> success(Integer code, String message, T payload) {
         return new Response(SUCCESS, code, message, payload);
     }
 
-
     public static <T> Response<T> failure() {
-        return new Response(SUCCESS, SUCCESS, SUCCESS_MESSAGE, null);
+        return new Response(FAILURE, FAILURE, FAILURE_MESSAGE, null);
     }
-
     public static <T> Response<T> failure(T payload) {
-        return new Response(SUCCESS, SUCCESS, SUCCESS_MESSAGE, payload);
+        return new Response(FAILURE, FAILURE, FAILURE_MESSAGE, payload);
     }
-
+    public static <T> Response<T> failure(String message) {
+        return new Response(FAILURE, FAILURE, message, null);
+    }
     public static <T> Response<T> failure(String message, T payload) {
-        return new Response(SUCCESS, SUCCESS, message, payload);
+        return new Response(FAILURE, FAILURE, message, payload);
     }
-
+    public static <T> Response<T> failure(Integer code, String message) {
+        return new Response(FAILURE, code, message, null);
+    }
     public static <T> Response<T> failure(Integer code, String message, T payload) {
-        return new Response(SUCCESS, code, message, payload);
+        return new Response(FAILURE, code, message, payload);
     }
 
     public boolean isSuccess() {
