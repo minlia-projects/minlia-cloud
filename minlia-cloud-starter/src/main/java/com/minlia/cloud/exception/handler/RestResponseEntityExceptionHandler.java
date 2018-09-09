@@ -34,6 +34,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.util.InvalidMimeTypeException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -113,6 +114,12 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 //        return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.OK, request);
 //
 
+//    @ExceptionHandler(AuthenticationException.class)
+//    protected ResponseEntity<Object> handAuthentication(final AuthenticationException ex, final WebRequest request) {
+//        ApiExceptionResponseBody apiExceptionResponseBody = new ApiExceptionResponseBody(HttpStatus.UNAUTHORIZED.value(), ex.getMessage(),ex);
+//        return handleExceptionInternal(ex, apiExceptionResponseBody, new HttpHeaders(), HttpStatus.OK, request);
+//    }
+
     /**
      * api exception 200
      * @param ex
@@ -134,20 +141,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                 message = ex.getMessage();
             }
         }
-
-//        String message = ex.getMessage() == null ? ex.getClass().getSimpleName() : ex.getMessage();
-//        //fallback message
-//        if (StringUtils.isEmpty(message)) {
-//            message = ex.getClass().getSimpleName();
-//            message= ex.getClass().getPackage().getName()+"."+StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(message), ".").toLowerCase()+"."+ex.getCode();
-//        }else {
-//            message = StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(message), ".").toLowerCase();
-//        }
-//        String devMessage ="";
-//        if(!environment.acceptsProfiles(Globals.Profiles.PRODUCTION)) {
-//            devMessage = String.format("%s with message: [%s]", ex.getClass().getSimpleName(), message);
-//        }
-
         ApiExceptionResponseBody apiExceptionResponseBody = new ApiExceptionResponseBody(ex.getCode(), message,ex);
         return handleExceptionInternal(ex, apiExceptionResponseBody, new HttpHeaders(), HttpStatus.OK, request);
     }
