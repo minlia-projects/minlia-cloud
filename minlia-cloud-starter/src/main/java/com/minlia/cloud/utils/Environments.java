@@ -11,7 +11,6 @@ import org.springframework.core.env.Environment;
  */
 public class Environments {
 
-
     /**
      * 是否为生产环境
      * @return

@@ -9,6 +9,7 @@ import org.springframework.core.io.Resource;
  * Created by user on 12/4/16.
  */
 public class DozerConfiguration {
+
     @Bean
     public DozerBeanMapperFactoryBean dozerBeanMapperFactoryBean(@Value("classpath*:mappings/*mappings.xml") Resource[] resources) throws Exception {
         final DozerBeanMapperFactoryBean dozerBeanMapperFactoryBean = new DozerBeanMapperFactoryBean();
@@ -16,4 +17,5 @@ public class DozerConfiguration {
         dozerBeanMapperFactoryBean.setMappingFiles(resources);
         return dozerBeanMapperFactoryBean;
     }
+
 }

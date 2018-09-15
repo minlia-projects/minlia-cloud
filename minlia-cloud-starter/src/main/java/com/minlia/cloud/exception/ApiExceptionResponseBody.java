@@ -15,35 +15,46 @@
  */
 package com.minlia.cloud.exception;
 
-import com.minlia.cloud.body.impl.FailureResponseBody;
+import com.minlia.cloud.body.Response;
 import lombok.Data;
 
 @Data
-public class ApiExceptionResponseBody extends FailureResponseBody {
-
-    private String detail;
+public class ApiExceptionResponseBody extends Response {
+    //Spring 返回
+//        {
+//            "timestamp": 1536935424270,
+//                "status": 404,
+//                "error": "Not Found",
+//                "message": "Not Found",
+//                "path": "/api/user/registration"
+//        }
 
     protected String exception;
 
-    //    protected String trace;
+    protected String trace;
+
 //    protected String path;
+
 //    protected String error;
 
-    public ApiExceptionResponseBody(){
+    public ApiExceptionResponseBody() {
+        super();
     }
 
-    public ApiExceptionResponseBody(final Integer code,Exception e) {
-        this.code = code;
-        this.message = e.getMessage();
-        this.detail = String.format("%s with message: [%s]", e.getClass().getSimpleName(), message);
-        this.exception = e.getClass().getSimpleName();
+    public ApiExceptionResponseBody(final Integer code, Exception ex) {
+        super(FAILURE, code, ex.getMessage());
+//        if (!Environments.isProduction()) {
+            this.exception = ex.getClass().getSimpleName();
+            this.trace = ex.getStackTrace()[0].toString();
+//        }
     }
 
-    public ApiExceptionResponseBody(final Integer code,final String message,Exception e) {
-        this.code = code;
-        this.message = message;
-        this.detail = String.format("%s with message: [%s]", e.getClass().getSimpleName(), message);
-        this.exception = e.getClass().getSimpleName();
+    public ApiExceptionResponseBody(final Integer code, final String message, Exception ex) {
+        super(FAILURE, code, message);
+//        if (!Environments.isProduction()) {
+            this.exception = ex.getClass().getSimpleName();
+            this.trace = ex.getStackTrace()[0].toString();
+//        }
     }
 
 }

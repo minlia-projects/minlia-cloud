@@ -15,6 +15,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @ComponentScan(basePackages = "com.minlia.*")
 @Configuration
@@ -22,11 +23,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Slf4j
 public class MinliaCloudAutoConfiguration {
 
-
     public MinliaCloudAutoConfiguration() {
         log.debug("MinliaCloudAutoConfiguration Starting Autoconfiguration...");
     }
-
 
     @Bean
     @ConditionalOnMissingBean(ContextHolder.class)
@@ -36,19 +35,13 @@ public class MinliaCloudAutoConfiguration {
         return contextHolder;
     }
 
-
-
 //    @EnableWebMvc
 //    @Configuration
 //    @Import(WebMvcConfiguration.class)
 //    @ConditionalOnMissingBean(WebMvcConfiguration.class)
 //    public static class EnableMinliaWebMvcConfig {
-////        @Bean
-////        AuditLogInterceptor localInterceptor() {
-////            return new AuditLogInterceptor();
-////        }
+//
 //    }
-
 
     @Configuration
     @EnableAsync
@@ -59,14 +52,11 @@ public class MinliaCloudAutoConfiguration {
     public static class EnableMinliaAsyncConfig {
     }
 
-
     @Configuration
     @Import(DozerConfiguration.class)
     @ConditionalOnMissingBean(DozerConfiguration.class)
     public static class EnableMinliaDozerConfiguration {
     }
-
-
 
     //No Locale Configuration
 //    @Configuration

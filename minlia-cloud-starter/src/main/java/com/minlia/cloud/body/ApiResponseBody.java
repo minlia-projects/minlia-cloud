@@ -1,6 +1,6 @@
 package com.minlia.cloud.body;
 
-public  class ApiResponseBody<T> extends StatefulBody {
+public  class ApiResponseBody<T> extends Response {
 
     public ApiResponseBody(){
         super();

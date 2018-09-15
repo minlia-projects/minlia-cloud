@@ -7,7 +7,8 @@
     file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.minlia.cloud</groupId>
@@ -19,7 +20,7 @@
     <url>https://minlia.com/mit/</url>
     <description>Minlia Cloud Build</description>
     <inceptionYear>2016</inceptionYear>
-    
+
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
@@ -30,8 +31,6 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
-
-
 
     <scm>
         <connection>
@@ -52,4 +51,5 @@
             <organizationUrl>https://www.minlia.com</organizationUrl>
         </developer>
     </developers>
+
 </project>

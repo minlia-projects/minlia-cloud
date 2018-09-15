@@ -1,7 +1,6 @@
 package com.minlia.cloud.utils;
 
 import com.google.common.collect.Lists;
-import com.minlia.cloud.body.query.ComboData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -641,13 +640,5 @@ public class PreconditionsHelper {
         return fmtDate(val, PreconditionsHelper.TIME_FORMAT);
     }
 
-    public static String convertComboDataList(List<?> dataList, String idFieldName, String nameFieldName) {
-        List<ComboData> comboDataList = Lists.newArrayList();
-        dataList.forEach(item -> {
-            comboDataList.add(new ComboData(PreconditionsHelper.toStrString(Reflections.getFieldValue(item, idFieldName)),
-                    PreconditionsHelper.toStrString(Reflections.invokeGetter(item, nameFieldName))));
-        });
-        return Json.toJsonString(comboDataList);
-    }
 
 }// class end

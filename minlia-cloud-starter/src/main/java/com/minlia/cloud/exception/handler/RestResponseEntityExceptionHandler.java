@@ -19,32 +19,25 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.minlia.cloud.exception.ApiException;
 import com.minlia.cloud.exception.ApiExceptionResponseBody;
 import com.minlia.cloud.exception.ValidationErrorDTO;
-import com.minlia.cloud.i18n.Lang;
-import com.minlia.cloud.utils.StringUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ResourceNotFoundException;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.util.InvalidMimeTypeException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.persistence.EntityNotFoundException;
 import java.nio.file.AccessDeniedException;
 import java.util.List;
 //import org.springframework.web.util.NestedServletException;
@@ -62,9 +55,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @Override
     protected final ResponseEntity<Object> handleHttpMessageNotReadable(final HttpMessageNotReadableException ex, final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-        log.info("Bad Request: {}", ex.getMessage());
-
-        ApiExceptionResponseBody responseBody=new ApiExceptionResponseBody();
+        log.error("Bad Request: {}", ex.getMessage());
+        ApiExceptionResponseBody responseBody = new ApiExceptionResponseBody();
 
         if(ex.getCause() instanceof InvalidFormatException){
             Class targetType= ((InvalidFormatException) ex.getCause()).getTargetType();
@@ -80,40 +72,45 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @Override
     protected final ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-        log.info("Bad Request: {}", ex.getMessage());
-        //log.debug("Bad Request: ", ex);
+        log.error("Bad Request: {}", ex.getMessage());
 
         final BindingResult result = ex.getBindingResult();
         final List<FieldError> fieldErrors = result.getFieldErrors();
         final ValidationErrorDTO dto = processFieldErrors(fieldErrors);
 
-        ApiExceptionResponseBody responseBody=new ApiExceptionResponseBody();
+        ApiExceptionResponseBody responseBody=new ApiExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex);
         responseBody.setPayload(dto.getErrorDetails());
         responseBody.setStatus(HttpStatus.BAD_REQUEST.value());
         return handleExceptionInternal(ex, responseBody, headers, HttpStatus.OK, request);
     }
 
-//    @ExceptionHandler(value = {MissingServletRequestParameterException.class})
-//    public final ResponseEntity<Object> handleMissingServletRequestParameterRequest(final RuntimeException ex, final WebRequest request) {
-//        log.info("Bad Request: {}", ex.getLocalizedMessage());
-//        final ApiExceptionResponseBody apiError = message(HttpStatus.BAD_REQUEST, ex);
-//        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-//    }
+    @Override
+    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        log.error("Bad Request: {}", ex.getMessage());
+        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.NOT_FOUND.value(), ex);
+        return handleExceptionInternal(ex, apiError, headers, status, request);
+    }
+
+    /**
+     * 500异常
+     * @param e
+     * @param request
+     * @return
+     */
+    @ExceptionHandler({Exception.class})
+//    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    protected final ResponseEntity<Object> handleRuntime(final Exception e, final WebRequest request) {
+        log.warn("Internal Server Error: {}", e.getMessage());
+        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), e);
+        return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.OK, request);
+    }
 
 //    /**
-//     * 运行时异常 500
-//     * @param e
+//     * 权限异常
+//     * @param ex
 //     * @param request
 //     * @return
 //     */
-//    @ExceptionHandler({RuntimeException.class})
-////    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-//    protected final ResponseEntity<Object> handleRuntime(final RuntimeException e, final WebRequest request) {
-//        log.warn("Internal Server Error: {}", e.getMessage());
-//        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.OK.value(), e);
-//        return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.OK, request);
-//
-
 //    @ExceptionHandler(AuthenticationException.class)
 //    protected ResponseEntity<Object> handAuthentication(final AuthenticationException ex, final WebRequest request) {
 //        ApiExceptionResponseBody apiExceptionResponseBody = new ApiExceptionResponseBody(HttpStatus.UNAUTHORIZED.value(), ex.getMessage(),ex);
@@ -121,36 +118,20 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 //    }
 
     /**
-     * api exception 200
+     * 自定义异常
      * @param ex
      * @param request
      * @return
      */
     @ExceptionHandler({ApiException.class})
     protected ResponseEntity<Object> handleApi(final ApiException ex, final WebRequest request) {
+        System.out.println(request.getContextPath());
+        System.out.println(request.getLocale());
+        System.out.println(request.getUserPrincipal());
         log.warn("Api Exception: {}", ex.getMessage());
-
-        String message = ex.getMessage();
-        // 如果message为空
-        // 1、根据code从国际化获取
-        // 2、ex.getMessage()
-        if (StringUtil.isBlank(message)) {
-            String i18nKey = ex.getClass().getPackage().getName()+"."+StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(ex.getClass().getSimpleName()), ".").toLowerCase()+"."+ex.getCode();
-            message = Lang.get(i18nKey);
-            if (StringUtil.isBlank(message)) {
-                message = ex.getMessage();
-            }
-        }
-        ApiExceptionResponseBody apiExceptionResponseBody = new ApiExceptionResponseBody(ex.getCode(), message,ex);
+        ApiExceptionResponseBody apiExceptionResponseBody = new ApiExceptionResponseBody(ex.getCode(), ex.getMessage(),ex);
         return handleExceptionInternal(ex, apiExceptionResponseBody, new HttpHeaders(), HttpStatus.OK, request);
     }
-
-//    @ExceptionHandler(HttpMessageNotReadableException.class)
-//    protected ResponseEntity<Object> handleMethodArgumentNotValid(HttpMessageNotReadableException e, final WebRequest request) {log.warn("Internal Server Error: {}", e.getMessage());
-//        log.warn("Internal Server Error: {}", e.getMessage());
-//        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.OK.value(), e);
-//        return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.OK, request);
-//    }
 
     // 403 无权限
     @ExceptionHandler({AccessDeniedException.class})
@@ -158,22 +139,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         log.warn("Access Denied Exception: {}", ex.getMessage());
         final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.FORBIDDEN.value(), ex);
         return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
-    }
-
-    // 404
-    @ExceptionHandler({EntityNotFoundException.class, ResourceNotFoundException.class})
-    protected ResponseEntity<Object> handleNotFound(final RuntimeException ex, final WebRequest request) {
-        log.warn("Not Found: {}", ex.getMessage());
-        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.NOT_FOUND.value(), ex);
-        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
-    }
-
-    // 415
-    @ExceptionHandler({InvalidMimeTypeException.class, InvalidMediaTypeException.class})
-    protected ResponseEntity<Object> handleInvalidMimeTypeException(final IllegalArgumentException ex, final WebRequest request) {
-        log.warn("Unsupported Media Type: {}", ex.getMessage());
-        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.OK.value(), ex);
-        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.OK, request);
     }
 
     /**
