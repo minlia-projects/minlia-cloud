@@ -10,36 +10,24 @@ public class SystemCode {
     public enum Exception implements Code {
 
         /**
-         * 403，API不存在
+         * 403，API无权限
          */
         NOT_AUTHORIZED(100000,"system.common.exception.100000"),
 
+        /**
+         * 404，API不存在
+         */
         API_NOT_NULL(100001,"system.common.exception.100001"),
-
-        /**
-         * 不能为空
-         */
-        NOT_NULL(100001,"system.common.exception.100001"),
-
-        /**
-         * 数据不存在
-         */
-        DATA_NON_EXISTS(100002,"system.common.exception.100002"),
-
-        /**
-         * 数据已存在
-         */
-        DATA_ALREADY_EXISTS(100003,"system.common.exception.100001"),
 
         /**
          * 不支持的请求方法
          */
-        UNSUPPORTED_REQUEST_METHOD(100005,"system.common.exception.100005"),
+        UNSUPPORTED_REQUEST_METHOD(100002,"system.common.exception.100002"),
 
         /**
          * 远程请求失败
          */
-        REMOTE_REQUEST_FAILURE(100006,"system.common.exception.100006");
+        REMOTE_REQUEST_FAILURE(100003,"system.common.exception.100003");
 
         private int code;
         private String i18nKey;
@@ -68,31 +56,39 @@ public class SystemCode {
 
     public enum Message implements Code {
 
-        /**
-         * 操作成功
-         */
-        SUCCESS(100001,"system.common.message.100001"),
+        DATA_NOT_EXISTS(100000,"system.common.exception.100000"),
 
-        /**
-         * 操作失败
-         */
-        FAILURE(100002,"system.common.message.100002"),
+        DATA_ALREADY_EXISTS(100001,"system.common.exception.100001"),
 
-        CREATE_SUCCESS(100003,"system.common.message.100003"),
+        SUCCESS(100002,"system.common.message.100002"),
 
-        CREATE_FAILURE(100004,"system.common.message.100004"),
+        FAILURE(100003,"system.common.message.100003"),
 
-        UPDATE_SUCCESS(100005,"system.common.message.100005"),
+        CREATE_SUCCESS(100004,"system.common.message.100004"),
 
-        UPDATE_FAILURE(100006,"system.common.message.100006"),
+        CREATE_FAILURE(100005,"system.common.message.100005"),
 
-        DELETE_SUCCESS(100007,"system.common.message.100007"),
+        UPDATE_SUCCESS(100006,"system.common.message.100006"),
 
-        DELETE_FAILURE(100008,"system.common.message.100008"),
+        UPDATE_FAILURE(100007,"system.common.message.100007"),
+
+        DELETE_SUCCESS(100008,"system.common.message.100008"),
+
+        DELETE_FAILURE(100009,"system.common.message.100009"),
 
         SAVE_SUCCESS(100010,"system.common.message.100010"),
 
-        SAVE_FAILURE(100011,"system.common.message.100011");
+        SAVE_FAILURE(100011,"system.common.message.100011"),
+
+        ALREADY_USED(100011,"system.common.message.100011"),
+
+        ALREADY_CANCELED(100011,"system.common.message.100011"),
+
+        ALREADY_DELETED(100011,"system.common.message.100011"),
+
+        ALREADY_ACCEPTED(100011,"system.common.message.100011"),
+
+        ALREADY_FINISHED(100011,"system.common.message.100011");
 
         private int code;
         private String i18nKey;

@@ -27,6 +27,13 @@ public class ApiException extends NestedRuntimeException {
         this.args = new Object[]{};
     }
 
+    public ApiException(int code, String msg) {
+        super(msg);
+        this.status = Response.FAILURE;
+        this.code = code;
+        this.args = new Object[]{};
+    }
+
     public ApiException(Code code, Object... args) {
         super(Lang.get(code.i18nKey(), args));
         this.status = Response.FAILURE;

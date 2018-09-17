@@ -12,33 +12,51 @@ import java.util.Map;
 
 public class ApiAssert extends Assert {
 
-    public static void state(boolean expression, Code code) {
+    public static void state(boolean expression, Code code, Object... args) {
         if(!expression) {
-            throw new ApiException(code);
+            throw new ApiException(code, args);
         }
     }
 
-    public static void isNull(Object object, Code code) {
+    public static void state(boolean expression, int code, String message) {
+        if(!expression) {
+            throw new ApiException(code, message);
+        }
+    }
+
+    public static void isNull(Object object, Code code, Object... args) {
         if(object != null) {
-            throw new ApiException(code);
+            throw new ApiException(code, args);
         }
     }
 
-    public static void notNull(Object object, Code code) {
+    public static void isNull(Object object, int code, String message) {
+        if(object != null) {
+            throw new ApiException(code, message);
+        }
+    }
+
+    public static void notNull(Object object, Code code, Object... args) {
         if(object == null) {
-            throw new ApiException(code);
+            throw new ApiException(code, args);
         }
     }
 
-    public static void hasLength(String text, Code code) {
+    public static void notNull(Object object, int code, String message) {
+        if(object == null) {
+            throw new ApiException(code, message);
+        }
+    }
+
+    public static void hasLength(String text, Code code, Object... args) {
         if(!org.springframework.util.StringUtils.hasLength(text)) {
-            throw new ApiException(code);
+            throw new ApiException(code, args);
         }
     }
 
-    public static void hasText(String text, Code code) {
+    public static void hasText(String text, Code code, Object... args) {
         if(!org.springframework.util.StringUtils.hasText(text)) {
-            throw new ApiException(code);
+            throw new ApiException(code, args);
         }
     }
 
