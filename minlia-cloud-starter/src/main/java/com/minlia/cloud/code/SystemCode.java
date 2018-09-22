@@ -56,12 +56,16 @@ public class SystemCode {
 
     public enum Message implements Code {
 
+        //数据不存在
         DATA_NOT_EXISTS(100000,"system.common.message.100000"),
 
+        //数据已存在
         DATA_ALREADY_EXISTS(100001,"system.common.message.100001"),
 
+        //操作成功
         SUCCESS(100002,"system.common.message.100002"),
 
+        //操作失败
         FAILURE(100003,"system.common.message.100003"),
 
         CREATE_SUCCESS(100004,"system.common.message.100004"),
