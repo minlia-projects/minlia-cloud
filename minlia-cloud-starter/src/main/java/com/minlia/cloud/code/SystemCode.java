@@ -84,6 +84,8 @@ public class SystemCode {
 
         SAVE_FAILURE(100011,"system.common.message.100011"),
 
+
+
         ALREADY_USED(100012,"system.common.message.100012"),
 
         ALREADY_CANCELED(100013,"system.common.message.100013"),
