@@ -73,7 +73,7 @@ public class ApiAssert extends Assert {
         }
     }
 
-    public static void noNullElements(Object[] array, Code code) {
+    public static void noNullElements(Object[] array, Code code, Object... args) {
         if(array != null) {
             Object[] var2 = array;
             int var3 = array.length;
@@ -81,22 +81,22 @@ public class ApiAssert extends Assert {
             for(int var4 = 0; var4 < var3; ++var4) {
                 Object element = var2[var4];
                 if(element == null) {
-                    throw new ApiException(code);
+                    throw new ApiException(code, args);
                 }
             }
         }
 
     }
 
-    public static void notEmpty(Collection<?> collection, Code code) {
+    public static void notEmpty(Collection<?> collection, Code code, Object... args) {
         if(CollectionUtils.isEmpty(collection)) {
-            throw new ApiException(code);
+            throw new ApiException(code, args);
         }
     }
 
-    public static void notEmpty(Map<?, ?> map, Code code) {
+    public static void notEmpty(Map<?, ?> map, Code code, Object... args) {
         if(CollectionUtils.isEmpty(map)) {
-            throw new ApiException(code);
+            throw new ApiException(code, args);
         }
     }
 

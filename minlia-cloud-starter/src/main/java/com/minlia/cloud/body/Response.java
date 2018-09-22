@@ -80,6 +80,12 @@ public class Response<T> implements Body {
     public static <T> Response<T> is(boolean bool, String message, T payload) {
         return new Response(bool?SUCCESS:FAILURE, bool?SUCCESS:FAILURE, message, payload);
     }
+    public static <T> Response<T> is(boolean bool, Integer code, String message) {
+        return new Response(bool?SUCCESS:FAILURE, code, message, null);
+    }
+    public static <T> Response<T> is(boolean bool, Integer code, String message, T payload) {
+        return new Response(bool?SUCCESS:FAILURE, code, message, payload);
+    }
     public static <T> Response<T> is(boolean bool, Code code) {
         return new Response(bool?SUCCESS:FAILURE, code.code(), code.message());
     }

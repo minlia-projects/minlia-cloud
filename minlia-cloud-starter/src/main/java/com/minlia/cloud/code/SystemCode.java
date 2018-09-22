@@ -56,9 +56,9 @@ public class SystemCode {
 
     public enum Message implements Code {
 
-        DATA_NOT_EXISTS(100000,"system.common.exception.100000"),
+        DATA_NOT_EXISTS(100000,"system.common.message.100000"),
 
-        DATA_ALREADY_EXISTS(100001,"system.common.exception.100001"),
+        DATA_ALREADY_EXISTS(100001,"system.common.message.100001"),
 
         SUCCESS(100002,"system.common.message.100002"),
 
@@ -80,15 +80,15 @@ public class SystemCode {
 
         SAVE_FAILURE(100011,"system.common.message.100011"),
 
-        ALREADY_USED(100011,"system.common.message.100011"),
+        ALREADY_USED(100012,"system.common.message.100012"),
 
-        ALREADY_CANCELED(100011,"system.common.message.100011"),
+        ALREADY_CANCELED(100013,"system.common.message.100013"),
 
-        ALREADY_DELETED(100011,"system.common.message.100011"),
+        ALREADY_DELETED(100014,"system.common.message.100014"),
 
-        ALREADY_ACCEPTED(100011,"system.common.message.100011"),
+        ALREADY_ACCEPTED(100015,"system.common.message.100015"),
 
-        ALREADY_FINISHED(100011,"system.common.message.100011");
+        ALREADY_FINISHED(100016,"system.common.message.100016");
 
         private int code;
         private String i18nKey;

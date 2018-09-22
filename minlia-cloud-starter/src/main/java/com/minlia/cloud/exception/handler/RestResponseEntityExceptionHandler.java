@@ -91,20 +91,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return handleExceptionInternal(ex, apiError, headers, status, request);
     }
 
-    /**
-     * 500异常
-     * @param e
-     * @param request
-     * @return
-     */
-    @ExceptionHandler({Exception.class})
-//    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    protected final ResponseEntity<Object> handleRuntime(final Exception e, final WebRequest request) {
-        log.warn("Internal Server Error: {}", e.getMessage());
-        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), e);
-        return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.OK, request);
-    }
-
 //    /**
 //     * 权限异常
 //     * @param ex
@@ -178,6 +164,20 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         log.warn("DuplicateKey: {}", e.getMessage());
         final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), "记录已存在，请勿重复操作", e);
         return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.CONFLICT, request);
+    }
+
+    /**
+     * 500异常
+     * @param e
+     * @param request
+     * @return
+     */
+    @ExceptionHandler({Exception.class})
+//    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    protected final ResponseEntity<Object> handleRuntime(final Exception e, final WebRequest request) {
+        log.warn("Internal Server Error: {}", e.getMessage());
+        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), e);
+        return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.OK, request);
     }
 
     // UTIL
