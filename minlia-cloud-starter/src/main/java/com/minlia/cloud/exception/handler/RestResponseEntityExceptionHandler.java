@@ -105,26 +105,23 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     /**
      * 自定义异常
-     * @param ex
+     * @param e
      * @param request
      * @return
      */
     @ExceptionHandler({ApiException.class})
-    protected ResponseEntity<Object> handleApi(final ApiException ex, final WebRequest request) {
-        System.out.println(request.getContextPath());
-        System.out.println(request.getLocale());
-        System.out.println(request.getUserPrincipal());
-        log.warn("Api Exception: {}", ex.getMessage());
-        ApiExceptionResponseBody apiExceptionResponseBody = new ApiExceptionResponseBody(ex.getCode(), ex.getMessage(),ex);
-        return handleExceptionInternal(ex, apiExceptionResponseBody, new HttpHeaders(), HttpStatus.OK, request);
+    protected ResponseEntity<Object> handleApi(final ApiException e, final WebRequest request) {
+        log.warn("Api Exception: ", e);
+        ApiExceptionResponseBody apiExceptionResponseBody = new ApiExceptionResponseBody(e.getCode(), e.getMessage(), e);
+        return handleExceptionInternal(e, apiExceptionResponseBody, new HttpHeaders(), HttpStatus.OK, request);
     }
 
     // 403 无权限
     @ExceptionHandler({AccessDeniedException.class})
-    protected ResponseEntity<Object> handleAccessDenied(final AccessDeniedException ex, final WebRequest request) {
-        log.warn("Access Denied Exception: {}", ex.getMessage());
-        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.FORBIDDEN.value(), ex);
-        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
+    protected ResponseEntity<Object> handleAccessDenied(final AccessDeniedException e, final WebRequest request) {
+        log.warn("Access Denied Exception: ", e);
+        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.FORBIDDEN.value(), e);
+        return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
     }
 
     /**
@@ -134,8 +131,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
      * @return
      */
     @ExceptionHandler({DataAccessException.class})
-    protected ResponseEntity<Object> handleConflict(final DataAccessException e, final WebRequest request) {
-        log.warn("Conflict: {}", e.getMessage());
+    protected ResponseEntity<Object> handleDataAccess(final DataAccessException e, final WebRequest request) {
+        log.error("DataAccessException: ", e);
         final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), "DAO异常", e);
         return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
@@ -148,7 +145,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
      */
     @ExceptionHandler(value = DataIntegrityViolationException.class)
     public final ResponseEntity<Object> dataIntegrityViolation(final DataIntegrityViolationException e, final WebRequest request) {
-        log.warn("DataIntegrityViolation: {}", e.getMessage());
+        log.error("DataIntegrityViolationException: ", e);
         final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), "违反数据约束", e);
         return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
@@ -161,7 +158,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
      */
     @ExceptionHandler(value = DuplicateKeyException.class)
     public final ResponseEntity<Object> handleDuplicateKey(final DuplicateKeyException e, final WebRequest request) {
-        log.warn("DuplicateKey: {}", e.getMessage());
+        log.error("DuplicateKeyException: ", e);
         final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), "记录已存在，请勿重复操作", e);
         return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
@@ -175,7 +172,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler({Exception.class})
 //    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     protected final ResponseEntity<Object> handleRuntime(final Exception e, final WebRequest request) {
-        log.warn("Internal Server Error: {}", e.getMessage());
+        log.error("Internal Server Error: ", e);
         final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), e);
         return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.OK, request);
     }
