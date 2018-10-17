@@ -56,18 +56,19 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @Override
     protected final ResponseEntity<Object> handleHttpMessageNotReadable(final HttpMessageNotReadableException ex, final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
         log.error("Bad Request: {}", ex.getMessage());
-        ApiExceptionResponseBody responseBody = new ApiExceptionResponseBody();
-
-        if(ex.getCause() instanceof InvalidFormatException){
-            Class targetType= ((InvalidFormatException) ex.getCause()).getTargetType();
-            String message=ex.getMessage().replace(" of type "+targetType.getName()+"","");
-            message=message.replaceAll("Could not read document: ","");
-            message=message.replaceAll("declared Enum instance","declared");
-            message=message.substring(0,message.indexOf("\n at"));
-            responseBody.setMessage(message);
-        }
-        responseBody.setStatus(HttpStatus.OK.value());
-        return handleExceptionInternal(ex, responseBody, headers, HttpStatus.OK, request);
+        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(status, ex);
+//
+//        if(ex.getCause() instanceof InvalidFormatException){
+//            Class targetType= ((InvalidFormatException) ex.getCause()).getTargetType();
+//            String message=ex.getMessage().replace(" of type "+targetType.getName()+"","");
+//            message=message.replaceAll("Could not read document: ","");
+//            message=message.replaceAll("declared Enum instance","declared");
+//            message=message.substring(0,message.indexOf("\n at"));
+//            responseBody.setMessage(message);
+//        } else {
+//
+//        }
+        return handleExceptionInternal(ex, apiError, headers, HttpStatus.BAD_REQUEST, request);
     }
 
     @Override

@@ -32,7 +32,12 @@ public class SystemCode {
         /**
          * INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
          */
-        INTERNAL_SERVER_ERROR(100004,"system.common.exception.100004");
+        INTERNAL_SERVER_ERROR(100004,"system.common.exception.100004"),
+
+        /**
+         * BAD_REQUEST(500, "Internal Server Error"),
+         */
+        BAD_REQUEST(100005,"system.common.exception.100005");
 
         private int code;
         private String i18nKey;
