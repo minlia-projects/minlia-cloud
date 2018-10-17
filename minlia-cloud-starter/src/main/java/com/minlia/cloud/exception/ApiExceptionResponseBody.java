@@ -43,7 +43,7 @@ public class ApiExceptionResponseBody extends Response {
     public ApiExceptionResponseBody(final Integer code, Exception e) {
         super(FAILURE, code, SystemCode.Exception.INTERNAL_SERVER_ERROR.message());
 //        if (!Environments.isProduction()) {
-            this.exception = e.getClass().getSimpleName() + "：" + e.getCause().getMessage();
+            this.exception = getException(e);
             this.error = e.getMessage();
 //        }
     }
@@ -51,9 +51,17 @@ public class ApiExceptionResponseBody extends Response {
     public ApiExceptionResponseBody(final Integer code, final String message, Exception e) {
         super(FAILURE, code, message);
 //        if (!Environments.isProduction()) {
-            this.exception = e.getClass().getSimpleName() + "：" + e.getCause().getMessage();
+            this.exception = getException(e);
             this.error = e.getMessage();
 //        }
+    }
+
+    private String getException(Exception e) {
+        String exception = e.getClass().getSimpleName();
+        if (null != e.getCause()) {
+            exception += "：" +   e.getCause().getMessage();
+        }
+        return exception;
     }
 
 }
