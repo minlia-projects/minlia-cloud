@@ -27,7 +27,12 @@ public class SystemCode {
         /**
          * 远程请求失败
          */
-        REMOTE_REQUEST_FAILURE(100003,"system.common.exception.100003");
+        REMOTE_REQUEST_FAILURE(100003,"system.common.exception.100003"),
+
+        /**
+         * INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
+         */
+        INTERNAL_SERVER_ERROR(100004,"system.common.exception.100004");
 
         private int code;
         private String i18nKey;

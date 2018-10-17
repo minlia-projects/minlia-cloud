@@ -16,6 +16,7 @@
 package com.minlia.cloud.exception;
 
 import com.minlia.cloud.body.Response;
+import com.minlia.cloud.code.SystemCode;
 import lombok.Data;
 
 @Data
@@ -31,29 +32,27 @@ public class ApiExceptionResponseBody extends Response {
 
     protected String exception;
 
-    protected String trace;
+    protected String error;
 
 //    protected String path;
-
-//    protected String error;
 
     public ApiExceptionResponseBody() {
         super();
     }
 
-    public ApiExceptionResponseBody(final Integer code, Exception ex) {
-        super(FAILURE, code, ex.getMessage());
+    public ApiExceptionResponseBody(final Integer code, Exception e) {
+        super(FAILURE, code, SystemCode.Exception.INTERNAL_SERVER_ERROR.message());
 //        if (!Environments.isProduction()) {
-            this.exception = ex.getClass().getSimpleName();
-            this.trace = ex.getStackTrace()[0].toString();
+            this.exception = e.getClass().getSimpleName() + "：" + e.getCause().getMessage();
+            this.error = e.getMessage();
 //        }
     }
 
-    public ApiExceptionResponseBody(final Integer code, final String message, Exception ex) {
+    public ApiExceptionResponseBody(final Integer code, final String message, Exception e) {
         super(FAILURE, code, message);
 //        if (!Environments.isProduction()) {
-            this.exception = ex.getClass().getSimpleName();
-            this.trace = ex.getStackTrace()[0].toString();
+            this.exception = e.getClass().getSimpleName() + "：" + e.getCause().getMessage();
+            this.error = e.getMessage();
 //        }
     }
 
