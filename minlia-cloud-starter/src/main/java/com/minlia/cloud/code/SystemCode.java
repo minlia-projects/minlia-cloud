@@ -12,7 +12,7 @@ public class SystemCode {
         /**
          * 403，API无权限
          */
-        NOT_AUTHORIZED(100000,"system.common.exception.100000"),
+        FORBIDDEN(100000,"system.common.exception.100000"),
 
         /**
          * 404，API不存在

@@ -121,7 +121,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler({AccessDeniedException.class})
     protected ResponseEntity<Object> handleAccessDenied(final AccessDeniedException e, final WebRequest request) {
         log.warn("Access Denied Exception: ", e);
-        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.FORBIDDEN.value(), e);
+        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.FORBIDDEN, e);
         return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
     }
 
