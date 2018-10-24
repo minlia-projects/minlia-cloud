@@ -12,17 +12,17 @@ public class SystemCode {
         /**
          * 403，API无权限
          */
-        FORBIDDEN(100000,"system.common.exception.100000"),
+        FORBIDDEN(403,"system.common.exception.100000"),
 
         /**
          * 404，API不存在
          */
-        API_NOT_NULL(100001,"system.common.exception.100001"),
+        API_NOT_NULL(404,"system.common.exception.100001"),
 
         /**
          * 不支持的请求方法
          */
-        UNSUPPORTED_REQUEST_METHOD(100002,"system.common.exception.100002"),
+        UNSUPPORTED_REQUEST_METHOD(400,"system.common.exception.100002"),
 
         /**
          * 远程请求失败
@@ -32,12 +32,12 @@ public class SystemCode {
         /**
          * INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
          */
-        INTERNAL_SERVER_ERROR(100004,"system.common.exception.100004"),
+        INTERNAL_SERVER_ERROR(500,"system.common.exception.100004"),
 
         /**
-         * BAD_REQUEST(500, "Internal Server Error"),
+         * BAD_REQUEST(400, "Bad Request"),
          */
-        BAD_REQUEST(100005,"system.common.exception.100005");
+        BAD_REQUEST(400,"system.common.exception.100005");
 
         private int code;
         private String i18nKey;

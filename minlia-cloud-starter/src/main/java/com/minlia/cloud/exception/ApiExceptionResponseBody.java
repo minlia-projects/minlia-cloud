@@ -16,6 +16,7 @@
 package com.minlia.cloud.exception;
 
 import com.minlia.cloud.body.Response;
+import com.minlia.cloud.code.Code;
 import com.minlia.cloud.code.SystemCode;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
@@ -51,6 +52,14 @@ public class ApiExceptionResponseBody extends Response {
 
     public ApiExceptionResponseBody(HttpStatus status, Exception e) {
         super(FAILURE, status.value(), status.getReasonPhrase());
+//        if (!Environments.isProduction()) {
+            this.exception = getException(e);
+            this.error = e.getMessage();
+//        }
+    }
+
+    public ApiExceptionResponseBody(Code code, Exception e) {
+        super(FAILURE, code.code(), code.message());
 //        if (!Environments.isProduction()) {
             this.exception = getException(e);
             this.error = e.getMessage();

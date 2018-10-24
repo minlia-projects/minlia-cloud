@@ -16,6 +16,7 @@
 package com.minlia.cloud.exception.handler;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.exception.ApiException;
 import com.minlia.cloud.exception.ApiExceptionResponseBody;
 import com.minlia.cloud.exception.ValidationErrorDTO;
@@ -121,7 +122,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler({AccessDeniedException.class})
     protected ResponseEntity<Object> handleAccessDenied(final AccessDeniedException e, final WebRequest request) {
         log.warn("Access Denied Exception: ", e);
-        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.FORBIDDEN, e);
+//        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.FORBIDDEN, e);
+        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(SystemCode.Exception.FORBIDDEN, e);
         return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
     }
 
