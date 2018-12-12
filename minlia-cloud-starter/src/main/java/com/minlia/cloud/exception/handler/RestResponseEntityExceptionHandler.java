@@ -175,7 +175,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler({Exception.class})
 //    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     protected final ResponseEntity<Object> handleRuntime(final Exception e, final WebRequest request) {
-//        log.error("Internal Server Error: ", e);
+        log.error("Internal Server Error: ", e);
         final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), e);
         return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.OK, request);
     }
