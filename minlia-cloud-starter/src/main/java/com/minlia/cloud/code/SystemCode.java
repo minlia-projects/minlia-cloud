@@ -35,9 +35,16 @@ public class SystemCode {
         INTERNAL_SERVER_ERROR(500,"system.common.exception.100004"),
 
         /**
-         * BAD_REQUEST(400, "Bad Request"),
+         * 方法请求参数校验失败
+         * MethodArgumentNotValidException
          */
         BAD_REQUEST(400,"system.common.exception.100005");
+
+//        /**
+//         * 方法请求参数校验失败
+//         * MethodArgumentNotValidException
+//         */
+//        METHOD_ARGUMENT_NOT_VALID(800,"system.common.exception.100006");
 
         private int code;
         private String i18nKey;

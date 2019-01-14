@@ -18,14 +18,13 @@ package com.minlia.cloud.exception;
 public class FieldErrorDTO {
 
     private final String field;
+
     private final String message;
 
     public FieldErrorDTO(final String field, final String message) {
         this.field = field;
         this.message = message;
     }
-
-    // API
 
     public String getField() {
         return field;

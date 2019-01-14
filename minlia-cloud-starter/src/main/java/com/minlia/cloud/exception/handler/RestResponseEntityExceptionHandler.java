@@ -15,7 +15,6 @@
  */
 package com.minlia.cloud.exception.handler;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.exception.ApiException;
 import com.minlia.cloud.exception.ApiExceptionResponseBody;
@@ -74,13 +73,11 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @Override
     protected final ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-        log.error("Bad Request: {}", ex.getMessage());
-
+        log.error("MethodArgumentNotValidException: {}", ex.getMessage());
         final BindingResult result = ex.getBindingResult();
         final List<FieldError> fieldErrors = result.getFieldErrors();
         final ValidationErrorDTO dto = processFieldErrors(fieldErrors);
-
-        ApiExceptionResponseBody responseBody=new ApiExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex);
+        ApiExceptionResponseBody responseBody = new ApiExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), fieldErrors.get(0).getDefaultMessage(), ex);
         responseBody.setPayload(dto.getErrorDetails());
         responseBody.setStatus(HttpStatus.BAD_REQUEST.value());
         return handleExceptionInternal(ex, responseBody, headers, HttpStatus.OK, request);
@@ -107,24 +104,24 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     /**
      * 自定义异常
-     * @param e
+     * @param ex
      * @param request
      * @return
      */
     @ExceptionHandler({ApiException.class})
-    protected ResponseEntity<Object> handleApi(final ApiException e, final WebRequest request) {
-        log.warn("Api Exception: ", e);
-        ApiExceptionResponseBody apiExceptionResponseBody = new ApiExceptionResponseBody(e.getCode(), e.getMessage(), e);
-        return handleExceptionInternal(e, apiExceptionResponseBody, new HttpHeaders(), HttpStatus.OK, request);
+    protected ResponseEntity<Object> handleApi(final ApiException ex, final WebRequest request) {
+        log.warn("Api Exception: ", ex);
+        ApiExceptionResponseBody apiExceptionResponseBody = new ApiExceptionResponseBody(ex.getCode(), ex.getMessage(), ex);
+        return handleExceptionInternal(ex, apiExceptionResponseBody, new HttpHeaders(), HttpStatus.OK, request);
     }
 
     // 403 无权限
     @ExceptionHandler({AccessDeniedException.class})
-    protected ResponseEntity<Object> handleAccessDenied(final AccessDeniedException e, final WebRequest request) {
-        log.warn("Access Denied Exception: ", e);
+    protected ResponseEntity<Object> handleAccessDenied(final AccessDeniedException ex, final WebRequest request) {
+        log.warn("Access Denied Exception: ", ex);
 //        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.FORBIDDEN, e);
-        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(SystemCode.Exception.FORBIDDEN, e);
-        return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
+        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(SystemCode.Exception.FORBIDDEN, ex);
+        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
     }
 
     /**
@@ -180,15 +177,11 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.OK, request);
     }
 
-    // UTIL
     private ValidationErrorDTO processFieldErrors(final List<FieldError> fieldErrors) {
         final ValidationErrorDTO dto = new ValidationErrorDTO();
-
         for (final FieldError fieldError : fieldErrors) {
-            final String localizedErrorMessage = fieldError.getDefaultMessage();
-            dto.addFieldError(fieldError.getField(), localizedErrorMessage);
+            dto.addFieldError(fieldError.getField(), fieldError.getDefaultMessage());
         }
-
         return dto;
     }
 

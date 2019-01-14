@@ -22,10 +22,6 @@ public class ValidationErrorDTO extends ApiExceptionResponseBody {
 
     private List<FieldErrorDTO> errorDetails = new ArrayList<FieldErrorDTO>();
 
-//    public ValidationErrorDTO() {
-//    }
-
-
     public final void addFieldError(final String path, final String message) {
         final FieldErrorDTO error = new FieldErrorDTO(path, message);
         errorDetails.add(error);
@@ -38,7 +34,6 @@ public class ValidationErrorDTO extends ApiExceptionResponseBody {
     public void setErrorDetails(List<FieldErrorDTO> errorDetails) {
         this.errorDetails = errorDetails;
     }
-    //
 
     @Override
     public final String toString() {
