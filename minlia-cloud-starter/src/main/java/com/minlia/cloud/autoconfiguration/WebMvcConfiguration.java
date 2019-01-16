@@ -1,17 +1,70 @@
 package com.minlia.cloud.autoconfiguration;
 
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
-public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
+@EnableWebMvc
+public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements ApplicationContextAware {
 
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
             "classpath:/META-INF/resources/",
             "classpath:/resources/",
             "classpath:/static/",
             "classpath:/public/"};
+
+    private ApplicationContext applicationContext;
+
+    /**
+     * 设置上下文
+     *
+     * @param applicationContext
+     * @throws BeansException
+     */
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
+
+//    /**
+//     * Thymeleaf模板资源解析器(自定义的需要做前缀绑定)
+//     */
+//    @Bean
+//    @ConfigurationProperties(prefix = "spring.thymeleaf")
+//    public SpringResourceTemplateResolver templateResolver() {
+//        SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
+//        templateResolver.setCharacterEncoding("UTF-8");
+//        templateResolver.setApplicationContext(this.applicationContext);
+//        return templateResolver;
+//    }
+//
+//    /**
+//     * Thymeleaf标准方言解释器
+//     */
+//    @Bean
+//    public SpringTemplateEngine templateEngine() {
+//        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+//        templateEngine.setTemplateResolver(templateResolver());
+//        //支持spring EL表达式
+//        templateEngine.setEnableSpringELCompiler(true);
+//        return templateEngine;
+//    }
+//
+//    /**
+//     * 视图解析器
+//     */
+//    @Bean
+//    public ThymeleafViewResolver thymeleafViewResolver() {
+//        ThymeleafViewResolver thymeleafViewResolver = new ThymeleafViewResolver();
+//        thymeleafViewResolver.setTemplateEngine(templateEngine());
+//        thymeleafViewResolver.setCharacterEncoding("UTF-8");
+//        return thymeleafViewResolver;
+//    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
