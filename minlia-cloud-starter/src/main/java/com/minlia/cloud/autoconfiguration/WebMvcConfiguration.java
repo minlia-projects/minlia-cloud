@@ -1,12 +1,16 @@
 package com.minlia.cloud.autoconfiguration;
 
+import com.minlia.cloud.resolver.UnderlineToCamelArgumentResolver;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import java.util.List;
 
 @Configuration
 @EnableWebMvc
@@ -30,6 +34,17 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements Appl
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
+
+    /**
+     * 添加参数解析，将参数的形式从下划线转化为驼峰
+     * @param argumentResolvers
+     */
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        super.addArgumentResolvers(argumentResolvers);
+        argumentResolvers.add(new UnderlineToCamelArgumentResolver());
+    }
+
 
 //    /**
 //     * Thymeleaf模板资源解析器(自定义的需要做前缀绑定)
