@@ -20,6 +20,10 @@ import com.minlia.cloud.code.Code;
 import com.minlia.cloud.code.SystemCode;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Data
 public class ApiExceptionResponseBody extends Response {
@@ -36,42 +40,40 @@ public class ApiExceptionResponseBody extends Response {
 
     protected String error;
 
-//    protected String path;
+    protected String path = getPath();
 
     public ApiExceptionResponseBody() {
         super();
     }
 
-    public ApiExceptionResponseBody(final Integer code, Exception e) {
-        super(FAILURE, code, SystemCode.Exception.INTERNAL_SERVER_ERROR.message());
+    public ApiExceptionResponseBody(HttpStatus status, String message) {
+        super(status.value(), status.name(), message);
+    }
+
+    public ApiExceptionResponseBody(HttpStatus status, Exception ex) {
+        super(status.value(), status.name(), status.getReasonPhrase());
+        this.exception = getException(ex);
+        this.error = ex.getMessage();
+    }
+
+    public ApiExceptionResponseBody(final String code, Exception ex) {
+        super(STATUS_FAILURE, code, SystemCode.Exception.INTERNAL_SERVER_ERROR.message());
 //        if (!Environments.isProduction()) {
-            this.exception = getException(e);
-            this.error = e.getMessage();
+            this.exception = getException(ex);
+            this.error = ex.getMessage();
 //        }
     }
 
-    public ApiExceptionResponseBody(HttpStatus status, Exception e) {
-        super(FAILURE, status.value(), status.getReasonPhrase());
-//        if (!Environments.isProduction()) {
-            this.exception = getException(e);
-            this.error = e.getMessage();
-//        }
+    public ApiExceptionResponseBody(Code code, Exception ex) {
+        super(STATUS_FAILURE, code.code(), code.message());
+        this.exception = getException(ex);
+        this.error = ex.getMessage();
     }
 
-    public ApiExceptionResponseBody(Code code, Exception e) {
-        super(FAILURE, code.code(), code.message());
-//        if (!Environments.isProduction()) {
-            this.exception = getException(e);
-            this.error = e.getMessage();
-//        }
-    }
-
-    public ApiExceptionResponseBody(final Integer code, final String message, Exception e) {
-        super(FAILURE, code, message);
-//        if (!Environments.isProduction()) {
-            this.exception = getException(e);
-            this.error = e.getMessage();
-//        }
+    public ApiExceptionResponseBody(final String code, final String message, Exception ex) {
+        super(STATUS_FAILURE, code, message);
+        this.exception = getException(ex);
+        this.error = ex.getMessage();
     }
 
     private String getException(Exception e) {
@@ -80,6 +82,12 @@ public class ApiExceptionResponseBody extends Response {
             exception += "：" +   e.getCause().getMessage();
         }
         return exception;
+    }
+
+    private static String getPath() {
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpServletRequest httpServletRequest = servletRequestAttributes.getRequest();
+        return httpServletRequest.getRequestURL().toString();
     }
 
 }

@@ -55,8 +55,8 @@ public class SystemCode {
         }
 
         @Override
-        public int code() {
-            return code;
+        public String code() {
+            return code + "";
         }
 
         @Override
@@ -122,8 +122,8 @@ public class SystemCode {
         }
 
         @Override
-        public int code() {
-            return code;
+        public String code() {
+            return this.name();
         }
 
         @Override

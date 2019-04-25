@@ -1,7 +1,6 @@
 package com.minlia.cloud.exception.handler;
 
-import com.minlia.cloud.body.Response;
-import com.minlia.cloud.constant.Constants.LanguageTypes;
+import com.minlia.cloud.exception.ApiExceptionResponseBody;
 import com.minlia.cloud.utils.Environments;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorAttributes;
@@ -37,7 +36,7 @@ public class RestErrorController implements ErrorController {
      * @return
      */
     @RequestMapping(value = PATH, produces = {MediaType.APPLICATION_JSON_VALUE})
-    Response error(HttpServletRequest request, HttpServletResponse response) {
+    ApiExceptionResponseBody error(HttpServletRequest request, HttpServletResponse response) {
 //        {
 //            "timestamp": 1536935424270,
 //                "status": 404,
@@ -49,24 +48,30 @@ public class RestErrorController implements ErrorController {
         response.setStatus(200);
         Map<String, Object> errorAttributes = getErrorAttributes(request, !Environments.isProduction());
         Integer status = (Integer) errorAttributes.get("status");
+        String message = (String) errorAttributes.get("message");
         String path = (String) errorAttributes.get("path");
-        String messageFound = (String) errorAttributes.get("message");
-        Integer messageStatus = extractStatus(messageFound, status);
+        String error = (String) errorAttributes.get("error");
+        String exception = (String) errorAttributes.get("exception");
         if (HttpStatus.NOT_FOUND.value() != status) {
 
         }
-        return Response.failure(status,messageFound);
+
+        ApiExceptionResponseBody responseBody = new ApiExceptionResponseBody(HttpStatus.valueOf(status), message);
+        responseBody.setPath(path);
+        responseBody.setError(error);
+        responseBody.setException(exception);
+        return responseBody;
     }
 
-    private Integer extractStatus(String message, Integer status) {
-        if (message.startsWith(LanguageTypes.ExceptionsApiCode.name())) {
-            int index = LanguageTypes.ExceptionsApiCode.name().length();
-            String message2 = message.substring(index);
-            return Integer.valueOf(message2);
-        } else {
-            return status;
-        }
-    }
+//    private Integer extractStatus(String message, Integer status) {
+//        if (message.startsWith(LanguageTypes.ExceptionsApiCode.name())) {
+//            int index = LanguageTypes.ExceptionsApiCode.name().length();
+//            String message2 = message.substring(index);
+//            return Integer.valueOf(message2);
+//        } else {
+//            return status;
+//        }
+//    }
 
     @Override
     public String getErrorPath() {

@@ -40,6 +40,7 @@ import java.net.UnknownHostException;
 public class ApplicationReadyListener implements ApplicationListener<ApplicationReadyEvent> {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ApplicationReadyListener.class);
+
     @Autowired
     private ServerProperties properties;
 
@@ -47,9 +48,8 @@ public class ApplicationReadyListener implements ApplicationListener<Application
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-
         LOGGER.debug("Application Ready");
-        // LOGGER.debug("This application context is... " + event.getApplicationContext().getClass().getName());
+
         String ctx = properties.getContextPath();
         if (StringUtils.isEmpty(ctx)) {
             ctx = "/";
@@ -68,8 +68,9 @@ public class ApplicationReadyListener implements ApplicationListener<Application
         try {
             host = InetAddress.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
-            // e.printStackTrace();
+            e.printStackTrace();
         }
+
         if (StringUtils.isEmpty(host)) {
             host = LOCALHOST;
         }

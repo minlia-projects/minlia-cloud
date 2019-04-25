@@ -19,8 +19,10 @@ import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.exception.ApiException;
 import com.minlia.cloud.exception.ApiExceptionResponseBody;
 import com.minlia.cloud.exception.ValidationErrorDTO;
+import com.minlia.cloud.utils.Environments;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ErrorAttributes;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -35,11 +37,16 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 //import org.springframework.web.util.NestedServletException;
 
 @Slf4j
@@ -49,13 +56,12 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @Autowired
     Environment environment;
 
-    public RestResponseEntityExceptionHandler() {
-        super();
-    }
+    @Autowired
+    private ErrorAttributes errorAttributes;
 
     @Override
     protected final ResponseEntity<Object> handleHttpMessageNotReadable(final HttpMessageNotReadableException ex, final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-        log.error("Bad Request: {}", ex.getMessage());
+        log.error("HttpMessageNotReadableException: {}", ex.getMessage());
         final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(status, ex);
 //
 //        if(ex.getCause() instanceof InvalidFormatException){
@@ -68,25 +74,33 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 //        } else {
 //
 //        }
-        return handleExceptionInternal(ex, apiError, headers, HttpStatus.BAD_REQUEST, request);
+        return handleExceptionInternal(ex, apiError, headers, status, request);
     }
 
     @Override
     protected final ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
+//        log.error("MethodArgumentNotValidException: {}", ex.getMessage());
+//        final BindingResult result = ex.getBindingResult();
+//        final List<FieldError> fieldErrors = result.getFieldErrors();
+//        final ValidationErrorDTO dto = processFieldErrors(fieldErrors);
+//        ApiExceptionResponseBody responseBody = new ApiExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), fieldErrors.get(0).getDefaultMessage(), ex);
+//        responseBody.setPayload(dto.getErrorDetails());
+//        responseBody.setStatus(HttpStatus.BAD_REQUEST.value());
+//        return handleExceptionInternal(ex, responseBody, headers, HttpStatus.OK, request);
         log.error("MethodArgumentNotValidException: {}", ex.getMessage());
         final BindingResult result = ex.getBindingResult();
         final List<FieldError> fieldErrors = result.getFieldErrors();
         final ValidationErrorDTO dto = processFieldErrors(fieldErrors);
-        ApiExceptionResponseBody responseBody = new ApiExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), fieldErrors.get(0).getDefaultMessage(), ex);
+        ApiExceptionResponseBody responseBody = new ApiExceptionResponseBody(status.name(), fieldErrors.get(0).getDefaultMessage(), ex);
         responseBody.setPayload(dto.getErrorDetails());
         responseBody.setStatus(HttpStatus.BAD_REQUEST.value());
-        return handleExceptionInternal(ex, responseBody, headers, HttpStatus.OK, request);
+        return handleExceptionInternal(ex, responseBody, headers, status, request);
     }
 
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        log.error("Bad Request: {}", ex.getMessage());
-        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.NOT_FOUND.value(), ex);
+        log.error("NoHandlerFoundException: {}", ex.getMessage());
+        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(status, ex);
         return handleExceptionInternal(ex, apiError, headers, status, request);
     }
 
@@ -109,72 +123,65 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
      * @return
      */
     @ExceptionHandler({ApiException.class})
-    protected ResponseEntity<Object> handleApi(final ApiException ex, final WebRequest request) {
+    protected ResponseEntity<Object> handleApiException(final ApiException ex, final WebRequest request) {
         log.warn("Api Exception: ", ex);
-        ApiExceptionResponseBody apiExceptionResponseBody = new ApiExceptionResponseBody(ex.getCode(), ex.getMessage(), ex);
-        return handleExceptionInternal(ex, apiExceptionResponseBody, new HttpHeaders(), HttpStatus.OK, request);
+        ApiExceptionResponseBody responseBody = new ApiExceptionResponseBody(ex.getCode(), ex.getMessage(), ex);
+        return handleExceptionInternal(ex, responseBody, new HttpHeaders(), HttpStatus.OK, request);
     }
 
     // 403 无权限
     @ExceptionHandler({AccessDeniedException.class})
-    protected ResponseEntity<Object> handleAccessDenied(final AccessDeniedException ex, final WebRequest request) {
+    protected ResponseEntity<Object> handleAccessDeniedException(final AccessDeniedException ex, final WebRequest request) {
         log.warn("Access Denied Exception: ", ex);
-//        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.FORBIDDEN, e);
-        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(SystemCode.Exception.FORBIDDEN, ex);
-        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
+        final ApiExceptionResponseBody responseBody = new ApiExceptionResponseBody(SystemCode.Exception.FORBIDDEN, ex);
+        return handleExceptionInternal(ex, responseBody, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
     }
 
     /**
      * spring dao 异常
-     * @param e
+     * @param ex
      * @param request
      * @return
      */
     @ExceptionHandler({DataAccessException.class})
-    protected ResponseEntity<Object> handleDataAccess(final DataAccessException e, final WebRequest request) {
-        log.error("DataAccessException: ", e);
-        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), "DAO异常", e);
-        return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.CONFLICT, request);
+    protected ResponseEntity<Object> handleDataAccessException(final DataAccessException ex, final WebRequest request) {
+//        log.error("DataAccessException: ", ex);
+        final ApiExceptionResponseBody responseBody = new ApiExceptionResponseBody(SystemCode.Exception.INTERNAL_SERVER_ERROR.code(), ex);
+        return handleExceptionInternal(ex, responseBody, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
     /**
      * Insert或Update数据时违反了完整性，例如违反了惟一性限制
-     * @param e
+     * @param ex
      * @param request
      * @return
      */
     @ExceptionHandler(value = DataIntegrityViolationException.class)
-    public final ResponseEntity<Object> dataIntegrityViolation(final DataIntegrityViolationException e, final WebRequest request) {
-        log.error("DataIntegrityViolationException: ", e);
-        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), "违反数据约束", e);
-        return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.CONFLICT, request);
+    public final ResponseEntity<Object> handleDataIntegrityViolationException(final DataIntegrityViolationException ex, final WebRequest request) {
+//        log.error("DataIntegrityViolationException: ", ex);
+        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(SystemCode.Exception.INTERNAL_SERVER_ERROR.code(), "违反数据约束", ex);
+        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
     /**
      * 违反唯一约束
-     * @param e
+     * @param ex
      * @param request
      * @return
      */
     @ExceptionHandler(value = DuplicateKeyException.class)
-    public final ResponseEntity<Object> handleDuplicateKey(final DuplicateKeyException e, final WebRequest request) {
-        log.error("DuplicateKeyException: ", e);
-        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), "记录已存在，请勿重复操作", e);
-        return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.CONFLICT, request);
+    public final ResponseEntity<Object> handleDuplicateKey(final DuplicateKeyException ex, WebRequest request) {
+//        log.error("DuplicateKeyException: ", ex);
+        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(SystemCode.Exception.INTERNAL_SERVER_ERROR.code(), "记录已存在，请勿重复操作", ex);
+        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
-    /**
-     * 500异常
-     * @param e
-     * @param request
-     * @return
-     */
     @ExceptionHandler({Exception.class})
 //    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    protected final ResponseEntity<Object> handleRuntime(final Exception e, final WebRequest request) {
-        log.error("Internal Server Error: ", e);
-        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), e);
-        return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.OK, request);
+    protected final ResponseEntity<Object> handleRuntime(final Exception ex, final WebRequest request) {
+        log.error("Exception: ", ex);
+        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(SystemCode.Exception.INTERNAL_SERVER_ERROR, ex);
+        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
     private ValidationErrorDTO processFieldErrors(final List<FieldError> fieldErrors) {

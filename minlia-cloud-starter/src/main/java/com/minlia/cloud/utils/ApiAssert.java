@@ -18,7 +18,7 @@ public class ApiAssert extends Assert {
         }
     }
 
-    public static void state(boolean expression, int code, String message) {
+    public static void state(boolean expression, String code, String message) {
         if(!expression) {
             throw new ApiException(code, message);
         }
@@ -30,7 +30,7 @@ public class ApiAssert extends Assert {
         }
     }
 
-    public static void isNull(Object object, int code, String message) {
+    public static void isNull(Object object, String code, String message) {
         if(object != null) {
             throw new ApiException(code, message);
         }
@@ -42,7 +42,7 @@ public class ApiAssert extends Assert {
         }
     }
 
-    public static void notNull(Object object, int code, String message) {
+    public static void notNull(Object object, String code, String message) {
         if(object == null) {
             throw new ApiException(code, message);
         }

@@ -5,7 +5,7 @@ package com.minlia.cloud.code;
  */
 public interface Code {
 
-    int code();
+    String code();
 
     String i18nKey();
 
