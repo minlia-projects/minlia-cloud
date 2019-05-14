@@ -87,9 +87,7 @@ public class Response<T> implements Body {
     }
 
 
-
-
-    public static <T> Response<T> is(boolean bool) {
+    public static Response is(boolean bool) {
         return is(bool, null);
     }
     public static <T> Response<T> is(boolean bool, T payload) {
@@ -109,17 +107,19 @@ public class Response<T> implements Body {
         return is(bool, code, message, null);
     }
     public static <T> Response<T> is(boolean bool, String code, String message, T payload) {
-        return new Response(code, message, payload);
+        if (bool) {
+            return success(code, message, payload);
+        } else {
+            return failure(code, message, payload);
+        }
     }
-
-
 
 
     public static Response success() {
         return success(SystemCode.Message.SUCCESS);
     }
     public static Response success(Code code) {
-        return success(code.code(), code.message(), null);
+        return success(code, null);
     }
     public static Response success(String code, String message) {
         return success(code, message, null);
@@ -133,8 +133,9 @@ public class Response<T> implements Body {
     public static <T> Response success(String code, String message, T payload) {
         return new Response(code, message, payload);
     }
-
-
+    public static Response successMsg(String message) {
+        return new Response(SystemCode.Message.SUCCESS.code(), message);
+    }
 
 
     public static Response failure() {
@@ -154,6 +155,9 @@ public class Response<T> implements Body {
     }
     public static <T> Response failure(String code, String message, T payload) {
         return new Response(code, message, payload);
+    }
+    public static Response failureMsg(String message) {
+        return new Response(SystemCode.Message.FAILURE.code(), message);
     }
 
     public boolean isSuccess() {
