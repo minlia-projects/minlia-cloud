@@ -576,6 +576,7 @@
       <version>4.2.3.RELEASE</version>
     </dependency>
   </dependencies>
+
   <distributionManagement>
     <snapshotRepository>
       <id>ossrh</id>
@@ -586,6 +587,5 @@
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
   </distributionManagement>
-
 
 </project>
