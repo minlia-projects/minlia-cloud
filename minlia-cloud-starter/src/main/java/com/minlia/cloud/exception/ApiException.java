@@ -22,21 +22,21 @@ public class ApiException extends NestedRuntimeException {
     @Deprecated
     public ApiException(String msg) {
         super(msg);
-        this.status = Response.STATUS_FAILURE;
+        this.status = Response.STATUS_SUCCESS;
         this.code = Response.CODE_FAILURE;
         this.args = new Object[]{};
     }
 
     public ApiException(String code, String msg) {
         super(msg);
-        this.status = Response.STATUS_FAILURE;
+        this.status = Response.STATUS_SUCCESS;
         this.code = code;
         this.args = new Object[]{};
     }
 
     public ApiException(Code code, Object... args) {
         super(Lang.get(code.i18nKey(), args));
-        this.status = Response.STATUS_FAILURE;
+        this.status = Response.STATUS_SUCCESS;
         this.code = code.code();
         this.args = args;
     }
