@@ -16,7 +16,7 @@ public class Response<T> implements Body {
 
     public static final Integer STATUS_SUCCESS = HttpStatus.OK.value();
 
-    public static final Integer STATUS_FAILURE = HttpStatus.INTERNAL_SERVER_ERROR.value();
+    public static final Integer STATUS_FAILURE = HttpStatus.OK.value();
 
     public static final String CODE_SUCCESS = "SUCCESS";
 
