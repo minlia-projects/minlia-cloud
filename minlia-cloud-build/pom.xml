@@ -37,11 +37,11 @@
     <distributionManagement>
         <snapshotRepository>
             <id>snapshots</id>
-            <url>http://nexus.microsoft.com.192.168.1.105.xip.io:7071/repository/minlia-snapshots/</url>
+            <url>http://nexus.microsoft.com.192.168.196.244.xip.io:7071/repository/minlia-snapshots/</url>
         </snapshotRepository>
         <repository>
             <id>releases</id>
-            <url>http://nexus.microsoft.com.192.168.1.105.xip.io:7071/repository/minlia-releases/</url>
+            <url>http://nexus.microsoft.com.192.168.196.244.xip.io:7071/repository/minlia-releases/</url>
         </repository>
     </distributionManagement>
 
