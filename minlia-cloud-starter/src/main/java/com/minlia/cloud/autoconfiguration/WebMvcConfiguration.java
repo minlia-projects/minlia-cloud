@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.minlia.cloud.resolver.UnderlineToCamelArgumentResolver;
+import com.minlia.cloud.utils.LocalDateUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -21,20 +22,16 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.io.IOException;
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Configuration
 @EnableWebMvc
 public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements ApplicationContextAware {
-
-    /**
-     * 默认日期时间格式
-     */
-    public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-
-    DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT);
 
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
             "classpath:/META-INF/resources/",
@@ -57,6 +54,7 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements Appl
 
     /**
      * 添加参数解析，将参数的形式从下划线转化为驼峰
+     *
      * @param argumentResolvers
      */
     @Override
@@ -160,9 +158,6 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements Appl
      * @return
      */
     private JavaTimeModule javaTimeModule() {
-//        ZoneOffset zoneOffset = ZoneOffset.of("+8");
-        ZoneOffset zoneOffset = ZoneOffset.ofHours(8);
-
         JavaTimeModule javaTimeModule = new JavaTimeModule();
 //        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DATE_TIME_FORMATTER));
 //        javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ISO_LOCAL_DATE));
@@ -172,16 +167,17 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements Appl
             @Override
             public void serialize(LocalDateTime localDateTime, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
 //                jsonGenerator.writeNumber(localDateTime.toEpochSecond(ZoneOffset.ofHours(8)));
-                jsonGenerator.writeNumber(localDateTime.toInstant(zoneOffset).toEpochMilli());
+                jsonGenerator.writeNumber(LocalDateUtils.localDateTimeToTimestamp(localDateTime));
             }
         });
 
         javaTimeModule.addSerializer(LocalDate.class, new JsonSerializer<LocalDate>() {
             @Override
             public void serialize(LocalDate localDate, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-                jsonGenerator.writeNumber(localDate.atStartOfDay().toInstant(zoneOffset).toEpochMilli());
+                jsonGenerator.writeNumber(LocalDateUtils.localDateToTimestamp(localDate));
             }
         });
+
 
 //        javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DATE_TIME_FORMATTER));
 //        javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ISO_LOCAL_DATE));
@@ -191,13 +187,12 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements Appl
             @Override
             public LocalDateTime deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
                 if (NumberUtils.isDigits(jsonParser.getText())) {
-//                    return LocalDateTime.ofEpochSecond(jsonParser.getLongValue() / 1000, 0, ZoneOffset.ofHours(8));
-                    return LocalDateTime.ofInstant(Instant.ofEpochMilli(jsonParser.getLongValue()), zoneOffset);
+                    return LocalDateUtils.timestampTolocalDateTime(jsonParser.getLongValue());
                 } else {
                     if (jsonParser.getText().contains("T")) {
                         return LocalDateTime.parse(jsonParser.getText(), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
                     } else {
-                        return LocalDateTime.parse(jsonParser.getText(), DATE_TIME_FORMATTER);
+                        return LocalDateTime.parse(jsonParser.getText(), LocalDateUtils.DATE_TIME_FORMATTER);
                     }
                 }
             }
@@ -207,7 +202,7 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements Appl
             @Override
             public LocalDate deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
                 if (NumberUtils.isDigits(jsonParser.getText())) {
-                    return LocalDateTime.ofInstant(Instant.ofEpochMilli(jsonParser.getLongValue()), zoneOffset).toLocalDate();
+                    return LocalDateUtils.timestampTolocalDate(jsonParser.getLongValue());
                 } else {
                     return LocalDate.parse(jsonParser.getText());
                 }
@@ -218,7 +213,7 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements Appl
             @Override
             public LocalTime deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
                 if (NumberUtils.isDigits(jsonParser.getText())) {
-                    return LocalDateTime.ofInstant(Instant.ofEpochMilli(jsonParser.getLongValue()), zoneOffset).toLocalTime();
+                    return LocalDateUtils.timestampTolocalTime(jsonParser.getLongValue());
                 } else {
                     return LocalTime.parse(jsonParser.getText());
                 }
