@@ -1,7 +1,6 @@
 package com.minlia.cloud.autoconfiguration;
 
 import com.minlia.cloud.config.AsyncConfiguration;
-import com.minlia.cloud.config.DozerConfiguration;
 import com.minlia.cloud.holder.ContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -52,11 +51,11 @@ public class MinliaCloudAutoConfiguration {
     public static class EnableMinliaAsyncConfig {
     }
 
-    @Configuration
-    @Import(DozerConfiguration.class)
-    @ConditionalOnMissingBean(DozerConfiguration.class)
-    public static class EnableMinliaDozerConfiguration {
-    }
+//    @Configuration
+//    @Import(DozerConfiguration.class)
+//    @ConditionalOnMissingBean(DozerConfiguration.class)
+//    public static class EnableMinliaDozerConfiguration {
+//    }
 
     //No Locale Configuration
 //    @Configuration
