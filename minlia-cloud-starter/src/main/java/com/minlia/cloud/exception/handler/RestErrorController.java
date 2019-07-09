@@ -66,10 +66,10 @@ public class RestErrorController implements ErrorController {
             responseBody = new ApiExceptionResponseBody(HttpStatus.OK, code, Lang.get(message));
         } else {
             responseBody = new ApiExceptionResponseBody(HttpStatus.valueOf(status), message);
-            responseBody.setPath(path);
-            responseBody.setError(error);
-            responseBody.setException(exception);
         }
+        responseBody.setPath(path);
+        responseBody.setError(error);
+        responseBody.setException(exception);
         return responseBody;
     }
 
