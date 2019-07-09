@@ -19,7 +19,6 @@ import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.exception.ApiException;
 import com.minlia.cloud.exception.ApiExceptionResponseBody;
 import com.minlia.cloud.exception.ValidationErrorDTO;
-import com.minlia.cloud.utils.Environments;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorAttributes;
@@ -37,16 +36,11 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 //import org.springframework.web.util.NestedServletException;
 
 @Slf4j
@@ -118,6 +112,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     /**
      * 自定义异常
+     *
      * @param ex
      * @param request
      * @return
@@ -139,6 +134,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     /**
      * spring dao 异常
+     *
      * @param ex
      * @param request
      * @return
@@ -152,6 +148,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     /**
      * Insert或Update数据时违反了完整性，例如违反了惟一性限制
+     *
      * @param ex
      * @param request
      * @return
@@ -165,6 +162,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     /**
      * 违反唯一约束
+     *
      * @param ex
      * @param request
      * @return

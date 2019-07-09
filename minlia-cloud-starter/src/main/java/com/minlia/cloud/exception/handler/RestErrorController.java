@@ -1,7 +1,10 @@
 package com.minlia.cloud.exception.handler;
 
 import com.minlia.cloud.exception.ApiExceptionResponseBody;
+import com.minlia.cloud.i18n.Lang;
 import com.minlia.cloud.utils.Environments;
+import com.minlia.cloud.utils.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorAttributes;
 import org.springframework.boot.autoconfigure.web.ErrorController;
@@ -31,6 +34,7 @@ public class RestErrorController implements ErrorController {
 
     /**
      * //强制触发抛出异常, 主要还是通过 RestResponseEntityExceptionHandler.class,这里只是捡漏
+     *
      * @param request
      * @param response
      * @return
@@ -56,10 +60,16 @@ public class RestErrorController implements ErrorController {
 
         }
 
-        ApiExceptionResponseBody responseBody = new ApiExceptionResponseBody(HttpStatus.valueOf(status), message);
-        responseBody.setPath(path);
-        responseBody.setError(error);
-        responseBody.setException(exception);
+        ApiExceptionResponseBody responseBody;
+        if (exception.contains("ApiException")) {
+            String code =  StringUtils.substringAfterLast(message, ".").toUpperCase();
+            responseBody = new ApiExceptionResponseBody(HttpStatus.OK, code, Lang.get(message));
+        } else {
+            responseBody = new ApiExceptionResponseBody(HttpStatus.valueOf(status), message);
+            responseBody.setPath(path);
+            responseBody.setError(error);
+            responseBody.setException(exception);
+        }
         return responseBody;
     }
 

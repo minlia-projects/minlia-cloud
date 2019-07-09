@@ -50,6 +50,10 @@ public class ApiExceptionResponseBody extends Response {
         super(status.value(), status.name(), message);
     }
 
+    public ApiExceptionResponseBody(HttpStatus status, final String code, final String message) {
+        super(status.value(), code, message);
+    }
+
     public ApiExceptionResponseBody(HttpStatus status, Exception ex) {
         super(status.value(), status.name(), status.getReasonPhrase());
         this.exception = getException(ex);
@@ -59,8 +63,8 @@ public class ApiExceptionResponseBody extends Response {
     public ApiExceptionResponseBody(final String code, Exception ex) {
         super(STATUS_FAILURE, code, SystemCode.Exception.INTERNAL_SERVER_ERROR.message());
 //        if (!Environments.isProduction()) {
-            this.exception = getException(ex);
-            this.error = ex.getMessage();
+        this.exception = getException(ex);
+        this.error = ex.getMessage();
 //        }
     }
 
@@ -79,7 +83,7 @@ public class ApiExceptionResponseBody extends Response {
     private String getException(Exception e) {
         String exception = e.getClass().getSimpleName();
         if (null != e.getCause()) {
-            exception += "：" +   e.getCause().getMessage();
+            exception += "：" + e.getCause().getMessage();
         }
         return exception;
     }
