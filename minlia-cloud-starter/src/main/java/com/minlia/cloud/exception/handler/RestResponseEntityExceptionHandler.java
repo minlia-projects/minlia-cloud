@@ -180,8 +180,14 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 //    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     protected final ResponseEntity<Object> handleRuntime(final Exception ex, final WebRequest request) {
         log.error("Exception: ", ex);
-        final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(SystemCode.Exception.INTERNAL_SERVER_ERROR, ex);
-        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+        if (ex.getCause() instanceof ApiException) {
+            ApiException apiException = (ApiException) ex.getCause();
+            ApiExceptionResponseBody responseBody = new ApiExceptionResponseBody(apiException.getCode(), apiException.getMessage(), apiException);
+            return handleExceptionInternal(ex, responseBody, new HttpHeaders(), HttpStatus.OK, request);
+        } else {
+            final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(SystemCode.Exception.INTERNAL_SERVER_ERROR, ex);
+            return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+        }
     }
 
     private ValidationErrorDTO processFieldErrors(final List<FieldError> fieldErrors) {
