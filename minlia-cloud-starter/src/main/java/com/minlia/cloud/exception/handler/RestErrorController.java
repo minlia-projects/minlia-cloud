@@ -3,7 +3,6 @@ package com.minlia.cloud.exception.handler;
 import com.minlia.cloud.exception.ApiExceptionResponseBody;
 import com.minlia.cloud.i18n.Lang;
 import com.minlia.cloud.utils.Environments;
-import com.minlia.cloud.utils.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorAttributes;
