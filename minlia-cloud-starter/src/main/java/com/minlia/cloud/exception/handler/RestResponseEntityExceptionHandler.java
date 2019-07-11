@@ -120,7 +120,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler({ApiException.class})
     protected ResponseEntity<Object> handleApiException(final ApiException ex, final WebRequest request) {
         log.warn("Api Exception: ", ex);
-        ApiExceptionResponseBody responseBody = new ApiExceptionResponseBody(ex.getCode(), ex.getMessage(), ex);
+        ApiExceptionResponseBody responseBody = new ApiExceptionResponseBody(ex.getStatus(), ex.getCode(), ex.getMessage(), ex);
         return handleExceptionInternal(ex, responseBody, new HttpHeaders(), HttpStatus.OK, request);
     }
 

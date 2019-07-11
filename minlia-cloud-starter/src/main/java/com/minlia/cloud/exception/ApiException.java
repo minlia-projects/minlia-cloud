@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.OK)
 public class ApiException extends NestedRuntimeException {
 
-    private int status;
+    private HttpStatus status;
 
     private String code;
 
@@ -22,21 +22,35 @@ public class ApiException extends NestedRuntimeException {
     @Deprecated
     public ApiException(String msg) {
         super(msg);
-        this.status = Response.STATUS_SUCCESS;
+        this.status = HttpStatus.OK;
         this.code = Response.CODE_FAILURE;
+        this.args = new Object[]{};
+    }
+
+    public ApiException(HttpStatus status, String code, String msg) {
+        super(msg);
+        this.status = status;
+        this.code = code;
         this.args = new Object[]{};
     }
 
     public ApiException(String code, String msg) {
         super(msg);
-        this.status = Response.STATUS_SUCCESS;
+        this.status = HttpStatus.OK;
         this.code = code;
         this.args = new Object[]{};
     }
 
+    public ApiException(HttpStatus status, Code code, Object... args) {
+        super(Lang.get(code.i18nKey(), args));
+        this.status = status;
+        this.code = code.code();
+        this.args = args;
+    }
+
     public ApiException(Code code, Object... args) {
         super(Lang.get(code.i18nKey(), args));
-        this.status = Response.STATUS_SUCCESS;
+        this.status = HttpStatus.OK;
         this.code = code.code();
         this.args = args;
     }
@@ -45,7 +59,7 @@ public class ApiException extends NestedRuntimeException {
         return code;
     }
 
-    public int getStatus() {
+    public HttpStatus getStatus() {
         return status;
     }
 

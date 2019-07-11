@@ -60,6 +60,12 @@ public class ApiExceptionResponseBody extends Response {
         this.error = ex.getMessage();
     }
 
+    public ApiExceptionResponseBody(HttpStatus status, final String code, final String message, Exception ex) {
+        super(status.value(), code, message);
+        this.exception = getException(ex);
+        this.error = ex.getMessage();
+    }
+
     public ApiExceptionResponseBody(final String code, Exception ex) {
         super(STATUS_FAILURE, code, SystemCode.Exception.INTERNAL_SERVER_ERROR.message());
 //        if (!Environments.isProduction()) {

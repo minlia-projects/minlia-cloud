@@ -62,7 +62,7 @@ public class RestErrorController implements ErrorController {
         ApiExceptionResponseBody responseBody;
         if (StringUtils.isNotBlank(exception) && exception.contains("ApiException")) {
             String code = StringUtils.substringAfterLast(message, ".").toUpperCase();
-            responseBody = new ApiExceptionResponseBody(HttpStatus.OK, code, Lang.get(message));
+            responseBody = new ApiExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR, code, Lang.get(message));
         } else {
             responseBody = new ApiExceptionResponseBody(HttpStatus.valueOf(status), message);
         }
