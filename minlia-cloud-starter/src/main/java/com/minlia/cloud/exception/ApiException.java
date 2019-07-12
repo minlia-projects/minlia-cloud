@@ -22,7 +22,7 @@ public class ApiException extends NestedRuntimeException {
     @Deprecated
     public ApiException(String msg) {
         super(msg);
-        this.status = HttpStatus.OK;
+        this.status = HttpStatus.INTERNAL_SERVER_ERROR;
         this.code = Response.CODE_FAILURE;
         this.args = new Object[]{};
     }
@@ -36,7 +36,7 @@ public class ApiException extends NestedRuntimeException {
 
     public ApiException(String code, String msg) {
         super(msg);
-        this.status = HttpStatus.OK;
+        this.status = HttpStatus.INTERNAL_SERVER_ERROR;
         this.code = code;
         this.args = new Object[]{};
     }
@@ -50,7 +50,7 @@ public class ApiException extends NestedRuntimeException {
 
     public ApiException(Code code, Object... args) {
         super(Lang.get(code.i18nKey(), args));
-        this.status = HttpStatus.OK;
+        this.status = HttpStatus.INTERNAL_SERVER_ERROR;
         this.code = code.code();
         this.args = args;
     }
