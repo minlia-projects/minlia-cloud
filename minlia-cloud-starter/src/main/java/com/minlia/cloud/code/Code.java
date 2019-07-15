@@ -9,6 +9,6 @@ public interface Code {
 
     String i18nKey();
 
-    String message(String... args);
+    String message(Object... args);
 
 }
