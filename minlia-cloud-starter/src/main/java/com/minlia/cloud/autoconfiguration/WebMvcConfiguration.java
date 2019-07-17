@@ -3,11 +3,15 @@ package com.minlia.cloud.autoconfiguration;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
+import com.minlia.cloud.jackson.MinliaStringDeserializer;
 import com.minlia.cloud.resolver.UnderlineToCamelArgumentResolver;
 import com.minlia.cloud.utils.LocalDateUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -135,6 +139,8 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements Appl
         builder.serializationInclusion(JsonInclude.Include.NON_NULL);
         builder.serializationInclusion(JsonInclude.Include.NON_EMPTY);
 //        builder.propertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+
+        builder.deserializerByType(String.class, new MinliaStringDeserializer());
 
         // 启用美化打印
         builder.indentOutput(true)
