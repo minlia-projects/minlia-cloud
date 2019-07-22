@@ -7,6 +7,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.minlia.cloud.jackson.MinliaStringDeserializer;
 import com.minlia.cloud.resolver.UnderlineToCamelArgumentResolver;
@@ -32,6 +34,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import static com.minlia.cloud.utils.LocalDateUtils.DATE_TIME_FORMATTER;
 
 @Configuration
 @EnableWebMvc
@@ -165,24 +169,23 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements Appl
      */
     private JavaTimeModule javaTimeModule() {
         JavaTimeModule javaTimeModule = new JavaTimeModule();
-//        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DATE_TIME_FORMATTER));
-//        javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ISO_LOCAL_DATE));
+        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DATE_TIME_FORMATTER));
+        javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ISO_LOCAL_DATE));
         javaTimeModule.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ISO_LOCAL_TIME));
 
-        javaTimeModule.addSerializer(LocalDateTime.class, new JsonSerializer<LocalDateTime>() {
-            @Override
-            public void serialize(LocalDateTime localDateTime, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-//                jsonGenerator.writeNumber(localDateTime.toEpochSecond(ZoneOffset.ofHours(8)));
-                jsonGenerator.writeNumber(LocalDateUtils.localDateTimeToTimestamp(localDateTime));
-            }
-        });
-
-        javaTimeModule.addSerializer(LocalDate.class, new JsonSerializer<LocalDate>() {
-            @Override
-            public void serialize(LocalDate localDate, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-                jsonGenerator.writeNumber(LocalDateUtils.localDateToTimestamp(localDate));
-            }
-        });
+//        javaTimeModule.addSerializer(LocalDateTime.class, new JsonSerializer<LocalDateTime>() {
+//            @Override
+//            public void serialize(LocalDateTime localDateTime, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+//                jsonGenerator.writeNumber(LocalDateUtils.localDateTimeToTimestamp(localDateTime));
+//            }
+//        });
+//
+//        javaTimeModule.addSerializer(LocalDate.class, new JsonSerializer<LocalDate>() {
+//            @Override
+//            public void serialize(LocalDate localDate, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+//                jsonGenerator.writeNumber(LocalDateUtils.localDateToTimestamp(localDate));
+//            }
+//        });
 
 
 //        javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DATE_TIME_FORMATTER));
@@ -198,7 +201,7 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements Appl
                     if (jsonParser.getText().contains("T")) {
                         return LocalDateTime.parse(jsonParser.getText(), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
                     } else {
-                        return LocalDateTime.parse(jsonParser.getText(), LocalDateUtils.DATE_TIME_FORMATTER);
+                        return LocalDateTime.parse(jsonParser.getText(), DATE_TIME_FORMATTER);
                     }
                 }
             }
