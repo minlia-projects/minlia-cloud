@@ -212,6 +212,8 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements Appl
             public LocalDate deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
                 if (NumberUtils.isDigits(jsonParser.getText())) {
                     return LocalDateUtils.timestampTolocalDate(jsonParser.getLongValue());
+                } else if (jsonParser.getText().contains(":")) {
+                    return LocalDateTime.parse(jsonParser.getText(), DATE_TIME_FORMATTER).toLocalDate();
                 } else {
                     return LocalDate.parse(jsonParser.getText());
                 }
