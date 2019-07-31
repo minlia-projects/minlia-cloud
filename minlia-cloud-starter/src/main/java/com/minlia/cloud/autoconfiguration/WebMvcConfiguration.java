@@ -1,10 +1,7 @@
 package com.minlia.cloud.autoconfiguration;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
@@ -13,9 +10,9 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.minlia.cloud.jackson.MinliaStringDeserializer;
 import com.minlia.cloud.resolver.UnderlineToCamelArgumentResolver;
 import com.minlia.cloud.utils.LocalDateUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.BeansException;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +25,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -37,6 +33,7 @@ import java.util.List;
 
 import static com.minlia.cloud.utils.LocalDateUtils.DATE_TIME_FORMATTER;
 
+@EnableAutoConfiguration
 @Configuration
 @EnableWebMvc
 public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements ApplicationContextAware {
@@ -140,8 +137,8 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements Appl
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
-        builder.serializationInclusion(JsonInclude.Include.NON_NULL);
-        builder.serializationInclusion(JsonInclude.Include.NON_EMPTY);
+//        builder.serializationInclusion(JsonInclude.Include.NON_NULL);
+//        builder.serializationInclusion(JsonInclude.Include.NON_EMPTY);
 //        builder.propertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
 
         builder.deserializerByType(String.class, new MinliaStringDeserializer());

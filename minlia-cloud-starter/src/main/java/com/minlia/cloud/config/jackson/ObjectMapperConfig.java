@@ -61,9 +61,6 @@
 //     * @return
 //     */
 //    private JavaTimeModule javaTimeModule() {
-////        ZoneOffset zoneOffset = ZoneOffset.of("+8");
-//        ZoneOffset zoneOffset = ZoneOffset.ofHours(8);
-//
 //        JavaTimeModule javaTimeModule = new JavaTimeModule();
 ////        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DATE_TIME_FORMATTER));
 ////        javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ISO_LOCAL_DATE));
