@@ -30,23 +30,23 @@ public final class MinliaStringDeserializer extends StdScalarDeserializer<String
         return true;
     }
 
-    public String deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+    public String deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
         if (p.hasToken(JsonToken.VALUE_STRING)) {
             return StringUtils.isNotBlank(p.getText()) ? p.getText() : null;
         } else {
             JsonToken t = p.getCurrentToken();
             if (t == JsonToken.START_ARRAY) {
-                return this._deserializeFromArray(p, ctxt);
+                return this._deserializeFromArray(p, ctx);
             } else if (t == JsonToken.VALUE_EMBEDDED_OBJECT) {
                 Object ob = p.getEmbeddedObject();
                 if (ob == null) {
                     return null;
                 } else {
-                    return ob instanceof byte[] ? ctxt.getBase64Variant().encode((byte[]) ((byte[]) ob), false) : ob.toString();
+                    return ob instanceof byte[] ? ctx.getBase64Variant().encode((byte[]) ((byte[]) ob), false) : ob.toString();
                 }
             } else {
                 String text = p.getValueAsString();
-                return text != null ? text : (String) ctxt.handleUnexpectedToken(this._valueClass, p);
+                return text != null ? text : (String) ctx.handleUnexpectedToken(this._valueClass, p);
             }
         }
     }
