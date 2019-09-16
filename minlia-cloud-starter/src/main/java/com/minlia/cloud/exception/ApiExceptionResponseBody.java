@@ -18,6 +18,7 @@ package com.minlia.cloud.exception;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.code.Code;
 import com.minlia.cloud.code.SystemCode;
+import com.minlia.cloud.utils.Environments;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -52,34 +53,40 @@ public class ApiExceptionResponseBody extends Response {
 
     public ApiExceptionResponseBody(HttpStatus status, Exception ex) {
         super(status.value(), status.name(), status.getReasonPhrase());
-        this.exception = getException(ex);
-        this.error = ex.getMessage();
+        if (!Environments.isProduction()) {
+            this.exception = getException(ex);
+            this.error = ex.getMessage();
+        }
     }
 
     public ApiExceptionResponseBody(final String code, Exception ex) {
         super(STATUS_FAILURE, code, SystemCode.Exception.INTERNAL_SERVER_ERROR.message());
-//        if (!Environments.isProduction()) {
+        if (!Environments.isProduction()) {
             this.exception = getException(ex);
             this.error = ex.getMessage();
-//        }
+        }
     }
 
     public ApiExceptionResponseBody(Code code, Exception ex) {
         super(STATUS_FAILURE, code.code(), code.message());
-        this.exception = getException(ex);
-        this.error = ex.getMessage();
+        if (!Environments.isProduction()) {
+            this.exception = getException(ex);
+            this.error = ex.getMessage();
+        }
     }
 
     public ApiExceptionResponseBody(final String code, final String message, Exception ex) {
         super(STATUS_FAILURE, code, message);
-        this.exception = getException(ex);
-        this.error = ex.getMessage();
+        if (!Environments.isProduction()) {
+            this.exception = getException(ex);
+            this.error = ex.getMessage();
+        }
     }
 
     private String getException(Exception e) {
         String exception = e.getClass().getSimpleName();
         if (null != e.getCause()) {
-            exception += "：" +   e.getCause().getMessage();
+            exception += "：" + e.getCause().getMessage();
         }
         return exception;
     }
