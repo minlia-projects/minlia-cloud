@@ -4,7 +4,7 @@
 
     <groupId>com.minlia.cloud</groupId>
     <artifactId>minlia-cloud-dependencies</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.5-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Minlia Cloud Dependencies</name>
@@ -606,7 +606,7 @@
             <dependency>
                 <groupId>com.minlia.cloud</groupId>
                 <artifactId>minlia-cloud-common</artifactId>
-                <version>1.0.3-SNAPSHOT</version>
+                <version>1.0.5-SNAPSHOT</version>
             </dependency>
 
         </dependencies>

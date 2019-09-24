@@ -5,13 +5,13 @@
   <groupId>com.minlia.cloud</groupId>
   <artifactId>minlia-cloud-common</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.3-SNAPSHOT</version>
+  <version>1.0.5-SNAPSHOT</version>
   <name>Minlia Cloud Common</name>
 
   <parent>
     <groupId>com.minlia.cloud</groupId>
     <artifactId>minlia-cloud-parent</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.5-SNAPSHOT</version>
     <relativePath>../minlia-cloud-parent/pom.xml</relativePath>
   </parent>
 
