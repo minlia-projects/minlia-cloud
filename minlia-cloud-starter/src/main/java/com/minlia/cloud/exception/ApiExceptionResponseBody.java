@@ -57,7 +57,7 @@ public class ApiExceptionResponseBody extends Response {
 
     public ApiExceptionResponseBody(HttpStatus status, Exception ex) {
         super(status.value(), status.name(), status.getReasonPhrase());
-        if (!Environments.isProduction()) {
+        if (Environments.isDevelopment()) {
             this.exception = getException(ex);
             this.error = ex.getMessage();
         }
@@ -65,7 +65,7 @@ public class ApiExceptionResponseBody extends Response {
 
     public ApiExceptionResponseBody(HttpStatus status, final String code, final String message, Exception ex) {
         super(status.value(), code, message);
-        if (!Environments.isProduction()) {
+        if (Environments.isDevelopment()) {
             this.exception = getException(ex);
             this.error = ex.getMessage();
         }
@@ -73,7 +73,7 @@ public class ApiExceptionResponseBody extends Response {
 
     public ApiExceptionResponseBody(final String code, Exception ex) {
         super(STATUS_FAILURE, code, SystemCode.Exception.INTERNAL_SERVER_ERROR.message());
-        if (!Environments.isProduction()) {
+        if (Environments.isDevelopment()) {
             this.exception = getException(ex);
             this.error = ex.getMessage();
         }
@@ -81,7 +81,7 @@ public class ApiExceptionResponseBody extends Response {
 
     public ApiExceptionResponseBody(Code code, Exception ex) {
         super(STATUS_FAILURE, code.code(), code.message());
-        if (!Environments.isProduction()) {
+        if (Environments.isDevelopment()) {
             this.exception = getException(ex);
             this.error = ex.getMessage();
         }
@@ -89,7 +89,7 @@ public class ApiExceptionResponseBody extends Response {
 
     public ApiExceptionResponseBody(final String code, final String message, Exception ex) {
         super(STATUS_FAILURE, code, message);
-        if (!Environments.isProduction()) {
+        if (Environments.isDevelopment()) {
             this.exception = getException(ex);
             this.error = ex.getMessage();
         }
