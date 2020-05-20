@@ -143,7 +143,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     protected ResponseEntity<Object> handleDataAccessException(final DataAccessException ex, final WebRequest request) {
 //        log.error("DataAccessException: ", ex);
         final ApiExceptionResponseBody responseBody = new ApiExceptionResponseBody(SystemCode.Exception.INTERNAL_SERVER_ERROR.code(), ex);
-        return handleExceptionInternal(ex, responseBody, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+        return handleExceptionInternal(ex, responseBody, new HttpHeaders(), HttpStatus.OK, request);
+//        return handleExceptionInternal(ex, responseBody, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
     /**
@@ -157,7 +158,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     public final ResponseEntity<Object> handleDataIntegrityViolationException(final DataIntegrityViolationException ex, final WebRequest request) {
 //        log.error("DataIntegrityViolationException: ", ex);
         final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(SystemCode.Exception.INTERNAL_SERVER_ERROR.code(), "违反数据约束", ex);
-        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.OK, request);
+//        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
     /**
@@ -171,7 +173,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     public final ResponseEntity<Object> handleDuplicateKey(final DuplicateKeyException ex, WebRequest request) {
 //        log.error("DuplicateKeyException: ", ex);
         final ApiExceptionResponseBody apiError = new ApiExceptionResponseBody(SystemCode.Exception.INTERNAL_SERVER_ERROR.code(), "记录已存在，请勿重复操作", ex);
-        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.OK, request);
+//        return handleExceptionInternal(ex, apiError, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
     @ExceptionHandler({Exception.class})
