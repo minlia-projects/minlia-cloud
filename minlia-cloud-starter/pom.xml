@@ -590,7 +590,7 @@
       <version>4.2.3.RELEASE</version>
     </dependency>
   </dependencies>
-  <distributionManagement>
+  <!-- <distributionManagement>
     <snapshotRepository>
       <id>ossrh</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -599,7 +599,18 @@
       <id>ossrh</id>
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
-  </distributionManagement>
+  </distributionManagement> -->
+
+  <distributionManagement>
+    <snapshotRepository>
+        <id>snapshots</id>
+        <url>https://nexus.app.minlia.com/repository/maven-snapshots/</url>
+    </snapshotRepository>
+    <repository>
+        <id>releases</id>
+        <url>https://nexus.app.minlia.com/repository/maven-releases/</url>
+    </repository>
+</distributionManagement>
 
 
 </project>
