@@ -11,7 +11,8 @@
 
     <groupId>com.minlia.cloud</groupId>
     <artifactId>minlia-cloud-dependencies</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+<!--    <version>2.0.0-SNAPSHOT</version>-->
+    <version>${minlia.cloud.version}</version>
     <packaging>pom</packaging>
     <name>Minlia Cloud Dependencies</name>
     <description>Minlia Cloud Dependencies</description>
@@ -19,8 +20,10 @@
     <inceptionYear>2016</inceptionYear>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <minlia.cloud.version>2.0.0-SNAPSHOT</minlia.cloud.version>
         <java.version>1.8</java.version>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lombok.version>1.16.6</lombok.version>
         <dozer.version>5.5.1</dozer.version>
         <lombok.plugin.version>1.16.6.1</lombok.plugin.version>
@@ -89,9 +92,15 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>1.5.9.RELEASE</version>
+                <version>${minlia.cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.minlia.cloud</groupId>
+                <artifactId>minlia-cloud-common</artifactId>
+                <version>${minlia.cloud.version}</version>
             </dependency>
 
             <dependency>
