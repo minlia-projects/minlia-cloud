@@ -1,11 +1,9 @@
 <!--
-
     Copyright © 2016, Minlia <hello@minlia.com>
 
     This Source Code Form is subject to the terms of the Mozilla Public
     License, v. 2.0. If a copy of the MPL was not distributed with this
     file, You can obtain one at http://mozilla.org/MPL/2.0/.
-
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -22,18 +20,18 @@
     <inceptionYear>2016</inceptionYear>
 
     <!--<distributionManagement>-->
-        <!--<snapshotRepository>-->
-            <!--<id>ossrh</id>-->
-            <!--<url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
-        <!--</snapshotRepository>-->
-        <!--<repository>-->
-            <!--<id>ossrh</id>-->
-            <!--<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
-        <!--</repository>-->
+    <!--<snapshotRepository>-->
+    <!--<id>ossrh</id>-->
+    <!--<url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+    <!--</snapshotRepository>-->
+    <!--<repository>-->
+    <!--<id>ossrh</id>-->
+    <!--<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
+    <!--</repository>-->
     <!--</distributionManagement>-->
 
 
-
+    <!-- 使用分发管理将本项目打成jar包，直接上传到指定服务器 nexus-->
     <distributionManagement>
         <snapshotRepository>
             <id>snapshots</id>
@@ -44,8 +42,6 @@
             <url>http://nexus.microsoft.com.192.168.196.244.xip.io:7071/repository/minlia-releases/</url>
         </repository>
     </distributionManagement>
-
-
 
     <scm>
         <connection>
