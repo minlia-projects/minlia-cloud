@@ -1,10 +1,9 @@
 package com.minlia.cloud.utils;
 
-import java.text.SimpleDateFormat;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class RequestIdGenerator {

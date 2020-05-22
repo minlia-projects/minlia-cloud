@@ -1,22 +1,15 @@
-<!--
-    Copyright © 2016, Minlia <hello@minlia.com>
-
-    This Source Code Form is subject to the terms of the Mozilla Public
-    License, v. 2.0. If a copy of the MPL was not distributed with this
-    file, You can obtain one at http://mozilla.org/MPL/2.0/.
--->
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.minlia.cloud</groupId>
     <artifactId>minlia-cloud-build</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-
     <name>Minlia Cloud Build</name>
-    <url>https://minlia.com/mit/</url>
     <description>Minlia Cloud Build</description>
+    <url>https://minlia.com/mit/</url>
     <inceptionYear>2016</inceptionYear>
 
     <!--<distributionManagement>-->
@@ -30,7 +23,6 @@
     <!--</repository>-->
     <!--</distributionManagement>-->
 
-
     <!-- 使用分发管理将本项目打成jar包，直接上传到指定服务器 nexus-->
     <distributionManagement>
         <snapshotRepository>
@@ -43,6 +35,7 @@
         </repository>
     </distributionManagement>
 
+    <!-- 配置 git 的路径，Maven 将从该路径下将代码取下来 -->
     <scm>
         <connection>
             scm:git:https://github.com/minlia-projects/minlia-cloud.git
@@ -62,5 +55,14 @@
             <organizationUrl>https://www.minlia.com</organizationUrl>
         </developer>
     </developers>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

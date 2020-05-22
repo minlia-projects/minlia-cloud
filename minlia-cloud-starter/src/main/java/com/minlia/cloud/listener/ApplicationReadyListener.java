@@ -50,7 +50,9 @@ public class ApplicationReadyListener implements ApplicationListener<Application
     public void onApplicationEvent(ApplicationReadyEvent event) {
         LOGGER.debug("Application Ready");
 
-        String ctx = properties.getContextPath();
+        //TODO
+//        String ctx = properties.getContextPath();
+        String ctx = properties.getServlet().getContextPath();
         if (StringUtils.isEmpty(ctx)) {
             ctx = "/";
         } else {
