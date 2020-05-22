@@ -1,21 +1,15 @@
 package com.minlia.cloud.autoconfiguration;
 
 import com.minlia.cloud.config.AsyncConfiguration;
-import com.minlia.cloud.config.DozerConfiguration;
 import com.minlia.cloud.holder.ContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.*;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @ComponentScan(basePackages = "com.minlia.*")
 @Configuration
@@ -43,6 +37,27 @@ public class MinliaCloudAutoConfiguration {
 //
 //    }
 
+//    @Configuration
+//    @Import(WebMvcConfiguration.class)
+//    @ConditionalOnMissingBean(WebMvcConfiguration.class)
+//    public static class StarLionWebMvcConfig {
+////        @Bean
+////        AuditLogInterceptor localInterceptor() {
+////            return new AuditLogInterceptor();
+////        }
+//
+////        @Configuration
+////        public class CustomConfiguration {
+////            @Bean
+////            public HttpMessageConverters customConverters() {
+////                Collection<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
+////                GsonHttpMessageConverter gsonHttpMessageConverter = new GsonHttpMessageConverter();
+////                messageConverters.add(gsonHttpMessageConverter);
+////                return new HttpMessageConverters(true, messageConverters);
+////            }
+////        }
+//    }
+
     @Configuration
     @EnableAsync
     @EnableScheduling
@@ -52,11 +67,11 @@ public class MinliaCloudAutoConfiguration {
     public static class EnableMinliaAsyncConfig {
     }
 
-    @Configuration
-    @Import(DozerConfiguration.class)
-    @ConditionalOnMissingBean(DozerConfiguration.class)
-    public static class EnableMinliaDozerConfiguration {
-    }
+//    @Configuration
+//    @Import(DozerConfiguration.class)
+//    @ConditionalOnMissingBean(DozerConfiguration.class)
+//    public static class EnableMinliaDozerConfiguration {
+//    }
 
     //No Locale Configuration
 //    @Configuration
@@ -64,33 +79,6 @@ public class MinliaCloudAutoConfiguration {
 //    @ConditionalOnMissingBean(LocaleConfiguration.class)
 //    public static class StarLionLocaleConfiguration {
 //    }
-
-
-    @Configuration
-    @Import(WebMvcConfiguration.class)
-//    @ConditionalOnMissingBean(WebMvcConfiguration.class)
-    public static class StarLionWebMvcConfig {
-//        @Bean
-//        AuditLogInterceptor localInterceptor() {
-//            return new AuditLogInterceptor();
-//        }
-
-//        @Configuration
-//        public class CustomConfiguration {
-//            @Bean
-//            public HttpMessageConverters customConverters() {
-//                Collection<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
-//                GsonHttpMessageConverter gsonHttpMessageConverter = new GsonHttpMessageConverter();
-//                messageConverters.add(gsonHttpMessageConverter);
-//                return new HttpMessageConverters(true, messageConverters);
-//            }
-//        }
-
-
-    }
-
-
-
 
 //    @Configuration
 //    @ConditionalOnClass(Gson.class)

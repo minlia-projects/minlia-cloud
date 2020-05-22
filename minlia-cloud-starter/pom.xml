@@ -113,10 +113,31 @@
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
     </dependency>
+
+
+    <!--jackson 时间格式化-->
+    <dependency>
+      <groupId>com.fasterxml.jackson.module</groupId>
+      <artifactId>jackson-module-parameter-names</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jdk8</artifactId>
+    </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jsr310</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.jaxrs</groupId>
+      <artifactId>jackson-jaxrs-json-provider</artifactId>
+    </dependency>
+    <!--<dependency>-->
+    <!--<groupId>com.fasterxml.jackson.datatype</groupId>-->
+    <!--<artifactId>jackson-datatype-joda</artifactId>-->
+    <!--</dependency>-->
+
+
 
     <dependency>
       <groupId>javax.interceptor</groupId>
@@ -128,14 +149,7 @@
       <artifactId>spring-boot-starter-cache</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>com.fasterxml.jackson.jaxrs</groupId>
-      <artifactId>jackson-jaxrs-json-provider</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.datatype</groupId>
-      <artifactId>jackson-datatype-joda</artifactId>
-    </dependency>
+
 
     <dependency>
       <groupId>net.sourceforge.jexcelapi</groupId>
@@ -576,7 +590,6 @@
       <version>4.2.3.RELEASE</version>
     </dependency>
   </dependencies>
-
   <distributionManagement>
     <snapshotRepository>
       <id>ossrh</id>
@@ -587,5 +600,6 @@
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
   </distributionManagement>
+
 
 </project>

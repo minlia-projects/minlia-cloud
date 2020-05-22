@@ -56,8 +56,13 @@ public class SystemCode {
         }
 
         @Override
+<<<<<<< HEAD
         public String message(Object ... var){
             return Lang.get(this.i18nKey(), var);
+=======
+        public String message(Object... args) {
+            return Lang.get(this.i18nKey(), args);
+>>>>>>> master
         }
 
     }
@@ -113,8 +118,13 @@ public class SystemCode {
         }
 
         @Override
+<<<<<<< HEAD
         public String message(Object ... var){
             return Lang.get(this.i18nKey(), var);
+=======
+        public String message(Object... args) {
+            return Lang.get(this.i18nKey(), args);
+>>>>>>> master
         }
 
     }

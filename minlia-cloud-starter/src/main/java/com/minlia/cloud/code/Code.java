@@ -9,6 +9,10 @@ public interface Code {
 
     String i18nKey();
 
+<<<<<<< HEAD
     String message(Object ... var);
+=======
+    String message(Object... args);
+>>>>>>> master
 
 }

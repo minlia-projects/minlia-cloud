@@ -153,6 +153,11 @@ public class Response<T> implements Body {
     public static <T> Response failure(Code code, T payload) {
         return failure(code.code(), code.message(), payload);
     }
+
+    public static <T> Response failure(Code code, T payload, String ... args) {
+        return failure(code.code(), code.message(args), payload);
+    }
+
     public static <T> Response failure(String code, String message, T payload) {
         return new Response(code, message, payload);
     }
