@@ -66,7 +66,7 @@
         <cdi-api.version>1.0-SP1</cdi-api.version>
         <java-jwt.version>3.4.0</java-jwt.version>
         <vt-password.version>3.1.2</vt-password.version>
-        <amqp-client.version>3.5.6</amqp-client.version>
+        <amqp-client.version>[4.8.0,)</amqp-client.version>
         <json.version>20090211</json.version>
         <mail.version>1.5.0-b01</mail.version>
         <joda-time.version>2.9</joda-time.version>
