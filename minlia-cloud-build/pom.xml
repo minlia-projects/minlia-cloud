@@ -12,30 +12,6 @@
     <url>https://minlia.com/mit/</url>
     <inceptionYear>2016</inceptionYear>
 
-    <!--<distributionManagement>-->
-    <!--<snapshotRepository>-->
-    <!--<id>ossrh</id>-->
-    <!--<url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
-    <!--</snapshotRepository>-->
-    <!--<repository>-->
-    <!--<id>ossrh</id>-->
-    <!--<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
-    <!--</repository>-->
-    <!--</distributionManagement>-->
-
-    <!-- 使用分发管理将本项目打成jar包，直接上传到指定服务器 nexus-->
-    <distributionManagement>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <url>http://nexus.microsoft.com.192.168.196.244.xip.io:7071/repository/minlia-snapshots/</url>
-        </snapshotRepository>
-        <repository>
-            <id>releases</id>
-            <url>http://nexus.microsoft.com.192.168.196.244.xip.io:7071/repository/minlia-releases/</url>
-        </repository>
-    </distributionManagement>
-
-    <!-- 配置 git 的路径，Maven 将从该路径下将代码取下来 -->
     <scm>
         <connection>
             scm:git:https://github.com/minlia-projects/minlia-cloud.git
@@ -64,5 +40,28 @@
             </plugin>
         </plugins>
     </build>
+
+    <!--<distributionManagement>-->
+    <!--<snapshotRepository>-->
+    <!--<id>ossrh</id>-->
+    <!--<url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+    <!--</snapshotRepository>-->
+    <!--<repository>-->
+    <!--<id>ossrh</id>-->
+    <!--<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
+    <!--</repository>-->
+    <!--</distributionManagement>-->
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>https://nexus.app.minlia.com/repository/maven-snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>releases</id>
+            <url>https://nexus.app.minlia.com/repository/maven-releases/</url>
+        </repository>
+    </distributionManagement>
+
 
 </project>
