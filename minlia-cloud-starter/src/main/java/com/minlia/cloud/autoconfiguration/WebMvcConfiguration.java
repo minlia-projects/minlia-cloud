@@ -3,12 +3,9 @@ package com.minlia.cloud.autoconfiguration;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
-import com.minlia.cloud.jackson.Minlia1LocalDateTimeDeserializer;
-import com.minlia.cloud.jackson.MinliaLocalDateTimeDeserializer;
 import com.minlia.cloud.jackson.MinliaStringDeserializer;
 import com.minlia.cloud.resolver.UnderlineToCamelArgumentResolver;
 import com.minlia.cloud.utils.LocalDateUtils;
@@ -17,9 +14,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -193,7 +188,8 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements Appl
 //        javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ISO_LOCAL_DATE));
 //        javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ISO_LOCAL_TIME));
 
-        javaTimeModule.addDeserializer(LocalDateTime.class, new MinliaLocalDateTimeDeserializer());
+        //TODO
+//        javaTimeModule.addDeserializer(LocalDateTime.class, new MinliaLocalDateTimeDeserializer());
         javaTimeModule.addDeserializer(LocalDate.class, new JsonDeserializer<LocalDate>() {
             @Override
             public LocalDate deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
