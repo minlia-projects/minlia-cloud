@@ -71,7 +71,7 @@
         <mail.version>1.5.0-b01</mail.version>
         <joda-time.version>2.9</joda-time.version>
         <joda-time-hibernate.version>1.4</joda-time-hibernate.version>
-        <usertype-core.version>5.0.0.GA</usertype-core.version>
+        <usertype-core.version>7.0.0.CR1</usertype-core.version>
         <joda-money.version>0.11</joda-money.version>
         <shekhargulati.version>0.3.0</shekhargulati.version>
         <aspectjweaver.version>1.8.10</aspectjweaver.version>
