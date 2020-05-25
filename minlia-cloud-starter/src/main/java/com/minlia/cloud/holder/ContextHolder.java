@@ -9,12 +9,14 @@ import org.springframework.boot.context.properties.source.ConfigurationPropertyS
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
 import java.util.Properties;
 
 /**
  * Created by user on 4/25/16.
  */
+@Component
 public class ContextHolder implements ApplicationContextAware {
 
     private static ApplicationContext applicatioContext;
