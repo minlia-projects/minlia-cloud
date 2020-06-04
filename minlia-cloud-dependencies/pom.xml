@@ -23,14 +23,14 @@
         <java.version>1.8</java.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <lombok.version>1.16.6</lombok.version>
+        <lombok.version>1.18.12</lombok.version>
         <dozer.version>5.5.1</dozer.version>
         <lombok.plugin.version>1.16.6.1</lombok.plugin.version>
         <file.encoding>UTF-8</file.encoding>
         <hazelcast.version>3.7.2</hazelcast.version>
         <pmd.version>3.6</pmd.version>
         <jacoco.version>0.7.6.201602180812</jacoco.version>
-        <querydsl.version>4.1.4</querydsl.version>
+        <querydsl.version>4.3.1</querydsl.version>
         <rsql.version>2.1.0</rsql.version>
         <mapstruct.version>1.1.0.Final</mapstruct.version>
         <rxjava.version>2.0.0</rxjava.version>
