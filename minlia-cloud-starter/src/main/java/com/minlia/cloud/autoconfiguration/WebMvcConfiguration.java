@@ -6,22 +6,25 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
+import com.minlia.cloud.jackson.MinliaLocalDateTimeDeserializer;
 import com.minlia.cloud.jackson.MinliaStringDeserializer;
-import com.minlia.cloud.resolver.UnderlineToCamelArgumentResolver;
 import com.minlia.cloud.utils.LocalDateUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.context.request.RequestContextListener;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -35,7 +38,7 @@ import static com.minlia.cloud.utils.LocalDateUtils.DATE_TIME_FORMATTER;
 @EnableAutoConfiguration
 @Configuration
 @EnableWebMvc
-public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements ApplicationContextAware {
+public class WebMvcConfiguration implements WebMvcConfigurer, ApplicationContextAware {
 
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
             "classpath:/META-INF/resources/",
@@ -56,16 +59,16 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements Appl
         this.applicationContext = applicationContext;
     }
 
-    /**
-     * 添加参数解析，将参数的形式从下划线转化为驼峰
-     *
-     * @param argumentResolvers
-     */
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-        super.addArgumentResolvers(argumentResolvers);
-        argumentResolvers.add(new UnderlineToCamelArgumentResolver());
-    }
+//    /**
+//     * 添加参数解析，将参数的形式从下划线转化为驼峰
+//     *
+//     * @param argumentResolvers
+//     */
+//    @Override
+//    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+//        super.addArgumentResolvers(argumentResolvers);
+//        argumentResolvers.add(new UnderlineToCamelArgumentResolver());
+//    }
 
 
 //    /**
@@ -110,28 +113,28 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements Appl
         registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
     }
 
-//    /**
-//     * 解决跨域问题
-//     *
-//     * @param registry
-//     */
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/**") // **代表所有路径
-//                .allowedOrigins("*") // allowOrigin指可以通过的ip，*代表所有，可以使用指定的ip，多个的话可以用逗号分隔，默认为*
-//                .allowedMethods("GET", "POST", "HEAD", "PUT", "DELETE") // 指请求方式 默认为*
-//                .allowCredentials(false) // 支持证书，默认为true
-//                .maxAge(3600) // 最大过期时间，默认为-1
-//                .allowedHeaders("*");
-//    }
-//
-//    /**
-//     * RequestContextListener注册
-//     */
-//    @Bean
-//    public ServletListenerRegistrationBean<RequestContextListener> requestContextListenerRegistration() {
-//        return new ServletListenerRegistrationBean<>(new RequestContextListener());
-//    }
+    /**
+     * 解决跨域问题
+     *
+     * @param registry
+     */
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**") // **代表所有路径
+                .allowedOrigins("*") // allowOrigin指可以通过的ip，*代表所有，可以使用指定的ip，多个的话可以用逗号分隔，默认为*
+                .allowedMethods("GET", "POST", "HEAD", "PUT", "DELETE") // 指请求方式 默认为*
+                .allowCredentials(false) // 支持证书，默认为true
+                .maxAge(3600) // 最大过期时间，默认为-1
+                .allowedHeaders("*");
+    }
+
+    /**
+     * RequestContextListener注册
+     */
+    @Bean
+    public ServletListenerRegistrationBean<RequestContextListener> requestContextListenerRegistration() {
+        return new ServletListenerRegistrationBean<>(new RequestContextListener());
+    }
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
@@ -145,6 +148,7 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements Appl
         // 启用美化打印
         builder.indentOutput(true)
 //                .dateFormat(new SimpleDateFormat("yyyy-MM-dd"))
+                .timeZone("GMT+8")
                 .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)              // 禁用序列化日期为timestamps
                 .featuresToDisable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)           // 禁用遇到未知属性抛出异常
                 .featuresToDisable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)    // 禁用将日期调整到时间区域
@@ -154,9 +158,21 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements Appl
                 .featuresToEnable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES);               // 允许属性名称没有引号
 
         builder.modules(javaTimeModule());
-        converters.add(new MappingJackson2HttpMessageConverter(builder.build()));
+        // https://github.com/spring-projects/spring-boot/issues/12389
+        converters.add(0, new MappingJackson2HttpMessageConverter(builder.build()));
 //        converters.add(new MappingJackson2XmlHttpMessageConverter(builder.createXmlMapper(true).build()));
     }
+
+    //定义时间格式转换器
+//    @Bean
+//    public MappingJackson2HttpMessageConverter jackson2HttpMessageConverter() {
+//        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+//        ObjectMapper mapper = new ObjectMapper();
+//        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//        mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+//        converter.setObjectMapper(mapper);
+//        return converter;
+//    }
 
     /**
      * LocalDateTime系列序列化和反序列化模块，继承自jsr310，我们在这里修改了日期格式
@@ -189,7 +205,7 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter implements Appl
 //        javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ISO_LOCAL_TIME));
 
         //TODO
-//        javaTimeModule.addDeserializer(LocalDateTime.class, new MinliaLocalDateTimeDeserializer());
+        javaTimeModule.addDeserializer(LocalDateTime.class, new MinliaLocalDateTimeDeserializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         javaTimeModule.addDeserializer(LocalDate.class, new JsonDeserializer<LocalDate>() {
             @Override
             public LocalDate deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {

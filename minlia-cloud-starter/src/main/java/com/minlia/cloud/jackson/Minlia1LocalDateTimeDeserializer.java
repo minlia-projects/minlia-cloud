@@ -12,24 +12,25 @@
 //import org.springframework.context.annotation.Primary;
 //
 //import java.io.IOException;
-//import java.time.DateTimeException;
-//import java.time.Instant;
-//import java.time.LocalDateTime;
-//import java.time.ZoneOffset;
+//import java.time.*;
 //import java.time.format.DateTimeFormatter;
 //
-//public class Minlia1LocalDateTimeDeserializer extends LocalDateTimeDeserializer {
+//public class MinliaLocalDateTimeDeserializer extends JSR310DateTimeDeserializerBase<LocalDateTime> {
 //
 //    private static final long serialVersionUID = 1L;
 //    private static final DateTimeFormatter DEFAULT_FORMATTER;
-//    public static final Minlia1LocalDateTimeDeserializer INSTANCE;
+//    public static final MinliaLocalDateTimeDeserializer INSTANCE;
 //
-//    public Minlia1LocalDateTimeDeserializer() {
+//    public MinliaLocalDateTimeDeserializer() {
 //        this(DEFAULT_FORMATTER);
 //    }
 //
-//    public Minlia1LocalDateTimeDeserializer(DateTimeFormatter formatter) {
-//        super(formatter);
+//    public MinliaLocalDateTimeDeserializer(DateTimeFormatter formatter) {
+//        super(LocalDateTime.class, formatter);
+//    }
+//
+//    protected JSR310DateTimeDeserializerBase<LocalDateTime> withDateFormat(DateTimeFormatter formatter) {
+//        return new LocalDateTimeDeserializer(formatter);
 //    }
 //
 //    public LocalDateTime deserialize(JsonParser parser, DeserializationContext context) throws IOException {
@@ -100,6 +101,6 @@
 //
 //    static {
 //        DEFAULT_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-//        INSTANCE = new Minlia1LocalDateTimeDeserializer();
+//        INSTANCE = new MinliaLocalDateTimeDeserializer();
 //    }
 //}
