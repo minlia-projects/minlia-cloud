@@ -14,7 +14,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class WithListBody<T> implements Body {
+public class WithListItemBody<T> implements Body {
     private List<T> items;
 
 }
