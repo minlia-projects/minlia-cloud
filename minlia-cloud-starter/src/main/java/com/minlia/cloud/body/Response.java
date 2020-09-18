@@ -1,5 +1,6 @@
 package com.minlia.cloud.body;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.minlia.cloud.code.Code;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.RequestIdGenerator;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 
 /**
  * 状态化的返回体
+ *
  * @param <T>
  */
 @Data
@@ -47,23 +49,26 @@ public class Response<T> implements Body {
      */
     protected Long timestamp;
 
+    @JsonIgnore
+    protected Code i18nCode;
+
     /**
      * 请求ID
      */
     protected String requestId = RequestIdGenerator.generateRequestId();
 
-    public Response(){
+    public Response() {
         this.timestamp = System.currentTimeMillis();
     }
 
-    public Response(String code, String message){
+    public Response(String code, String message) {
         this.status = STATUS_SUCCESS;
         this.code = code;
         this.message = message;
         this.timestamp = System.currentTimeMillis();
     }
 
-    public Response(String code, String message, T payload){
+    public Response(String code, String message, T payload) {
         this.status = STATUS_SUCCESS;
         this.code = code;
         this.message = message;
@@ -71,14 +76,14 @@ public class Response<T> implements Body {
         this.timestamp = System.currentTimeMillis();
     }
 
-    public Response(Integer status, String code, String message){
+    public Response(Integer status, String code, String message) {
         this.status = null == status ? STATUS_SUCCESS : status;
         this.code = code;
         this.message = message;
         this.timestamp = System.currentTimeMillis();
     }
 
-    public Response(Integer status, String code, String message, T payload){
+    public Response(Integer status, String code, String message, T payload) {
         this.status = null == status ? STATUS_SUCCESS : status;
         this.code = code;
         this.message = message;
@@ -86,10 +91,18 @@ public class Response<T> implements Body {
         this.timestamp = System.currentTimeMillis();
     }
 
+    public Response(Integer status, Code i18nCode) {
+        this.status = status;
+        this.i18nCode = i18nCode;
+        this.code = i18nCode.code();
+        this.message = i18nCode.message();
+        this.timestamp = System.currentTimeMillis();
+    }
 
     public static Response is(boolean bool) {
         return is(bool, null);
     }
+
     public static <T> Response<T> is(boolean bool, T payload) {
         if (bool) {
             return new Response(SystemCode.Message.SUCCESS.name(), SystemCode.Message.SUCCESS.message(), payload);
@@ -97,15 +110,19 @@ public class Response<T> implements Body {
             return new Response(SystemCode.Message.FAILURE.name(), SystemCode.Message.FAILURE.message(), payload);
         }
     }
+
     public static Response is(boolean bool, Code code) {
         return is(bool, code.code(), code.message());
     }
+
     public static <T> Response is(boolean bool, Code code, T payload) {
         return is(bool, code.code(), code.message(), payload);
     }
+
     public static Response is(boolean bool, String code, String message) {
         return is(bool, code, message, null);
     }
+
     public static <T> Response<T> is(boolean bool, String code, String message, T payload) {
         if (bool) {
             return success(code, message, payload);
@@ -118,21 +135,27 @@ public class Response<T> implements Body {
     public static Response success() {
         return success(SystemCode.Message.SUCCESS);
     }
+
     public static Response success(Code code) {
         return success(code, null);
     }
+
     public static Response success(String code, String message) {
         return success(code, message, null);
     }
+
     public static <T> Response success(T payload) {
         return success(SystemCode.Message.SUCCESS, payload);
     }
+
     public static <T> Response success(Code code, T payload) {
         return success(code.code(), code.message(), payload);
     }
+
     public static <T> Response success(String code, String message, T payload) {
         return new Response(code, message, payload);
     }
+
     public static Response successMsg(String message) {
         return new Response(SystemCode.Message.SUCCESS.code(), message);
     }
@@ -141,28 +164,33 @@ public class Response<T> implements Body {
     public static Response failure() {
         return failure(SystemCode.Message.FAILURE);
     }
+
     public static Response failure(Code code) {
-        return failure(code, null);
+        return new Response(STATUS_FAILURE, code);
     }
+
     public static Response failure(String code, String message) {
         return failure(code, message, null);
     }
+
     public static <T> Response failure(T payload) {
         return failure(SystemCode.Message.FAILURE, payload);
     }
+
     public static <T> Response failure(Code code, T payload) {
         return failure(code.code(), code.message(), payload);
     }
 
-    public static <T> Response failure(Code code, T payload, String ... args) {
+    public static <T> Response failure(Code code, T payload, String... args) {
         return failure(code.code(), code.message(args), payload);
     }
 
     public static <T> Response failure(String code, String message, T payload) {
-        return new Response(code, message, payload);
+        return new Response(STATUS_FAILURE, code, message, payload);
     }
+
     public static Response failureMsg(String message) {
-        return new Response(SystemCode.Message.FAILURE.code(), message);
+        return failure(SystemCode.Message.FAILURE.code(), message);
     }
 
     public boolean isSuccess() {

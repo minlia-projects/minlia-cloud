@@ -8,7 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * Created by user on 2/24/17.
+ * @author user
+ * @date 2/24/17
  */
 @ResponseStatus(value = HttpStatus.OK)
 public class ApiException extends NestedRuntimeException {

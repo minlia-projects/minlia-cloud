@@ -15,9 +15,8 @@
  */
 package com.minlia.cloud.listener;
 
-import com.minlia.cloud.holder.ServerPortHolder;
+import com.minlia.cloud.holder.ServerHolder;
 import com.minlia.cloud.utils.Environments;
-import javax.annotation.Priority;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,18 +24,16 @@ import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import javax.annotation.Priority;
 
 /**
  * 应用程序启动监听器
  */
 @Component
-@Priority(value = Ordered.HIGHEST_PRECEDENCE+4)
+@Priority(value = Ordered.HIGHEST_PRECEDENCE)
 public class ApplicationReadyListener implements ApplicationListener<ApplicationReadyEvent> {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ApplicationReadyListener.class);
@@ -49,9 +46,6 @@ public class ApplicationReadyListener implements ApplicationListener<Application
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
         LOGGER.debug("Application Ready");
-
-        //TODO
-//        String ctx = properties.getContextPath();
         String ctx = properties.getServlet().getContextPath();
         if (StringUtils.isEmpty(ctx)) {
             ctx = "/";
@@ -60,23 +54,14 @@ public class ApplicationReadyListener implements ApplicationListener<Application
         }
 
         String portPart = "";
-        Integer port = ServerPortHolder.getPort();
-
-        if (null!=port&& port != 80) {
-            portPart = ":" + port;
+        if (null != ServerHolder.getPort() && ServerHolder.getPort() != 80) {
+            portPart = ":" + ServerHolder.getPort();
         }
 
-        String host = null;
-        try {
-            host = InetAddress.getLocalHost().getHostAddress();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-
+        String host = ServerHolder.getHost();
         if (StringUtils.isEmpty(host)) {
             host = LOCALHOST;
         }
-
         if (!Environments.isProduction()) {
             host = LOCALHOST;
         }
@@ -85,12 +70,5 @@ public class ApplicationReadyListener implements ApplicationListener<Application
         message += String.format("%s%s%s%s%s", "http://", host, portPart, ctx, "");
         message += String.format("    %s%s%s%s%s", "http://", host, portPart, ctx, "swagger-ui.html");
         LOGGER.info(message);
-
-        /*log.info("Access URLs:\n----------------------------------------------------------\n\t" +
-               // "Local: \t\thttp://127.0.0.1:{}\n\t" +
-                "External: \thttp://{}:{}/webapp\n----------------------------------------------------------",
-            env.getProperty("server.port"),
-            InetAddress.getLocalHost().getHostAddress(),
-            env.getProperty("server.port"));*/
     }
 }

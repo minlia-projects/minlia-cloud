@@ -2,6 +2,8 @@ package com.minlia.cloud.autoconfiguration;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
@@ -27,6 +29,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -144,11 +147,13 @@ public class WebMvcConfiguration implements WebMvcConfigurer, ApplicationContext
 //        builder.propertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
 
         builder.deserializerByType(String.class, new MinliaStringDeserializer());
+        builder.serializerByType(Long.class, ToStringSerializer.instance);                      //序列换成json时,将所有的Long变成string
+//        builder.serializerByType(Long.TYPE, ToStringSerializer.instance);                       //序列换成json时,将所有的long变成string
 
         // 启用美化打印
         builder.indentOutput(true)
-//                .dateFormat(new SimpleDateFormat("yyyy-MM-dd"))
-                .timeZone("GMT+8")
+                .dateFormat(new SimpleDateFormat(LocalDateUtils.DEFAULT_DATE_TIME_FORMAT))      //设置全局的时间转化
+                .timeZone("GMT+8")                                                              //解决时区差8小时问题
                 .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)              // 禁用序列化日期为timestamps
                 .featuresToDisable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)           // 禁用遇到未知属性抛出异常
                 .featuresToDisable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)    // 禁用将日期调整到时间区域
@@ -160,19 +165,20 @@ public class WebMvcConfiguration implements WebMvcConfigurer, ApplicationContext
         builder.modules(javaTimeModule());
         // https://github.com/spring-projects/spring-boot/issues/12389
         converters.add(0, new MappingJackson2HttpMessageConverter(builder.build()));
-//        converters.add(new MappingJackson2XmlHttpMessageConverter(builder.createXmlMapper(true).build()));
     }
 
-    //定义时间格式转换器
-//    @Bean
-//    public MappingJackson2HttpMessageConverter jackson2HttpMessageConverter() {
-//        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-//        ObjectMapper mapper = new ObjectMapper();
-//        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-//        mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
-//        converter.setObjectMapper(mapper);
-//        return converter;
-//    }
+    private ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        /**
+         * 序列换成json时,将所有的long变成string
+         * 因为js中得数字类型不能包含所有的java long值
+         */
+        SimpleModule simpleModule = new SimpleModule();
+        simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
+        simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
+        objectMapper.registerModule(simpleModule);
+        return objectMapper;
+    }
 
     /**
      * LocalDateTime系列序列化和反序列化模块，继承自jsr310，我们在这里修改了日期格式

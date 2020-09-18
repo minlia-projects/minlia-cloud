@@ -55,8 +55,16 @@ public class ApiExceptionResponseBody extends Response {
         super(status.value(), code, message);
     }
 
-    public ApiExceptionResponseBody(HttpStatus status, Exception ex) {
-        super(status.value(), status.name(), status.getReasonPhrase());
+    public ApiExceptionResponseBody(HttpStatus httpStatus, Exception ex) {
+        super(httpStatus.value(), httpStatus.name(), httpStatus.getReasonPhrase());
+        if (Environments.isDevelopment()) {
+            this.exception = getException(ex);
+            this.error = ex.getMessage();
+        }
+    }
+
+    public ApiExceptionResponseBody(HttpStatus httpStatus, Code code, Exception ex) {
+        super(httpStatus.value(), code.code(), code.message());
         if (Environments.isDevelopment()) {
             this.exception = getException(ex);
             this.error = ex.getMessage();
