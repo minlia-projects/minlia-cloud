@@ -40,6 +40,7 @@
         <url>https://github.com/minlia-projects/minlia-cloud</url>
         <tag>HEAD</tag>
     </scm>
+
     <distributionManagement>
         <snapshotRepository>
             <id>snapshots</id>
@@ -50,6 +51,7 @@
             <url>https://nexus.app.minlia.com/repository/maven-releases/</url>
         </repository>
     </distributionManagement>
+
     <developers>
         <developer>
             <name>will</name>
