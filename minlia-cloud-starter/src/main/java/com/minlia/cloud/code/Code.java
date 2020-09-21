@@ -47,13 +47,6 @@ public interface Code {
         return Lang.get(i18nKey(module(), ((Enum) this)), args);
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    String message(Object ... var);
-=======
-    String message(Object... args);
->>>>>>> master
-=======
     /**
      * 国际化key   内部无法获取模块名，所以间接获取 TODO
      *
@@ -67,6 +60,5 @@ public interface Code {
                 .add(e.getClass().getSimpleName())
                 .add(e.name()).toString());
     }
->>>>>>> master
 
 }
