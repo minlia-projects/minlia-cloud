@@ -6,6 +6,11 @@ import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+/**
+ * 正则表达式工具
+ * 获取所有匹配的结果
+ */
 public class RegexHelper
 {
     public static Iterable<MatchResult> findMatches(Pattern p, CharSequence s) {

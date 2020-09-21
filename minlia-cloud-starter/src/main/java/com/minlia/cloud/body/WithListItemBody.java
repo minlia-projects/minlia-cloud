@@ -8,13 +8,13 @@ import lombok.experimental.SuperBuilder;
 import java.util.List;
 
 /**
- * Created by will on 6/20/17.
+ * Created by will on 6/23/20.
  */
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class WithIdItemBody implements Body {
-    private List<WithIdBody> items;
+public class WithListItemBody<T> implements Body {
+    private List<T> items;
 
 }

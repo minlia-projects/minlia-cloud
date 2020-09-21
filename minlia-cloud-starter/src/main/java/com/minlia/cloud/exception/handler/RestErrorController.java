@@ -5,14 +5,13 @@ import com.minlia.cloud.i18n.Lang;
 import com.minlia.cloud.utils.Environments;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.ErrorAttributes;
-import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,6 +39,7 @@ public class RestErrorController implements ErrorController {
      */
     @RequestMapping(value = PATH, produces = {MediaType.APPLICATION_JSON_VALUE})
     ApiExceptionResponseBody error(HttpServletRequest request, HttpServletResponse response) {
+        //spring 默认返回
 //        {
 //            "timestamp": 1536935424270,
 //                "status": 404,
@@ -87,9 +87,14 @@ public class RestErrorController implements ErrorController {
         return PATH;
     }
 
+//    private Map<String, Object> getErrorAttributes(HttpServletRequest request, boolean includeStackTrace) {
+//        RequestAttributes requestAttributes = new ServletRequestAttributes(request);
+//        return errorAttributes.getErrorAttributes(requestAttributes, includeStackTrace);
+//    }
+
     private Map<String, Object> getErrorAttributes(HttpServletRequest request, boolean includeStackTrace) {
-        RequestAttributes requestAttributes = new ServletRequestAttributes(request);
-        return errorAttributes.getErrorAttributes(requestAttributes, includeStackTrace);
+        ServletWebRequest servletWebRequest = new ServletWebRequest(request);
+        return this.errorAttributes.getErrorAttributes(servletWebRequest, includeStackTrace);
     }
 
 }

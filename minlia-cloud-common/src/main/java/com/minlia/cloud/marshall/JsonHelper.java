@@ -2,12 +2,7 @@ package com.minlia.cloud.marshall;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.AnnotationIntrospector;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
@@ -115,14 +110,14 @@ public class JsonHelper {
      * @param valueTypeRef The typeReference containing the type of the deserialized object instance
      * @return The deserialized object instance
      */
-    public static <T> T deserialize(String content, TypeReference valueTypeRef) {
-        if (objectMapper == null) {
-            initialize();
-        }
-        try {
-            return objectMapper.readValue(content, valueTypeRef);
-        } catch (Exception e) {
-            throw new SerializationException(e);
-        }
-    }
+//    public static <T> T deserialize(String content, TypeReference valueTypeRef) {
+//        if (objectMapper == null) {
+//            initialize();
+//        }
+//        try {
+//            return objectMapper.readValue(content, valueTypeRef);
+//        } catch (Exception e) {
+//            throw new SerializationException(e);
+//        }
+//    }
 }

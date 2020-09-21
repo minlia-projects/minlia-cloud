@@ -1,12 +1,8 @@
 package com.minlia.cloud.code;
 
-import com.google.common.base.CaseFormat;
-import com.minlia.cloud.i18n.Lang;
-
-import java.util.StringJoiner;
-
 /**
- * Created by garen on 2018/9/14.
+ * @author garen
+ * @date 2018/9/14
  */
 public class SystemCode {
 
@@ -46,6 +42,7 @@ public class SystemCode {
         BAD_REQUEST;
 
         @Override
+<<<<<<< HEAD
         public String code() {
             return this.name();
         }
@@ -62,6 +59,10 @@ public class SystemCode {
 =======
         public String message(Object... args) {
             return Lang.get(this.i18nKey(), args);
+>>>>>>> master
+=======
+        public String module() {
+            return CODE_PREFIX;
 >>>>>>> master
         }
 
@@ -108,6 +109,7 @@ public class SystemCode {
         ALREADY_FINISHED;
 
         @Override
+<<<<<<< HEAD
         public String code() {
             return this.name();
         }
@@ -124,6 +126,10 @@ public class SystemCode {
 =======
         public String message(Object... args) {
             return Lang.get(this.i18nKey(), args);
+>>>>>>> master
+=======
+        public String module() {
+            return CODE_PREFIX;
 >>>>>>> master
         }
 
