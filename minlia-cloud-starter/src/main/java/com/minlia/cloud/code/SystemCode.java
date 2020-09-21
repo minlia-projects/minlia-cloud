@@ -41,29 +41,8 @@ public class SystemCode {
          */
         BAD_REQUEST;
 
-        @Override
-<<<<<<< HEAD
-        public String code() {
-            return this.name();
-        }
-
-        @Override
-        public String i18nKey() {
-            return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, new StringJoiner(".").add(CODE_PREFIX).add(this.getClass().getSimpleName()).add(this.name()).toString());
-        }
-
-        @Override
-<<<<<<< HEAD
-        public String message(Object ... var){
-            return Lang.get(this.i18nKey(), var);
-=======
-        public String message(Object... args) {
-            return Lang.get(this.i18nKey(), args);
->>>>>>> master
-=======
         public String module() {
             return CODE_PREFIX;
->>>>>>> master
         }
 
     }
@@ -108,29 +87,8 @@ public class SystemCode {
 
         ALREADY_FINISHED;
 
-        @Override
-<<<<<<< HEAD
-        public String code() {
-            return this.name();
-        }
-
-        @Override
-        public String i18nKey() {
-            return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, new StringJoiner(".").add(CODE_PREFIX).add(this.getClass().getSimpleName()).add(this.name()).toString());
-        }
-
-        @Override
-<<<<<<< HEAD
-        public String message(Object ... var){
-            return Lang.get(this.i18nKey(), var);
-=======
-        public String message(Object... args) {
-            return Lang.get(this.i18nKey(), args);
->>>>>>> master
-=======
         public String module() {
             return CODE_PREFIX;
->>>>>>> master
         }
 
     }

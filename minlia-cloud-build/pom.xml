@@ -12,6 +12,13 @@
     <url>https://minlia.com/mit/</url>
     <inceptionYear>2016</inceptionYear>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.compilerVersion>8</maven.compiler.compilerVersion>
+    </properties>
+
     <scm>
         <connection>
             scm:git:https://github.com/minlia-projects/minlia-cloud.git

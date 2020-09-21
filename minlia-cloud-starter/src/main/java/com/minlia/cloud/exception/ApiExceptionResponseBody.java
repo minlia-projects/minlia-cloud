@@ -55,16 +55,10 @@ public class ApiExceptionResponseBody extends Response {
         super(status.value(), code, message);
     }
 
-<<<<<<< HEAD
+
     public ApiExceptionResponseBody(HttpStatus status, Exception ex) {
         super(status.value(), status.name(), status.getReasonPhrase());
-<<<<<<< HEAD
         if (!Environments.isProduction()) {
-=======
-=======
-    public ApiExceptionResponseBody(HttpStatus httpStatus, Exception ex) {
-        super(httpStatus.value(), httpStatus.name(), httpStatus.getReasonPhrase());
-        if (Environments.isDevelopment()) {
             this.exception = getException(ex);
             this.error = ex.getMessage();
         }
@@ -72,7 +66,6 @@ public class ApiExceptionResponseBody extends Response {
 
     public ApiExceptionResponseBody(HttpStatus httpStatus, Code code, Exception ex) {
         super(httpStatus.value(), code.code(), code.message());
->>>>>>> master
         if (Environments.isDevelopment()) {
             this.exception = getException(ex);
             this.error = ex.getMessage();
@@ -82,7 +75,6 @@ public class ApiExceptionResponseBody extends Response {
     public ApiExceptionResponseBody(HttpStatus status, final String code, final String message, Exception ex) {
         super(status.value(), code, message);
         if (Environments.isDevelopment()) {
->>>>>>> master
             this.exception = getException(ex);
             this.error = ex.getMessage();
         }
@@ -90,11 +82,7 @@ public class ApiExceptionResponseBody extends Response {
 
     public ApiExceptionResponseBody(final String code, Exception ex) {
         super(STATUS_FAILURE, code, SystemCode.Exception.INTERNAL_SERVER_ERROR.message());
-<<<<<<< HEAD
-        if (!Environments.isProduction()) {
-=======
         if (Environments.isDevelopment()) {
->>>>>>> master
             this.exception = getException(ex);
             this.error = ex.getMessage();
         }
@@ -102,11 +90,7 @@ public class ApiExceptionResponseBody extends Response {
 
     public ApiExceptionResponseBody(Code code, Exception ex) {
         super(STATUS_FAILURE, code.code(), code.message());
-<<<<<<< HEAD
-        if (!Environments.isProduction()) {
-=======
         if (Environments.isDevelopment()) {
->>>>>>> master
             this.exception = getException(ex);
             this.error = ex.getMessage();
         }
@@ -114,11 +98,7 @@ public class ApiExceptionResponseBody extends Response {
 
     public ApiExceptionResponseBody(final String code, final String message, Exception ex) {
         super(STATUS_FAILURE, code, message);
-<<<<<<< HEAD
-        if (!Environments.isProduction()) {
-=======
         if (Environments.isDevelopment()) {
->>>>>>> master
             this.exception = getException(ex);
             this.error = ex.getMessage();
         }

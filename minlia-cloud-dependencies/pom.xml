@@ -452,11 +452,6 @@
                 <version>${jasypt-spring-boot-starter.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.minlia.cloud</groupId>
-                <artifactId>minlia-cloud-common</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
-            </dependency>
         </dependencies>
 
     </dependencyManagement>
