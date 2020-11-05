@@ -31,6 +31,25 @@ public class ContextHolder implements ApplicationContextAware {
         return ContextHolder.applicationContext;
     }
 
+    /**
+     * 获取容器中的实例
+     *
+     * @param beanId 注入在Spring容器中的bean的ID 默认为类名首字母小写
+     * @param clazz  获取的bean的实际的类的class
+     */
+    public static <T> T getBean(String beanId, Class<T> clazz) {
+        return applicationContext.getBean(beanId, clazz);
+    }
+
+    /**
+     * 获取容器中的实例
+     *
+     * @param clazz 获取的bean的实际的类的class
+     */
+    public static <T> T getBean(Class<T> clazz) {
+        return applicationContext.getBean(clazz);
+    }
+
 //    public static RelaxedPropertyResolver getSystemProperty() {
 //        if(null!=applicatioContext) {
 //            Environment environment = applicatioContext.getBean(Environment.class);

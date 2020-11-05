@@ -41,6 +41,7 @@ public class SystemCode {
          */
         BAD_REQUEST;
 
+        @Override
         public String module() {
             return CODE_PREFIX;
         }
@@ -87,6 +88,7 @@ public class SystemCode {
 
         ALREADY_FINISHED;
 
+        @Override
         public String module() {
             return CODE_PREFIX;
         }
