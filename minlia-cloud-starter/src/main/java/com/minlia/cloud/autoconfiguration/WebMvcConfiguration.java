@@ -1,10 +1,13 @@
 package com.minlia.cloud.autoconfiguration;
 
+import cn.hutool.core.date.DatePattern;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
@@ -12,13 +15,12 @@ import com.minlia.cloud.jackson.MinliaLocalDateTimeDeserializer;
 import com.minlia.cloud.jackson.MinliaStringDeserializer;
 import com.minlia.cloud.utils.LocalDateUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.springframework.beans.BeansException;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -41,26 +43,13 @@ import static com.minlia.cloud.utils.LocalDateUtils.DATE_TIME_FORMATTER;
 @EnableAutoConfiguration
 @Configuration
 @EnableWebMvc
-public class WebMvcConfiguration implements WebMvcConfigurer, ApplicationContextAware {
+public class WebMvcConfiguration implements WebMvcConfigurer {
 
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
             "classpath:/META-INF/resources/",
             "classpath:/resources/",
             "classpath:/static/",
             "classpath:/public/"};
-
-    private ApplicationContext applicationContext;
-
-    /**
-     * 设置上下文
-     *
-     * @param applicationContext
-     * @throws BeansException
-     */
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
 
 //    /**
 //     * 添加参数解析，将参数的形式从下划线转化为驼峰
@@ -123,7 +112,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer, ApplicationContext
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**") // **代表所有路径
+        registry.addMapping("/**")  // **代表所有路径
                 .allowedOrigins("*") // allowOrigin指可以通过的ip，*代表所有，可以使用指定的ip，多个的话可以用逗号分隔，默认为*
                 .allowedMethods("GET", "POST", "HEAD", "PUT", "DELETE") // 指请求方式 默认为*
                 .allowCredentials(false) // 支持证书，默认为true
@@ -139,6 +128,18 @@ public class WebMvcConfiguration implements WebMvcConfigurer, ApplicationContext
         return new ServletListenerRegistrationBean<>(new RequestContextListener());
     }
 
+    @Bean
+    @Primary
+    public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
+        return builder -> builder
+                .serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)))
+                .serializerByType(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATE_PATTERN)))
+                .serializerByType(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern(DatePattern.NORM_TIME_PATTERN)))
+                .deserializerByType(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)))
+                .deserializerByType(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATE_PATTERN)))
+                .deserializerByType(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern(DatePattern.NORM_TIME_PATTERN)));
+    }
+
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
@@ -146,9 +147,11 @@ public class WebMvcConfiguration implements WebMvcConfigurer, ApplicationContext
 //        builder.serializationInclusion(JsonInclude.Include.NON_EMPTY);
 //        builder.propertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
 
-        builder.deserializerByType(String.class, new MinliaStringDeserializer());
-        builder.serializerByType(Long.class, ToStringSerializer.instance);                      //序列换成json时,将所有的Long变成string
-//        builder.serializerByType(Long.TYPE, ToStringSerializer.instance);                       //序列换成json时,将所有的long变成string
+//        builder.deserializerByType(String.class, new MinliaStringDeserializer());
+        //序列换成json时,将所有的Long变成string
+        builder.serializerByType(Long.class, ToStringSerializer.instance);
+        //序列换成json时,将所有的long变成string
+//        builder.serializerByType(Long.TYPE, ToStringSerializer.instance);
 
         // 启用美化打印
         builder.indentOutput(true)
@@ -165,19 +168,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer, ApplicationContext
         builder.modules(javaTimeModule());
         // https://github.com/spring-projects/spring-boot/issues/12389
         converters.add(0, new MappingJackson2HttpMessageConverter(builder.build()));
-    }
-
-    private ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        /**
-         * 序列换成json时,将所有的long变成string
-         * 因为js中得数字类型不能包含所有的java long值
-         */
-        SimpleModule simpleModule = new SimpleModule();
-        simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
-        simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
-        objectMapper.registerModule(simpleModule);
-        return objectMapper;
     }
 
     /**

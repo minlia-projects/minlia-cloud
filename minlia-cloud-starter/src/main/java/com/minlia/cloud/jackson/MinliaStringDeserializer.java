@@ -26,10 +26,12 @@ public final class MinliaStringDeserializer extends StdScalarDeserializer<String
         super(String.class);
     }
 
+    @Override
     public boolean isCachable() {
         return true;
     }
 
+    @Override
     public String deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
         if (p.hasToken(JsonToken.VALUE_STRING)) {
             return StringUtils.isNotBlank(p.getText()) ? p.getText() : null;
@@ -51,10 +53,12 @@ public final class MinliaStringDeserializer extends StdScalarDeserializer<String
         }
     }
 
+    @Override
     public String deserializeWithType(JsonParser p, DeserializationContext ctxt, TypeDeserializer typeDeserializer) throws IOException {
         return this.deserialize(p, ctxt);
     }
 
+    @Override
     protected String _deserializeFromArray(JsonParser p, DeserializationContext ctxt) throws IOException {
         JsonToken t;
         if (ctxt.hasSomeOfFeatures(FEATURES_ACCEPT_ARRAYS)) {
