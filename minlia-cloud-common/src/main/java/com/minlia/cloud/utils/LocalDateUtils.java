@@ -1,9 +1,12 @@
 package com.minlia.cloud.utils;
 
+import cn.hutool.core.date.DatePattern;
+
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * @author garen
@@ -17,23 +20,11 @@ public final class LocalDateUtils {
     private static final ZoneId ZONE = ZoneId.systemDefault();
 
     //东八区
-//            ZoneOffset zoneOffset = ZoneOffset.of("+8");
-    private static final ZoneOffset ZONE_OFF_SET = ZoneOffset.ofHours(8);
-
-    private static final String DATE_FORMAT = "yyyy-MM-dd";
-
-
-    private static final String TIME_NOFUII_FORMAT = "yyyyMMddHHmmss";
+    public static final ZoneOffset DEFAULT_ZONE_OFF_SET = ZoneOffset.ofHours(8);
 
     private static final String REGEX = "\\:|\\-|\\s";
 
-    /**
-     * 默认日期时间格式
-     */
-    public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-
-    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT);
-
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN);
 
     /**
      * 根据传入的时间格式返回系统当前的时间
@@ -120,16 +111,16 @@ public final class LocalDateUtils {
     }
 
     public static long localDateTimeToTimestamp(LocalDateTime localDateTime) {
-        return localDateTime.toInstant(ZONE_OFF_SET).toEpochMilli();
+        return localDateTime.toInstant(DEFAULT_ZONE_OFF_SET).toEpochMilli();
     }
 
     public static long localDateToTimestamp(LocalDate localDate) {
-        return localDate.atStartOfDay().toInstant(ZONE_OFF_SET).toEpochMilli();
+        return localDate.atStartOfDay().toInstant(DEFAULT_ZONE_OFF_SET).toEpochMilli();
     }
 
     public static LocalDateTime timestampTolocalDateTime(long timestamp) {
 //        return LocalDateTime.ofEpochSecond(jsonParser.getLongValue() / 1000, 0, ZoneOffset.ofHours(8));
-        return LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZONE_OFF_SET);
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), DEFAULT_ZONE_OFF_SET);
     }
 
     public static LocalDate timestampTolocalDate(long timestamp) {
@@ -150,9 +141,9 @@ public final class LocalDateUtils {
      */
     public static Date stringToDate(String time, String format) {
         DateTimeFormatter f = DateTimeFormatter.ofPattern(format);
-        if (DEFAULT_DATE_TIME_FORMAT.equals(format)) {
+        if (DatePattern.NORM_DATETIME_PATTERN.equals(format)) {
             return LocalDateUtils.localDateTimeToDate(LocalDateTime.parse(time, f));
-        } else if (DATE_FORMAT.equals(format)) {
+        } else if (DatePattern.NORM_DATE_PATTERN.equals(format)) {
             return LocalDateUtils.localDateToDate(LocalDate.parse(time, f));
         }
         return null;
@@ -172,15 +163,15 @@ public final class LocalDateUtils {
         DateTimeFormatter f = DateTimeFormatter.ofPattern(format);
         //暂时支持三种格式转换
         if (ClassIdentical.isCompatible(String.class, time)) {
-            if (DEFAULT_DATE_TIME_FORMAT.equals(format)) {
+            if (DatePattern.NORM_DATETIME_PATTERN.equals(format)) {
                 LocalDateTime localDateTime = LocalDateTime.parse(time.toString(), f);
                 return (T) localDateTime.atZone(ZONE).toInstant();
             }
-            if (DATE_FORMAT.equals(format)) {
+            if (DatePattern.NORM_DATE_PATTERN.equals(format)) {
                 LocalDate localDate = LocalDate.parse(time.toString(), f);
                 return (T) localDate;
             }
-            if (TIME_NOFUII_FORMAT.equals(format)) {
+            if (DatePattern.PURE_DATETIME_PATTERN.equals(format)) {
                 String rp = time.toString().replaceAll(REGEX, "");
                 LocalDateTime localDate = LocalDateTime.parse(time.toString(), f);
                 return (T) localDate;
@@ -219,17 +210,17 @@ public final class LocalDateUtils {
      */
     public static Long chronoUnitBetweenByString(ChronoUnit cu, String s1, String s2, String dateFormat) {
         DateTimeFormatter f = DateTimeFormatter.ofPattern(dateFormat);
-        if (DEFAULT_DATE_TIME_FORMAT.equals(dateFormat)) {
+        if (DatePattern.NORM_DATETIME_PATTERN.equals(dateFormat)) {
             LocalDateTime l1 = LocalDateUtils.dateToLocalDateTime(LocalDateUtils.stringToDate(s1, dateFormat));
             LocalDateTime l2 = LocalDateUtils.dateToLocalDateTime(LocalDateUtils.stringToDate(s2, dateFormat));
             return cu.between(l1, l2);
         }
-        if (DATE_FORMAT.equals(dateFormat)) {
+        if (DatePattern.NORM_DATE_PATTERN.equals(dateFormat)) {
             LocalDate l1 = LocalDateUtils.dateToLocalDate(LocalDateUtils.stringToDate(s1, dateFormat));
             LocalDate l2 = LocalDateUtils.dateToLocalDate(LocalDateUtils.stringToDate(s2, dateFormat));
             return cu.between(l1, l2);
         }
-        if (TIME_NOFUII_FORMAT.equals(dateFormat)) {
+        if (DatePattern.PURE_DATETIME_PATTERN.equals(dateFormat)) {
             LocalDateTime l1 = LocalDateTime.parse(s1.replaceAll(REGEX, ""), f);
             LocalDateTime l2 = LocalDateTime.parse(s2.replaceAll(REGEX, ""), f);
             return cu.between(l1, l2);
@@ -257,7 +248,7 @@ public final class LocalDateUtils {
      * @return
      */
     public static long stringDateToMilli(String time) {
-        return LocalDateUtils.stringToDate(time, DEFAULT_DATE_TIME_FORMAT).toInstant().toEpochMilli();
+        return LocalDateUtils.stringToDate(time, DatePattern.NORM_DATETIME_PATTERN).toInstant().toEpochMilli();
     }
 
     /**
