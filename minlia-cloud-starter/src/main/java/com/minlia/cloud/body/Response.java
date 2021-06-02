@@ -29,7 +29,7 @@ public class Response<T> implements Body {
      */
     protected Integer status;
 
-    /**
+    /**ApiAssert
      * 业务操作完成后的返回代码
      */
     protected String code;
