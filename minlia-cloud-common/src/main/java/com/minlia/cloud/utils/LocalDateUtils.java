@@ -6,7 +6,6 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.TimeZone;
 
 /**
  * @author garen
@@ -26,6 +25,8 @@ public final class LocalDateUtils {
 
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN);
 
+    public static final DateTimeFormatter PURE_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DatePattern.PURE_DATETIME_PATTERN);
+
     /**
      * 根据传入的时间格式返回系统当前的时间
      *
@@ -38,6 +39,15 @@ public final class LocalDateUtils {
     /**
      * 根据传入的时间格式返回系统当前的时间
      *
+     * @return
+     */
+    public static String formatPureDatetime() {
+        return LocalDateTime.now().format(PURE_DATE_TIME_FORMATTER);
+    }
+
+    /**
+     * 根据传入的时间格式返回系统当前的时间
+     *
      * @param pattern
      * @return
      */
@@ -45,6 +55,11 @@ public final class LocalDateUtils {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);
         LocalDateTime now = LocalDateTime.now();
         return now.format(dateTimeFormatter);
+    }
+
+    public static String format(DateTimeFormatter formatter) {
+        LocalDateTime now = LocalDateTime.now();
+        return now.format(formatter);
     }
 
     /**
