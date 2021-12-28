@@ -100,6 +100,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     @Primary
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
         return builder -> builder
+                .featuresToEnable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING)
                 .serializerByType(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATE_PATTERN)))
                 .serializerByType(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern(DatePattern.NORM_TIME_PATTERN)))
                 .serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)))
@@ -129,6 +130,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                 .featuresToDisable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)    // 禁用将日期调整到时间区域
                 .featuresToDisable(SerializationFeature.FAIL_ON_EMPTY_BEANS)                    // 禁用空对象序列化
                 .featuresToDisable(MapperFeature.DEFAULT_VIEW_INCLUSION)
+                .featuresToEnable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING)
                 .featuresToEnable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT)    // 启用空字符传为null
                 .featuresToEnable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES);               // 允许属性名称没有引号
 
