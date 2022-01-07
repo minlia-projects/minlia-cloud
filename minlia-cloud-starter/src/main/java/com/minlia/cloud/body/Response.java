@@ -123,7 +123,7 @@ public class Response<T> implements Body {
         return is(bool, code, message, null);
     }
 
-    public static <T> Response<T> is(boolean bool, String code, String message, T payload) {
+    public static <T> Response is(boolean bool, String code, String message, T payload) {
         if (bool) {
             return success(code, message, payload);
         } else {
