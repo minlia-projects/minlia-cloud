@@ -45,7 +45,7 @@
     <powermock-module-junit4.version>1.6.2</powermock-module-junit4.version>
     <powermock.version>1.6.2</powermock.version>
     <hsqldb.version>1.8.0.10</hsqldb.version>
-    <h2database.version>1.4.192</h2database.version>
+    <h2database.version>2.1.210</h2database.version>
     <el-api.version>2.2.4</el-api.version>
     <subethasmtp-wiser.version>1.2</subethasmtp-wiser.version>
     <cache-api.version>1.0.0</cache-api.version>
